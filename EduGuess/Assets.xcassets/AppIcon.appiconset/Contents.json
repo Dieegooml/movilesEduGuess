@@ -4,6 +4,327 @@
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "20x20"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "20x20"
+    },
+    {
+      "filename" : "iOS_icon_29x29.png",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "size" : "29x29"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "29x29"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "29x29"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "40x40"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "40x40"
+    },
+    {
+      "filename" : "iOS_icon_57x57.png",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "size" : "57x57"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "57x57"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "60x60"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "60x60"
+    },
+    {
+      "idiom" : "ios-marketing",
+      "scale" : "1x",
+      "size" : "1024x1024"
+    },
+    {
+      "filename" : "macOS_icon_16x16.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "16x16"
+    },
+    {
+      "filename" : "macOS_icon_32x32.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "32x32"
+    },
+    {
+      "filename" : "macOS_icon_128x128.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "128x128"
+    },
+    {
+      "filename" : "macOS_icon_256x256.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "256x256"
+    },
+    {
+      "filename" : "iOS_icon_512x512.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "512x512"
+    },
+    {
+      "filename" : "iOS_icon_20x20.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "20x20"
+    },
+    {
+      "filename" : "iOS_icon_40x40.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "40x40"
+    },
+    {
+      "filename" : "watchOS_icon_48x48.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "48x48"
+    },
+    {
+      "filename" : "iOS_icon_50x50.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "50x50"
+    },
+    {
+      "filename" : "watchOS_icon_55x55.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "55x55"
+    },
+    {
+      "filename" : "iOS_icon_58x58.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "58x58"
+    },
+    {
+      "filename" : "iOS_icon_60x60.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "60x60"
+    },
+    {
+      "filename" : "macOS_icon_64x64.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "64x64"
+    },
+    {
+      "filename" : "watchOS_icon_66x66.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "66x66"
+    },
+    {
+      "filename" : "iOS_icon_72x72.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "72x72"
+    },
+    {
+      "filename" : "iOS_icon_76x76.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "76x76"
+    },
+    {
+      "filename" : "iOS_icon_80x80.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "80x80"
+    },
+    {
+      "filename" : "iOS_icon_87x87.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "87x87"
+    },
+    {
+      "filename" : "watchOS_icon_88x88.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "88x88"
+    },
+    {
+      "filename" : "watchOS_icon_92x92.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "92x92"
+    },
+    {
+      "filename" : "iOS_icon_100x100.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "100x100"
+    },
+    {
+      "filename" : "watchOS_icon_102x102.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "102x102"
+    },
+    {
+      "filename" : "watchOS_icon_108x108.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "108x108"
+    },
+    {
+      "filename" : "iOS_icon_114x114.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "114x114"
+    },
+    {
+      "filename" : "iOS_icon_120x120.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "120x120"
+    },
+    {
+      "filename" : "iOS_icon_144x144.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "144x144"
+    },
+    {
+      "filename" : "iOS_icon_152x152.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "152x152"
+    },
+    {
+      "filename" : "iOS_icon_167x167.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "167x167"
+    },
+    {
+      "filename" : "watchOS_icon_172x172.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "172x172"
+    },
+    {
+      "filename" : "iOS_icon_180x180.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "180x180"
+    },
+    {
+      "filename" : "watchOS_icon_196x196.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "196x196"
+    },
+    {
+      "filename" : "watchOS_icon_216x216.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "216x216"
+    },
+    {
+      "filename" : "watchOS_icon_234x234.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "234x234"
+    },
+    {
+      "filename" : "watchOS_icon_258x258.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "258x258"
+    },
+    {
+      "filename" : "iOS_icon_1024x1024.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "1024x1024"
+    },
+    {
+      "filename" : "macOS_icon_512x512.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "512x512",
+      "unassigned" : true
+    },
+    {
+      "filename" : "watchOS_icon_58x58.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "58x58",
+      "unassigned" : true
+    },
+    {
+      "filename" : "watchOS_icon_80x80.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "80x80",
+      "unassigned" : true
+    },
+    {
+      "filename" : "watchOS_icon_87x87.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "87x87",
+      "unassigned" : true
+    },
+    {
+      "filename" : "watchOS_icon_100x100.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "100x100",
+      "unassigned" : true
+    },
+    {
+      "filename" : "macOS_icon_1024x1024.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "1024x1024",
+      "unassigned" : true
+    },
+    {
+      "filename" : "watchOS_icon_1024x1024.png",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "1024x1024",
+      "unassigned" : true
     }
   ],
   "info" : {
