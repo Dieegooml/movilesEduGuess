@@ -82,8 +82,9 @@ class DataService {
     // MARK: - Delete Character
 
     func deleteCharacter(_ character: Character, context: ModelContext) {
+        let characterName = character.name
         let descriptor = FetchDescriptor<SDCharacter>(
-            predicate: #Predicate { $0.name == character.name }
+            predicate: #Predicate { $0.name == characterName }
         )
         guard let sdCharacters = try? context.fetch(descriptor),
               let sdCharacter = sdCharacters.first else {
@@ -96,8 +97,9 @@ class DataService {
     // MARK: - Delete Question
 
     func deleteQuestion(_ question: Question, context: ModelContext) {
+        let questionText = question.text
         let descriptor = FetchDescriptor<SDQuestion>(
-            predicate: #Predicate { $0.text == question.text }
+            predicate: #Predicate { $0.text == questionText }
         )
         guard let sdQuestions = try? context.fetch(descriptor),
               let sdQuestion = sdQuestions.first else {
@@ -116,8 +118,9 @@ class DataService {
         newAttributes: [String: Bool]? = nil,
         context: ModelContext
     ) {
+        let characterName = character.name
         let descriptor = FetchDescriptor<SDCharacter>(
-            predicate: #Predicate { $0.name == character.name }
+            predicate: #Predicate { $0.name == characterName }
         )
         guard let sdCharacters = try? context.fetch(descriptor),
               let sdCharacter = sdCharacters.first else {
@@ -145,8 +148,9 @@ class DataService {
         newAttributeKey: String? = nil,
         context: ModelContext
     ) {
+        let questionText = question.text
         let descriptor = FetchDescriptor<SDQuestion>(
-            predicate: #Predicate { $0.text == question.text }
+            predicate: #Predicate { $0.text == questionText }
         )
         guard let sdQuestions = try? context.fetch(descriptor),
               let sdQuestion = sdQuestions.first else {
