@@ -14,96 +14,31 @@ class GameViewModel: ObservableObject {
 
     @Published var currentQuestionIndex = 0
     @Published var gameState: GameState = .playing
-
     @Published var filteredCharacters: [Character] = []
 
-    // MARK: - Questions
+    // MARK: - Properties (loaded from SwiftData)
 
-    var questions: [Question] = [
-
-        Question(
-            text: "¿Tu personaje usa magia?",
-            attributeKey: "usesMagic"
-        ),
-
-        Question(
-            text: "¿Tu personaje usa lentes?",
-            attributeKey: "wearsGlasses"
-        ),
-
-        Question(
-            text: "¿Tu personaje es real?",
-            attributeKey: "isReal"
-        ),
-
-        Question(
-            text: "¿Tu personaje es hombre?",
-            attributeKey: "isMale"
-        )
-    ]
-
-    // MARK: - Characters
-
-    var characters: [Character] = [
-
-        Character(
-            name: "Harry Potter",
-            image: "harry",
-            attributes: [
-                "usesMagic": true,
-                "wearsGlasses": true,
-                "isReal": false,
-                "isMale": true
-            ]
-        ),
-
-        Character(
-            name: "Hermione Granger",
-            image: "hermione",
-            attributes: [
-                "usesMagic": true,
-                "wearsGlasses": false,
-                "isReal": false,
-                "isMale": false
-            ]
-        ),
-
-        Character(
-            name: "Albert Einstein",
-            image: "einstein",
-            attributes: [
-                "usesMagic": false,
-                "wearsGlasses": false,
-                "isReal": true,
-                "isMale": true
-            ]
-        )
-    ]
+    @Published var questions: [Question] = []
+    @Published var characters: [Character] = []
 
     // MARK: - Init
 
-    init(characters: [Character]? = nil, questions: [Question]? = nil) {
-        if let q = questions {
-            self.questions = q
-        }
-
-        if let c = characters {
-            self.characters = c
-        }
-
-        filteredCharacters = self.characters
+    init() {
+        // Data is loaded from SwiftData via loadData()
     }
 
     // MARK: - Current Question
 
     var currentQuestion: Question {
-        questions[currentQuestionIndex]
+        guard currentQuestionIndex < questions.count else {
+            return Question(text: "No hay preguntas", attributeKey: "")
+        }
+        return questions[currentQuestionIndex]
     }
 
     // MARK: - Answer Logic
 
     func answerQuestion(answer: Bool) {
-
         let key = currentQuestion.attributeKey
 
         filteredCharacters = filteredCharacters.filter {
@@ -116,9 +51,13 @@ class GameViewModel: ObservableObject {
     // MARK: - Next Question
 
     func nextQuestion() {
-
         if filteredCharacters.count == 1 {
             gameState = .guessed
+            return
+        }
+
+        if filteredCharacters.isEmpty {
+            gameState = .failed
             return
         }
 
@@ -132,13 +71,12 @@ class GameViewModel: ObservableObject {
     // MARK: - Reset Game
 
     func resetGame() {
-
         currentQuestionIndex = 0
         filteredCharacters = characters
         gameState = .playing
     }
 
-    // MARK: - Load new data (useful when loading from external store)
+    // MARK: - Load Data from SwiftData
 
     func loadData(characters: [Character], questions: [Question]) {
         self.characters = characters
@@ -150,5 +88,11 @@ class GameViewModel: ObservableObject {
 
     var guessedCharacter: Character? {
         filteredCharacters.first
+    }
+
+    // MARK: - Game Status
+
+    var hasValidData: Bool {
+        !characters.isEmpty && !questions.isEmpty
     }
 }

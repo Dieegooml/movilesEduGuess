@@ -14,45 +14,18 @@ struct QuestionView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var correctDestinationActive = false
     @State private var wrongDestinationActive = false
+    @State private var errorMessage: String = ""
+    @State private var showError = false
 
     var body: some View {
-
         NavigationStack {
-            VStack(spacing: 24) {
-
-                Spacer()
-
-                RobotAvatar()
-
-                ProgressBar(progress: progressValue)
-                    .frame(height: 40)
-
-                QuestionCard(question: viewModel.currentQuestion.text)
-
-                VStack(spacing: 12) {
-
-                    AnswerButton(title: "Sí", color: .green) {
-                        viewModel.answerQuestion(answer: true)
-                    }
-
-                    AnswerButton(title: "No", color: .red) {
-                        viewModel.answerQuestion(answer: false)
-                    }
-                }
-                .padding(.horizontal)
-
-                Spacer()
-            }
-            .padding()
-            .navigationDestination(isPresented: $correctDestinationActive) {
-                CorrectGuessView(characterName: viewModel.guessedCharacter?.name ?? "Desconocido")
-            }
-            .navigationDestination(isPresented: $wrongDestinationActive) {
-                WrongGuessView()
+            if viewModel.hasValidData {
+                gameContent
+            } else {
+                emptyStateContent
             }
         }
         .onAppear {
-            // load data from SwiftData
             loadDataFromSwiftData()
         }
         .onChange(of: viewModel.gameState) { newState in
@@ -65,20 +38,105 @@ struct QuestionView: View {
                 break
             }
         }
+        .alert("Error", isPresented: $showError) {
+            Button("OK") { }
+        } message: {
+            Text(errorMessage)
+        }
         .navigationBarBackButtonHidden(false)
+    }
+
+    private var gameContent: some View {
+        VStack(spacing: 24) {
+            Spacer()
+
+            RobotAvatar()
+
+            ProgressBar(progress: progressValue)
+                .frame(height: 40)
+
+            QuestionCard(question: viewModel.currentQuestion.text)
+
+            VStack(spacing: 12) {
+                AnswerButton(title: "Sí", color: .green) {
+                    viewModel.answerQuestion(answer: true)
+                }
+
+                AnswerButton(title: "No", color: .red) {
+                    viewModel.answerQuestion(answer: false)
+                }
+            }
+            .padding(.horizontal)
+
+            Spacer()
+
+            navigationDestinations
+        }
+        .padding()
+    }
+
+    private var emptyStateContent: some View {
+        VStack(spacing: 20) {
+            Spacer()
+
+            Image(systemName: "exclamationmark.triangle.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .foregroundColor(.orange)
+
+            Text("No hay datos disponibles")
+                .font(.headline)
+                .foregroundColor(.black)
+
+            Text("Debes agregar personajes y preguntas desde la base de datos antes de jugar.")
+                .font(.body)
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+
+            Spacer()
+
+            NavigationLink {
+                HomeView()
+            } label: {
+                Text("Volver al inicio")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange)
+                    .cornerRadius(18)
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 40)
+        }
+    }
+
+    @ViewBuilder
+    private var navigationDestinations: some View {
+        NavigationLink(
+            destination: CorrectGuessView(characterName: viewModel.guessedCharacter?.name ?? "Desconocido"),
+            isActive: $correctDestinationActive
+        ) { EmptyView() }
+
+        NavigationLink(
+            destination: WrongGuessView(),
+            isActive: $wrongDestinationActive
+        ) { EmptyView() }
     }
 
     private func loadDataFromSwiftData() {
         let dataService = DataService()
-        
-        // ensure default data exists
-        dataService.saveDefaultDataIfNeeded(context: modelContext)
-        
-        // fetch and load data
+
+        // Fetch data from SwiftData
         let characters = dataService.fetchCharacters(context: modelContext)
         let questions = dataService.fetchQuestions(context: modelContext)
-        
-        if !characters.isEmpty && !questions.isEmpty {
+
+        if characters.isEmpty || questions.isEmpty {
+            errorMessage = "Base de datos vacía. Agrega personajes y preguntas primero."
+            showError = false // No mostramos alert, el UI muestra el mensaje
+        } else {
             viewModel.loadData(characters: characters, questions: questions)
         }
     }
