@@ -19,7 +19,7 @@ class GameViewModel: ObservableObject {
 
     // MARK: - Questions
 
-    let questions: [Question] = [
+    var questions: [Question] = [
 
         Question(
             text: "¿Tu personaje usa magia?",
@@ -44,7 +44,7 @@ class GameViewModel: ObservableObject {
 
     // MARK: - Characters
 
-    let characters: [Character] = [
+    var characters: [Character] = [
 
         Character(
             name: "Harry Potter",
@@ -82,8 +82,16 @@ class GameViewModel: ObservableObject {
 
     // MARK: - Init
 
-    init() {
-        filteredCharacters = characters
+    init(characters: [Character]? = nil, questions: [Question]? = nil) {
+        if let q = questions {
+            self.questions = q
+        }
+
+        if let c = characters {
+            self.characters = c
+        }
+
+        filteredCharacters = self.characters
     }
 
     // MARK: - Current Question
@@ -128,6 +136,14 @@ class GameViewModel: ObservableObject {
         currentQuestionIndex = 0
         filteredCharacters = characters
         gameState = .playing
+    }
+
+    // MARK: - Load new data (useful when loading from external store)
+
+    func loadData(characters: [Character], questions: [Question]) {
+        self.characters = characters
+        self.questions = questions
+        resetGame()
     }
 
     // MARK: - Final Character

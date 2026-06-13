@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CorrectGuessView: View {
 
+    let characterName: String
+
     var body: some View {
 
         ZStack {
@@ -35,7 +37,7 @@ struct CorrectGuessView: View {
                     .font(.system(size: 38, weight: .bold))
                     .foregroundColor(.white)
 
-                Text("Tu personaje es Harry Potter")
+                Text("Tu personaje es \(characterName)")
                     .font(.title2)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white.opacity(0.95))
@@ -43,8 +45,8 @@ struct CorrectGuessView: View {
 
                 Spacer()
 
-                Button {
-
+                NavigationLink {
+                    HomeView()
                 } label: {
                     Text("Jugar otra vez")
                         .font(.headline)
@@ -65,6 +67,6 @@ struct CorrectGuessView: View {
 
 struct CorrectGuessView_Previews: PreviewProvider {
     static var previews: some View {
-        CorrectGuessView()
+        CorrectGuessView(characterName: "Harry Potter")
     }
 }

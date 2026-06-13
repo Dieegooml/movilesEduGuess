@@ -41,8 +41,8 @@ struct WrongGuessView: View {
 
                 Spacer()
 
-                Button {
-
+                NavigationLink {
+                    HomeView()
                 } label: {
                     Text("Intentar otra vez")
                         .font(.headline)
