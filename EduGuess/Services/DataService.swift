@@ -13,41 +13,19 @@ class DataService {
     // MARK: - Default/Seed Data
 
     private func getDefaultCharacters() -> [Character] {
-        [
-            Character(name: "Harry Potter", image: "harry", attributes: [
-                "usesMagic": true,
-                "wearsGlasses": true,
-                "isReal": false,
-                "isMale": true
-            ]),
-            Character(name: "Hermione Granger", image: "hermione", attributes: [
-                "usesMagic": true,
-                "wearsGlasses": false,
-                "isReal": false,
-                "isMale": false
-            ]),
-            Character(name: "Albert Einstein", image: "einstein", attributes: [
-                "usesMagic": false,
-                "wearsGlasses": false,
-                "isReal": true,
-                "isMale": true
-            ])
-        ]
+        // Empty - users must add their own characters via CRUD
+        return []
     }
 
     private func getDefaultQuestions() -> [Question] {
-        [
-            Question(text: "¿Tu personaje usa magia?", attributeKey: "usesMagic"),
-            Question(text: "¿Tu personaje usa lentes?", attributeKey: "wearsGlasses"),
-            Question(text: "¿Tu personaje es real?", attributeKey: "isReal"),
-            Question(text: "¿Tu personaje es hombre?", attributeKey: "isMale")
-        ]
+        // Empty - users must add their own questions via CRUD
+        return []
     }
 
     // MARK: - SwiftData Operations
 
     func saveDefaultDataIfNeeded(context: ModelContext) {
-        // Check if data already exists
+        // Check if data already exists (no default data to load)
         let charDescriptor = FetchDescriptor<SDCharacter>()
         let questionDescriptor = FetchDescriptor<SDQuestion>()
 
@@ -56,26 +34,8 @@ class DataService {
             return // Data already exists
         }
 
-        // Insert default characters
-        for character in getDefaultCharacters() {
-            let sdCharacter = SDCharacter(
-                name: character.name,
-                image: character.image,
-                attributes: character.attributes
-            )
-            context.insert(sdCharacter)
-        }
-
-        // Insert default questions
-        for question in getDefaultQuestions() {
-            let sdQuestion = SDQuestion(
-                text: question.text,
-                attributeKey: question.attributeKey
-            )
-            context.insert(sdQuestion)
-        }
-
-        try? context.save()
+        // No default data to save - database starts empty
+        // Users will add data through the admin interface
     }
 
     func fetchCharacters(context: ModelContext) -> [Character] {
@@ -144,6 +104,62 @@ class DataService {
             return
         }
         context.delete(sdQuestion)
+        try? context.save()
+    }
+
+    // MARK: - Update Character
+
+    func updateCharacter(
+        _ character: Character,
+        newName: String? = nil,
+        newImage: String? = nil,
+        newAttributes: [String: Bool]? = nil,
+        context: ModelContext
+    ) {
+        let descriptor = FetchDescriptor<SDCharacter>(
+            predicate: #Predicate { $0.name == character.name }
+        )
+        guard let sdCharacters = try? context.fetch(descriptor),
+              let sdCharacter = sdCharacters.first else {
+            return
+        }
+
+        if let name = newName {
+            sdCharacter.name = name
+        }
+        if let image = newImage {
+            sdCharacter.image = image
+        }
+        if let attributes = newAttributes {
+            sdCharacter.attributes = attributes
+        }
+
+        try? context.save()
+    }
+
+    // MARK: - Update Question
+
+    func updateQuestion(
+        _ question: Question,
+        newText: String? = nil,
+        newAttributeKey: String? = nil,
+        context: ModelContext
+    ) {
+        let descriptor = FetchDescriptor<SDQuestion>(
+            predicate: #Predicate { $0.text == question.text }
+        )
+        guard let sdQuestions = try? context.fetch(descriptor),
+              let sdQuestion = sdQuestions.first else {
+            return
+        }
+
+        if let text = newText {
+            sdQuestion.text = text
+        }
+        if let key = newAttributeKey {
+            sdQuestion.attributeKey = key
+        }
+
         try? context.save()
     }
 }

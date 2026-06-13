@@ -97,14 +97,16 @@ Services
 
 DataService - Gestor de SwiftData
 
-Métodos disponibles:
-- saveDefaultDataIfNeeded(context: ModelContext) - Inicializa datos por defecto si BD está vacía
+Métodos CRUD disponibles:
+- saveDefaultDataIfNeeded(context: ModelContext) - Verifica si hay datos (no hay defaults)
 - fetchCharacters(context: ModelContext) -> [Character] - Obtiene todos los personajes
 - fetchQuestions(context: ModelContext) -> [Question] - Obtiene todas las preguntas
-- addCharacter(..., context: ModelContext) - Añade nuevo personaje
-- addQuestion(..., context: ModelContext) - Añade nueva pregunta
-- deleteCharacter(..., context: ModelContext) - Elimina personaje
-- deleteQuestion(..., context: ModelContext) - Elimina pregunta
+- addCharacter(name:, image:, attributes:, context:) - Añade nuevo personaje
+- addQuestion(text:, attributeKey:, context:) - Añade nueva pregunta
+- deleteCharacter(_:, context:) - Elimina personaje
+- deleteQuestion(_:, context:) - Elimina pregunta
+- updateCharacter(..., context:) - Actualiza personaje existente
+- updateQuestion(..., context:) - Actualiza pregunta existente
 
 Acceso en ViewModels/Views
 
@@ -127,46 +129,94 @@ struct MyView: View {
     }
 }
 
-Añadir Nuevos Personajes
+Agregar Primeros Personajes y Preguntas
 
-// Opción 1: Programátically en SwiftData
-DataService().addCharacter(
-    name: "Spiderman",
-    image: "spiderman",
+⚠️ IMPORTANTE: La base de datos empieza vacía. Debes agregar tus propios personajes y preguntas para que el juego funcione.
+
+Estructura de Atributos
+
+Define atributos booleanos que se usarán para filtrar personajes. Ejemplos:
+- "usesMagic": true/false
+- "wearsGlasses": true/false
+- "isReal": true/false
+- "isMale": true/false
+
+REGLA CRÍTICA: Todos los personajes DEBEN tener exactamente los MISMOS atributos clave.
+
+Ejemplo Completo
+
+```swift
+@Environment(\.modelContext) var modelContext
+let dataService = DataService()
+
+// Agregar preguntas (primero define el esquema de atributos)
+dataService.addQuestion(text: "¿Tu personaje usa magia?", attributeKey: "usesMagic", context: modelContext)
+dataService.addQuestion(text: "¿Tu personaje usa lentes?", attributeKey: "wearsGlasses", context: modelContext)
+dataService.addQuestion(text: "¿Tu personaje es real?", attributeKey: "isReal", context: modelContext)
+dataService.addQuestion(text: "¿Tu personaje es hombre?", attributeKey: "isMale", context: modelContext)
+
+// Agregar personajes CON LOS MISMOS ATRIBUTOS
+dataService.addCharacter(
+    name: "Harry Potter",
+    image: "harry",
     attributes: [
-        "usesMagic": false,
-        "wearsGlasses": false,
+        "usesMagic": true,
+        "wearsGlasses": true,
         "isReal": false,
         "isMale": true
     ],
     context: modelContext
 )
 
-// Opción 2: Ver de administración (próxima feature)
-// - Crear admin panel para CRUD desde UI
-
-Añadir Nuevas Preguntas
-
-DataService().addQuestion(
-    text: "¿Tu personaje tiene superpoderes?",
-    attributeKey: "hasSuperPowers",
+dataService.addCharacter(
+    name: "Hermione Granger",
+    image: "hermione",
+    attributes: [
+        "usesMagic": true,
+        "wearsGlasses": false,
+        "isReal": false,
+        "isMale": false
+    ],
     context: modelContext
 )
+```
 
-IMPORTANTE: Después de añadir preguntas, actualizar TODOS los personajes
-con este nuevo atributo, o el juego fallará en el filtrado.
+Mejores Prácticas
 
-Inicializar Datos por Defecto
+1. **Primero define las preguntas** - decide qué atributos tendrán los personajes
+2. **Luego agrega personajes** - todos con los mismos atributos
+3. **Verifica consistencia** - todos los personajes deben tener las MISMAS claves
+4. **Actualizar datos** - usa updateCharacter() o updateQuestion() para modificar
+5. **Eliminar datos** - usa deleteCharacter() o deleteQuestion()
 
-Los datos por defecto se cargan automáticamente la primera vez que se abre
-la app (en QuestionView.onAppear). Si la BD ya contiene datos, se saltará.
+Función para Agregar Múltiples Datos (Recomendado)
 
-Para resetear a datos por defecto:
-1. Eliminar app del simulador/device
-2. Recompilar y ejecutar
-
-O manualmente (en DataService):
-DataService().saveDefaultDataIfNeeded(context: modelContext)
+```swift
+func seedGameData(context: ModelContext) {
+    let service = DataService()
+    
+    // Preguntas
+    let questions = [
+        ("¿Tu personaje usa magia?", "usesMagic"),
+        ("¿Tu personaje usa lentes?", "wearsGlasses"),
+        ("¿Tu personaje es real?", "isReal"),
+        ("¿Tu personaje es hombre?", "isMale")
+    ]
+    
+    for (text, key) in questions {
+        service.addQuestion(text: text, attributeKey: key, context: context)
+    }
+    
+    // Personajes
+    let characters = [
+        ("Harry Potter", "harry", ["usesMagic": true, "wearsGlasses": true, "isReal": false, "isMale": true]),
+        ("Hermione Granger", "hermione", ["usesMagic": true, "wearsGlasses": false, "isReal": false, "isMale": false]),
+    ]
+    
+    for (name, image, attrs) in characters {
+        service.addCharacter(name: name, image: image, attributes: attrs, context: context)
+    }
+}
 
 Próximas Mejoras
 
