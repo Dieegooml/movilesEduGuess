@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var authVM = AuthViewModel.shared
 
     var body: some View {
 
@@ -46,6 +47,12 @@ struct HomeView: View {
                         .padding(.horizontal)
                 }
 
+                if authVM.isAuthenticated {
+                    Text("Bienvenido, \(authVM.userName)")
+                        .foregroundColor(.white.opacity(0.9))
+                        .font(.subheadline)
+                }
+
                 VStack(spacing: 16) {
 
                     NavigationLink {
@@ -60,10 +67,24 @@ struct HomeView: View {
                             .cornerRadius(18)
                     }
 
-                    Button {
-
+                    NavigationLink {
+                        ProfileView()
                     } label: {
-                        Text("Categorías")
+                        Text("Mi Perfil")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 18)
+                                    .stroke(Color.white, lineWidth: 2)
+                            )
+                    }
+
+                    NavigationLink {
+                        LeaderboardView()
+                    } label: {
+                        Text("Ranking")
                             .font(.headline)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -84,6 +105,18 @@ struct HomeView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if authVM.isAuthenticated {
+                    Button {
+                        authVM.signOut()
+                    } label: {
+                        Text("Salir")
+                            .foregroundColor(.white)
+                    }
+                }
+            }
+        }
     }
 }
 

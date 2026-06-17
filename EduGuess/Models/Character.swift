@@ -25,7 +25,7 @@ final class SDCharacter {
     var image: String
     var attributesData: Data
 
-    init(name: String, image: String, attributes: [String: Bool]) {
+    init(name: String, image: String = "", attributes: [String: Bool]) {
         self.name = name
         self.image = image
         self.attributesData = (try? JSONEncoder().encode(attributes)) ?? Data()

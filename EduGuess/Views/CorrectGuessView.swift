@@ -1,16 +1,18 @@
-//
-//  CorrectGuessView.swift
-//  EduGuess
-//
-//  Created by Daniela Nicol Salazar Quina on 15/05/26.
-//
-
-
 import SwiftUI
 
 struct CorrectGuessView: View {
 
     let characterName: String
+    let profile: [String: Bool]
+    let askedAttributes: [String]
+    let answers: [Bool]
+
+    @Environment(\.modelContext) private var modelContext
+    @State private var authVM = AuthViewModel.shared
+
+    private var score: Int {
+        GameScoring.calculateScore(questionsAsked: askedAttributes.count, won: true)
+    }
 
     var body: some View {
 
@@ -43,6 +45,16 @@ struct CorrectGuessView: View {
                     .foregroundColor(.white.opacity(0.95))
                     .padding(.horizontal)
 
+                Text("Me tomó \(askedAttributes.count) preguntas")
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.8))
+
+                Text("+\(score) puntos")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.yellow)
+                    .padding(.top, 8)
+
                 Spacer()
 
                 NavigationLink {
@@ -61,12 +73,45 @@ struct CorrectGuessView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            saveSession()
+        }
+    }
+
+    private func saveSession() {
+        let service = DataService()
+        service.saveGameSession(
+            characterName: characterName,
+            characterAttributes: profile,
+            questionsAsked: askedAttributes,
+            answers: answers,
+            won: true,
+            userId: authVM.userUID ?? "",
+            userName: authVM.userName,
+            score: score,
+            context: modelContext
+        )
+        guard let uid = authVM.userUID else { return }
+        service.saveSessionToFirestore(
+            characterName: characterName,
+            characterAttributes: profile,
+            questionsAsked: askedAttributes,
+            answers: answers,
+            won: true,
+            userId: uid,
+            userName: authVM.userName,
+            score: score
+        )
     }
 }
 
-
 struct CorrectGuessView_Previews: PreviewProvider {
     static var previews: some View {
-        CorrectGuessView(characterName: "Harry Potter")
+        CorrectGuessView(
+            characterName: "Harry Potter",
+            profile: ["usesMagic": true],
+            askedAttributes: ["usesMagic"],
+            answers: [true]
+        )
     }
 }

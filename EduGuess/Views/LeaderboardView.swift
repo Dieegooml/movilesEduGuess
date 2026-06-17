@@ -1,0 +1,113 @@
+import SwiftUI
+
+struct LeaderboardView: View {
+    @State private var entries: [LeaderboardEntry] = []
+    @State private var isLoading = true
+    @State private var selectedTab: Tab = .allTime
+
+    enum Tab: String, CaseIterable {
+        case allTime = "Todos"
+        case weekly = "Semanal"
+    }
+
+    var body: some View {
+        ZStack {
+            backgroundGradient
+            VStack(spacing: 16) {
+                Picker("Tipo", selection: $selectedTab) {
+                    ForEach(Tab.allCases, id: \.self) { tab in
+                        Text(tab.rawValue).tag(tab)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .onChange(of: selectedTab) { _, _ in
+                    Task { await loadLeaderboard() }
+                }
+
+                if isLoading {
+                    Spacer()
+                    ProgressView()
+                        .tint(.white)
+                    Spacer()
+                } else if entries.isEmpty {
+                    Spacer()
+                    Text("Aún no hay datos")
+                        .foregroundColor(.white.opacity(0.7))
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
+                            leaderboardRow(rank: index + 1, entry: entry)
+                                .listRowBackground(Color.clear)
+                        }
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                }
+            }
+            .padding(.top)
+        }
+        .navigationTitle("Ranking")
+        .task { await loadLeaderboard() }
+    }
+
+    private var backgroundGradient: some View {
+        LinearGradient(
+            colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
+    }
+
+    private func leaderboardRow(rank: Int, entry: LeaderboardEntry) -> some View {
+        HStack(spacing: 16) {
+            Text("#\(rank)")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(rank <= 3 ? .yellow : .white)
+                .frame(width: 40)
+
+            Image(systemName: "person.circle.fill")
+                .foregroundColor(.white)
+                .font(.title2)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(entry.name)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                Text("\(entry.wins)V / \(entry.games)P")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.7))
+            }
+
+            Spacer()
+
+            Text("\(entry.score)")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(.yellow)
+        }
+        .padding(.vertical, 4)
+        .padding(.horizontal, 8)
+        .background(Color.white.opacity(0.1))
+        .cornerRadius(12)
+    }
+
+    private func loadLeaderboard() async {
+        isLoading = true
+        do {
+            switch selectedTab {
+            case .allTime:
+                entries = try await FirestoreService.shared.fetchLeaderboard()
+            case .weekly:
+                entries = try await FirestoreService.shared.fetchTopWeekly()
+            }
+        } catch {
+            print("Failed to load leaderboard: \(error)")
+        }
+        isLoading = false
+    }
+}

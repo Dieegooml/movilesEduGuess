@@ -10,33 +10,7 @@ import SwiftData
 
 class DataService {
 
-    // MARK: - Default/Seed Data
-
-    private func getDefaultCharacters() -> [Character] {
-        // Empty - users must add their own characters via CRUD
-        return []
-    }
-
-    private func getDefaultQuestions() -> [Question] {
-        // Empty - users must add their own questions via CRUD
-        return []
-    }
-
     // MARK: - SwiftData Operations
-
-    func saveDefaultDataIfNeeded(context: ModelContext) {
-        // Check if data already exists (no default data to load)
-        let charDescriptor = FetchDescriptor<SDCharacter>()
-        let questionDescriptor = FetchDescriptor<SDQuestion>()
-
-        guard (try? context.fetch(charDescriptor).isEmpty) ?? true,
-              (try? context.fetch(questionDescriptor).isEmpty) ?? true else {
-            return // Data already exists
-        }
-
-        // No default data to save - database starts empty
-        // Users will add data through the admin interface
-    }
 
     func fetchCharacters(context: ModelContext) -> [Character] {
         let descriptor = FetchDescriptor<SDCharacter>(sortBy: [SortDescriptor(\.name)])
@@ -165,5 +139,90 @@ class DataService {
         }
 
         try? context.save()
+    }
+
+    // MARK: - Save Learned Character (agent learning)
+
+    func saveLearnedCharacter(
+        name: String,
+        attributes: [String: Bool],
+        context: ModelContext
+    ) {
+        // Avoid duplicates with same name
+        let descriptor = FetchDescriptor<SDCharacter>(
+            predicate: #Predicate { $0.name == name }
+        )
+        if let existing = try? context.fetch(descriptor), !existing.isEmpty {
+            // Character already known — update attributes
+            existing.first?.attributes = attributes
+            try? context.save()
+            return
+        }
+
+        let sdCharacter = SDCharacter(name: name, attributes: attributes)
+        context.insert(sdCharacter)
+        try? context.save()
+    }
+
+    // MARK: - Save Game Session
+
+    func saveGameSession(
+        characterName: String,
+        characterAttributes: [String: Bool],
+        questionsAsked: [String],
+        answers: [Bool],
+        won: Bool,
+        userId: String = "",
+        userName: String = "",
+        score: Int = 0,
+        context: ModelContext
+    ) {
+        let session = SDGameSession(
+            characterName: characterName,
+            characterAttributes: characterAttributes,
+            questionsAsked: questionsAsked,
+            answers: answers,
+            won: won
+        )
+        session.userId = userId
+        session.userName = userName
+        session.score = score
+        context.insert(session)
+        try? context.save()
+    }
+
+    // MARK: - Save Game Session to Firestore
+
+    func saveSessionToFirestore(
+        characterName: String,
+        characterAttributes: [String: Bool],
+        questionsAsked: [String],
+        answers: [Bool],
+        won: Bool,
+        userId: String,
+        userName: String,
+        score: Int
+    ) {
+        let fbSession = FirebaseGameSession(
+            userId: userId,
+            userName: userName,
+            characterName: characterName,
+            won: won,
+            score: score,
+            questionsAsked: questionsAsked,
+            answers: answers,
+            timestamp: Date()
+        )
+        Task {
+            try? await FirestoreService.shared.saveSession(fbSession)
+            try? await FirestoreService.shared.updateStats(uid: userId, won: won, score: score)
+        }
+    }
+
+    // MARK: - Number of Known Characters
+
+    func knownCharacterCount(context: ModelContext) -> Int {
+        let descriptor = FetchDescriptor<SDCharacter>()
+        return (try? context.fetch(descriptor).count) ?? 0
     }
 }
