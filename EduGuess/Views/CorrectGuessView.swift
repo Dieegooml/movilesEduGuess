@@ -64,6 +64,22 @@ struct CorrectGuessView: View {
                     .scaleEffect(showContent ? 1 : 1.5)
                     .opacity(showContent ? 1 : 0)
 
+                ShareLink(
+                    item: "¡EduGuess adivinó a \(characterName) en \(askedAttributes.count) preguntas! 🎯\n\nDescarga la app: https://github.com/Dieegooml/movilesEduGuess",
+                    subject: Text("EduGuess - adiviné a \(characterName)"),
+                    message: Text("¡La IA adivinó a \(characterName) en \(askedAttributes.count) preguntas!")
+                ) {
+                    Label("Compartir", systemImage: "square.and.arrow.up")
+                        .font(.subheadline)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .background(Color.white.opacity(0.25))
+                        .cornerRadius(18)
+                }
+                .offset(y: showContent ? 0 : 20)
+                .opacity(showContent ? 1 : 0)
+
                 Spacer()
 
                 NavigationLink {

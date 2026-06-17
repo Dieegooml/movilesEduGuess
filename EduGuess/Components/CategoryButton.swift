@@ -29,10 +29,10 @@ struct CategoryButton: View {
             
             Text(title)
                 .font(.headline)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
         .frame(width: 120, height: 120)
-        .background(Color.white)
+        .background(Color(.systemGray6))
         .cornerRadius(20)
         .shadow(radius: 4)
     }

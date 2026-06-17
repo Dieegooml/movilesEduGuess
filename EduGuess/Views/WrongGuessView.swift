@@ -86,7 +86,24 @@ struct WrongGuessView: View {
                         .cornerRadius(18)
                 }
                 .padding(.horizontal, 30)
-                .padding(.bottom, 40)
+
+                if didSave {
+                    ShareLink(
+                        item: "Jugué EduGuess y la IA no adivinó mi personaje. ¿Puedes tú hacerlo mejor? 🧠\n\nDescarga la app: https://github.com/Dieegooml/movilesEduGuess",
+                        subject: Text("EduGuess - ¿puedes adivinar mi personaje?"),
+                        message: Text("¡Juega EduGuess y reta a la IA!")
+                    ) {
+                        Label("Compartir", systemImage: "square.and.arrow.up")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .background(Color.white.opacity(0.25))
+                            .cornerRadius(18)
+                    }
+                }
+
+                Spacer().frame(height: 20)
             }
         }
         .navigationBarBackButtonHidden(true)

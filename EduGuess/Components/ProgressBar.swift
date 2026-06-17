@@ -24,7 +24,7 @@ struct ProgressBar: View {
 
                     RoundedRectangle(cornerRadius: 10)
                         .frame(height: 14)
-                        .foregroundColor(.gray.opacity(0.3))
+                        .foregroundColor(Color(.systemGray5))
 
                     RoundedRectangle(cornerRadius: 10)
                         .frame(

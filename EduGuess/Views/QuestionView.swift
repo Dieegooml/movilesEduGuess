@@ -61,7 +61,7 @@ struct QuestionView: View {
                 .scaleEffect(1.5)
             Text("Preparando el juego...")
                 .font(.headline)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
             Spacer()
         }
     }
@@ -121,12 +121,12 @@ struct QuestionView: View {
                 } label: {
                     Text("No sé")
                         .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .overlay(
                             RoundedRectangle(cornerRadius: 18)
-                                .stroke(Color.gray.opacity(0.5), lineWidth: 1.5)
+                                .stroke(Color.secondary.opacity(0.5), lineWidth: 1.5)
                         )
                 }
             }
@@ -134,7 +134,7 @@ struct QuestionView: View {
 
             Text("Pregunta \(viewModel.questionsAskedCount + 1)")
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
         }
         .animation(.easeInOut(duration: 0.3), value: viewModel.questionsAskedCount)
     }
@@ -160,7 +160,7 @@ struct QuestionView: View {
 
             Text("Intento de adivinanza")
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
         }
         .transition(.asymmetric(
             insertion: .scale(scale: 0.9).combined(with: .opacity),
