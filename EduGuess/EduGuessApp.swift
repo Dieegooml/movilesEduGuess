@@ -15,6 +15,7 @@ struct EduGuessApp: App {
 
     @State private var authVM = AuthViewModel.shared
     @State private var isReady = false
+    @AppStorage("appTheme") private var appTheme: Theme = .system
     let container: ModelContainer
 
     init() {
@@ -39,6 +40,7 @@ struct EduGuessApp: App {
                 }
             }
             .modelContainer(container)
+            .preferredColorScheme(appTheme.colorScheme)
             .onAppear {
                 authVM.configure()
                 isReady = true

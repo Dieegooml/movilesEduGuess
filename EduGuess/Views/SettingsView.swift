@@ -3,11 +3,21 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("displayName") private var displayName = ""
+    @AppStorage("appTheme") private var appTheme: Theme = .system
 
     var body: some View {
         Form {
             Section("Perfil") {
                 TextField("Nombre visible", text: $displayName)
+            }
+
+            Section("Apariencia") {
+                Picker("Tema", selection: $appTheme) {
+                    ForEach(Theme.allCases) { theme in
+                        Text(theme.displayName).tag(theme)
+                    }
+                }
+                .pickerStyle(.menu)
             }
 
             Section("Información") {
