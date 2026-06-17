@@ -3,12 +3,14 @@ import FirebaseAuth
 import GoogleSignIn
 import FacebookLogin
 import UIKit
+import CryptoKit
 
 enum AuthError: LocalizedError {
     case noRootViewController
     case noIDToken
     case noCredential
     case facebookCancelled
+    case noAuthenticationToken
 
     var errorDescription: String? {
         switch self {
@@ -20,6 +22,8 @@ enum AuthError: LocalizedError {
             return "No se pudo obtener la credencial de autenticación."
         case .facebookCancelled:
             return "Inicio de sesión con Facebook cancelado."
+        case .noAuthenticationToken:
+            return "No se pudo obtener el token de autenticación de Facebook."
         }
     }
 }
@@ -42,7 +46,6 @@ final class FirebaseAuthService {
             self.user = currentUser
             cacheSession(currentUser)
         } else if UserDefaults.standard.bool(forKey: AuthKeys.isLoggedIn) {
-            // cached session but Firebase session expired – clear cache
             clearCache()
         }
     }
@@ -98,11 +101,26 @@ final class FirebaseAuthService {
         cacheSession(authResult.user)
     }
 
-    // MARK: - Facebook Sign In
+    // MARK: - Facebook Limited Login
+
+    /// Generates a cryptographically random nonce string for Limited Login.
+    private func generateNonce() -> String {
+        let data = SHA256.hash(data: Data(UUID().uuidString.utf8))
+        return data.compactMap { String(format: "%02x", $0) }.prefix(32).joined()
+    }
 
     @MainActor
     func signInWithFacebook() async throws {
         let loginManager = LoginManager()
+        let nonce = generateNonce()
+
+        guard let config = LoginConfiguration(
+            permissions: ["email", "public_profile"],
+            tracking: .limited,
+            nonce: nonce
+        ) else {
+            throw AuthError.noCredential
+        }
 
         guard let rootVC = UIApplication.shared.connectedScenes
             .compactMap({ $0 as? UIWindowScene })
@@ -113,23 +131,34 @@ final class FirebaseAuthService {
             throw AuthError.noRootViewController
         }
 
-        let result = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<LoginManagerLoginResult, Error>) in
-            loginManager.logIn(permissions: ["email", "public_profile"], from: rootVC) { result, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else if let result = result {
-                    continuation.resume(returning: result)
-                } else {
-                    continuation.resume(throwing: AuthError.noCredential)
-                }
+        let result: LoginResult = await withCheckedContinuation { continuation in
+            loginManager.logIn(
+                viewController: rootVC,
+                configuration: config
+            ) { result in
+                continuation.resume(returning: result)
             }
         }
 
-        guard !result.isCancelled, let token = result.token?.tokenString else {
+        switch result {
+        case .cancelled:
             throw AuthError.facebookCancelled
+        case .failed(let error):
+            throw error
+        case .success:
+            break
         }
 
-        let credential = FacebookAuthProvider.credential(withAccessToken: token)
+        guard let authToken = AuthenticationToken.current?.tokenString else {
+            throw AuthError.noAuthenticationToken
+        }
+
+        let credential = OAuthProvider.credential(
+            providerID: .facebook,
+            idToken: authToken,
+            rawNonce: nonce
+        )
+
         let authResult = try await Auth.auth().signIn(with: credential)
         self.user = authResult.user
         cacheSession(authResult.user)
