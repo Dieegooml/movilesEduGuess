@@ -56,7 +56,7 @@ struct HomeView: View {
                 VStack(spacing: 16) {
 
                     NavigationLink {
-                        QuestionView()
+                        CategorySelectView()
                     } label: {
                         Text("Comenzar")
                             .font(.headline)

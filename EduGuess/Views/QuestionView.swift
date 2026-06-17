@@ -9,6 +9,12 @@ struct QuestionView: View {
     @State private var wrongDestinationActive = false
     @State private var isLoading = true
 
+    let preloadedCharacters: [Character]?
+
+    init(preloadedCharacters: [Character]? = nil) {
+        self.preloadedCharacters = preloadedCharacters
+    }
+
     var body: some View {
         NavigationStack {
             if isLoading {
@@ -155,7 +161,7 @@ struct QuestionView: View {
 
     private func loadDataFromSwiftData() {
         let dataService = DataService()
-        let characters = dataService.fetchCharacters(context: modelContext)
+        let characters = preloadedCharacters ?? dataService.fetchCharacters(context: modelContext)
 
         isLoading = false
         viewModel.startNewGame(characters: characters)
