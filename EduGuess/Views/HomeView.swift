@@ -82,6 +82,20 @@ struct HomeView: View {
                     }
 
                     NavigationLink {
+                        GameHistoryView()
+                    } label: {
+                        Text("Historial")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 18)
+                                    .stroke(Color.white, lineWidth: 2)
+                            )
+                    }
+
+                    NavigationLink {
                         ProfileView()
                     } label: {
                         Text("Mi Perfil")
