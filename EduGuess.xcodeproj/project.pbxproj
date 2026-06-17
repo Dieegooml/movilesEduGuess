@@ -50,6 +50,8 @@
 		6CE7160249AB483D9A8D6F46 /* AdminListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D46A660E6874ECB87893C27 /* AdminListView.swift */; };
 		D64C67AB393B4E018564288A /* CharacterFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62734DE69DD34D1780A5F915 /* CharacterFormView.swift */; };
 		A67B8E0289774930AAA1FCF8 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2CEB9F95A45AFA67762E7 /* CategorySelectView.swift */; };
+		FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B4F200274C708E1E9615 /* HowToPlayView.swift */; };
+		0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A02971A848A5B8612E68 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +96,8 @@
 		2D46A660E6874ECB87893C27 /* AdminListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminListView.swift; sourceTree = "<group>"; };
 		62734DE69DD34D1780A5F915 /* CharacterFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterFormView.swift; sourceTree = "<group>"; };
 		BDA2CEB9F95A45AFA67762E7 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
+		0A87B4F200274C708E1E9615 /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
+		50B5A02971A848A5B8612E68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +190,8 @@
 				2D46A660E6874ECB87893C27 /* AdminListView.swift */,
 				62734DE69DD34D1780A5F915 /* CharacterFormView.swift */,
 				BDA2CEB9F95A45AFA67762E7 /* CategorySelectView.swift */,
+				0A87B4F200274C708E1E9615 /* HowToPlayView.swift */,
+				50B5A02971A848A5B8612E68 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -342,6 +348,8 @@
 				6CE7160249AB483D9A8D6F46 /* AdminListView.swift in Sources */,
 				D64C67AB393B4E018564288A /* CharacterFormView.swift in Sources */,
 				A67B8E0289774930AAA1FCF8 /* CategorySelectView.swift in Sources */,
+				FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */,
+				0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -148,6 +148,22 @@ struct HomeView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                HStack {
+                    NavigationLink {
+                        HowToPlayView()
+                    } label: {
+                        Image(systemName: "questionmark.circle")
+                            .foregroundColor(.white)
+                    }
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.white)
+                    }
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 if authVM.isAuthenticated {
                     Button {
