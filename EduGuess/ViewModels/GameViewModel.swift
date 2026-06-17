@@ -24,6 +24,7 @@ class GameViewModel: ObservableObject {
 
     private let aiService = AIService.shared
     private let totalAttributes = AttributeDefinition.pool.count
+    private let minimumQuestionsBeforeGuess = 5
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
@@ -128,7 +129,7 @@ class GameViewModel: ObservableObject {
     // MARK: - Guess Logic (Akinator-style)
 
     private func shouldAttemptGuess() -> Bool {
-        guard questionsAskedCount >= 3, !possibleCharacters.isEmpty else {
+        guard questionsAskedCount >= minimumQuestionsBeforeGuess, !possibleCharacters.isEmpty else {
             return false
         }
         let ratio = Double(possibleCharacters.count) / Double(max(allCharacters.count, 1))
@@ -147,7 +148,7 @@ class GameViewModel: ObservableObject {
     // MARK: - Evaluation
 
     private func evaluateGameState() {
-        if possibleCharacters.count == 1 {
+        if possibleCharacters.count == 1, questionsAskedCount >= minimumQuestionsBeforeGuess {
             guessedCharacter = possibleCharacters.first
             finalProfile = characterProfile
             gameState = .guessed
