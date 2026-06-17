@@ -44,7 +44,19 @@
 				<string>com.googleusercontent.apps.TU_GOOGLE_CLIENT_ID</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fbTU_FACEBOOK_APP_ID</string>
+			</array>
+		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>TU_FACEBOOK_APP_ID</string>
+	<key>FacebookClientToken</key>
+	<string>TU_FACEBOOK_CLIENT_TOKEN</string>
+	<key>FacebookDisplayName</key>
+	<string>eduGuessIOs</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

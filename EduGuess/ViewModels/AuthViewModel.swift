@@ -83,6 +83,29 @@ final class AuthViewModel {
         }
     }
 
+    func signInWithFacebook() {
+        isLoading = true
+        errorMessage = nil
+        Task {
+            do {
+                try await FirebaseAuthService.shared.signInWithFacebook()
+                guard let uid = FirebaseAuthService.shared.user?.uid else { return }
+                let name = FirebaseAuthService.shared.user?.displayName ?? "Usuario"
+                let email = FirebaseAuthService.shared.user?.email ?? ""
+                try? await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
+                await MainActor.run {
+                    isAuthenticated = true
+                    isLoading = false
+                }
+            } catch {
+                await MainActor.run {
+                    errorMessage = error.localizedDescription
+                    isLoading = false
+                }
+            }
+        }
+    }
+
     func signOut() {
         FirebaseAuthService.shared.signOut()
         isAuthenticated = false

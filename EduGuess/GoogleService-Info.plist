@@ -26,8 +26,6 @@
 	<true/>
 	<key>CLIENT_ID</key>
 	<string>TU_GOOGLE_CLIENT_ID.apps.googleusercontent.com</string>
-	<key>CLIENT_ID</key>
-	<string>TU_GOOGLE_CLIENT_ID.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.TU_GOOGLE_CLIENT_ID</string>
 	<key>GOOGLE_APP_ID</key>

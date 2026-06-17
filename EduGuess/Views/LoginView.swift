@@ -108,6 +108,28 @@ struct LoginView: View {
                     }
                     .padding(.horizontal, 30)
                     .disabled(authVM.isLoading)
+
+                    Button {
+                        authVM.signInWithFacebook()
+                    } label: {
+                        HStack {
+                            if authVM.isLoading {
+                                ProgressView()
+                                    .tint(.blue)
+                            } else {
+                                Image(systemName: "f.square.fill")
+                            }
+                            Text("Continuar con Facebook")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue.opacity(0.3))
+                        .cornerRadius(18)
+                    }
+                    .padding(.horizontal, 30)
+                    .disabled(authVM.isLoading)
                 }
 
                 Button {

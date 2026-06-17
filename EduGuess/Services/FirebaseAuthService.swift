@@ -6,6 +6,8 @@ import UIKit
 enum AuthError: LocalizedError {
     case noRootViewController
     case noIDToken
+    case noCredential
+    case facebookCancelled
 
     var errorDescription: String? {
         switch self {
@@ -13,6 +15,10 @@ enum AuthError: LocalizedError {
             return "No se pudo obtener la vista principal."
         case .noIDToken:
             return "No se pudo obtener el token de Google."
+        case .noCredential:
+            return "No se pudo obtener la credencial de autenticación."
+        case .facebookCancelled:
+            return "Inicio de sesión con Facebook cancelado."
         }
     }
 }
@@ -85,6 +91,35 @@ final class FirebaseAuthService {
             withIDToken: idToken,
             accessToken: result.user.accessToken.tokenString
         )
+
+        let authResult = try await Auth.auth().signIn(with: credential)
+        self.user = authResult.user
+        cacheSession(authResult.user)
+    }
+
+    // MARK: - Facebook Sign In
+
+    @MainActor
+    func signInWithFacebook() async throws {
+        let provider = OAuthProvider(providerID: .facebook)
+        provider.scopes = ["email", "public_profile"]
+
+        let credential = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<AuthCredential, Error>) in
+            provider.getCredentialWith(nil) { credential, error in
+                if let error = error {
+                    let nsError = error as NSError
+                    if nsError.domain == "FIRAuthErrorDomain" && nsError.code == 17017 {
+                        continuation.resume(throwing: AuthError.facebookCancelled)
+                    } else {
+                        continuation.resume(throwing: error)
+                    }
+                } else if let credential = credential {
+                    continuation.resume(returning: credential)
+                } else {
+                    continuation.resume(throwing: AuthError.noCredential)
+                }
+            }
+        }
 
         let authResult = try await Auth.auth().signIn(with: credential)
         self.user = authResult.user
