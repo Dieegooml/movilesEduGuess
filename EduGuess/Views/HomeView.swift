@@ -96,6 +96,20 @@ struct HomeView: View {
                     }
 
                     NavigationLink {
+                        AdminListView()
+                    } label: {
+                        Text("Administrar")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 18)
+                                    .stroke(Color.white, lineWidth: 2)
+                            )
+                    }
+
+                    NavigationLink {
                         ProfileView()
                     } label: {
                         Text("Mi Perfil")
