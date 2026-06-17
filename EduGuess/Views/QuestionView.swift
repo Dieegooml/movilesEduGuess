@@ -16,12 +16,27 @@ struct QuestionView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        ZStack {
             if isLoading {
                 loadingContent
             } else {
                 gameContent
             }
+        }
+        .navigationDestination(isPresented: $correctDestinationActive) {
+            CorrectGuessView(
+                characterName: viewModel.guessedCharacter?.name ?? "Desconocido",
+                profile: viewModel.finalProfile,
+                askedAttributes: viewModel.askedAttributeKeys,
+                answers: viewModel.givenAnswers
+            )
+        }
+        .navigationDestination(isPresented: $wrongDestinationActive) {
+            WrongGuessView(
+                profile: viewModel.finalProfile,
+                askedAttributes: viewModel.askedAttributeKeys,
+                answers: viewModel.givenAnswers
+            )
         }
         .onAppear {
             loadDataFromSwiftData()
@@ -36,7 +51,6 @@ struct QuestionView: View {
                 break
             }
         }
-        .navigationBarBackButtonHidden(false)
     }
 
     private var loadingContent: some View {
@@ -68,7 +82,6 @@ struct QuestionView: View {
 
             Spacer()
 
-            navigationDestinations
         }
         .padding()
     }
@@ -78,18 +91,29 @@ struct QuestionView: View {
     private var questionContent: some View {
         VStack(spacing: 16) {
             QuestionCard(question: viewModel.currentQuestion)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+                .id(viewModel.currentQuestion)
 
             VStack(spacing: 12) {
                 AnswerButton(title: "Sí", color: .green) {
-                    viewModel.answerQuestion(answer: .yes)
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        viewModel.answerQuestion(answer: .yes)
+                    }
                 }
 
                 AnswerButton(title: "No", color: .red) {
-                    viewModel.answerQuestion(answer: .no)
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        viewModel.answerQuestion(answer: .no)
+                    }
                 }
 
                 Button {
-                    viewModel.answerQuestion(answer: .unknown)
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        viewModel.answerQuestion(answer: .unknown)
+                    }
                 } label: {
                     Text("No sé")
                         .font(.subheadline)
@@ -108,6 +132,7 @@ struct QuestionView: View {
                 .font(.caption)
                 .foregroundColor(.gray)
         }
+        .animation(.easeInOut(duration: 0.3), value: viewModel.questionsAskedCount)
     }
 
     // MARK: - Guess Attempt Mode
@@ -115,6 +140,8 @@ struct QuestionView: View {
     private var guessContent: some View {
         VStack(spacing: 16) {
             QuestionCard(question: "¿Es \(viewModel.guessCandidate?.name ?? "...")?")
+                .transition(.scale.combined(with: .opacity))
+                .id("guess-\(viewModel.guessCandidate?.name ?? "")")
 
             VStack(spacing: 12) {
                 AnswerButton(title: "Sí, es correcto", color: .green) {
@@ -131,30 +158,10 @@ struct QuestionView: View {
                 .font(.caption)
                 .foregroundColor(.gray)
         }
-    }
-
-    // MARK: - Navigation
-
-    @ViewBuilder
-    private var navigationDestinations: some View {
-        NavigationLink(
-            destination: CorrectGuessView(
-                characterName: viewModel.guessedCharacter?.name ?? "Desconocido",
-                profile: viewModel.finalProfile,
-                askedAttributes: viewModel.askedAttributeKeys,
-                answers: viewModel.givenAnswers
-            ),
-            isActive: $correctDestinationActive
-        ) { EmptyView() }
-
-        NavigationLink(
-            destination: WrongGuessView(
-                profile: viewModel.finalProfile,
-                askedAttributes: viewModel.askedAttributeKeys,
-                answers: viewModel.givenAnswers
-            ),
-            isActive: $wrongDestinationActive
-        ) { EmptyView() }
+        .transition(.asymmetric(
+            insertion: .scale(scale: 0.9).combined(with: .opacity),
+            removal: .opacity
+        ))
     }
 
     // MARK: - Data

@@ -9,27 +9,30 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var authVM = AuthViewModel.shared
+    @State private var buttonsAppeared = false
+
+    private let menuItems: [(title: String, color: Color, destination: AnyView)] = [
+        ("Comenzar", .white, AnyView(CategorySelectView())),
+        ("Personajes", .clear, AnyView(CharacterListView())),
+        ("Historial", .clear, AnyView(GameHistoryView())),
+        ("Administrar", .clear, AnyView(AdminListView())),
+        ("Mi Perfil", .clear, AnyView(ProfileView())),
+        ("Ranking", .clear, AnyView(LeaderboardView())),
+    ]
 
     var body: some View {
-
         ZStack {
-
             LinearGradient(
-                colors: [
-                    Color.orange.opacity(0.9),
-                    Color.red.opacity(0.9)
-                ],
+                colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
 
             VStack(spacing: 30) {
-
                 Spacer()
 
                 VStack(spacing: 20) {
-
                     Image(systemName: "brain")
                         .resizable()
                         .scaledToFit()
@@ -54,87 +57,28 @@ struct HomeView: View {
                 }
 
                 VStack(spacing: 16) {
-
-                    NavigationLink {
-                        CategorySelectView()
-                    } label: {
-                        Text("Comenzar")
-                            .font(.headline)
-                            .foregroundColor(.orange)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(18)
-                    }
-
-                    NavigationLink {
-                        CharacterListView()
-                    } label: {
-                        Text("Personajes")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                    }
-
-                    NavigationLink {
-                        GameHistoryView()
-                    } label: {
-                        Text("Historial")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                    }
-
-                    NavigationLink {
-                        AdminListView()
-                    } label: {
-                        Text("Administrar")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                    }
-
-                    NavigationLink {
-                        ProfileView()
-                    } label: {
-                        Text("Mi Perfil")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                    }
-
-                    NavigationLink {
-                        LeaderboardView()
-                    } label: {
-                        Text("Ranking")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
+                    ForEach(Array(menuItems.enumerated()), id: \.offset) { index, item in
+                        NavigationLink(destination: item.destination) {
+                            Text(item.title)
+                                .font(.headline)
+                                .foregroundColor(index == 0 ? .orange : .white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(index == 0 ? Color.white : Color.clear)
+                                .cornerRadius(18)
+                                .overlay(
+                                    index != 0 ?
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .stroke(Color.white, lineWidth: 2) : nil
+                                )
+                        }
+                        .offset(x: buttonsAppeared ? 0 : (index.isMultiple(of: 2) ? -200 : 200))
+                        .opacity(buttonsAppeared ? 1 : 0)
+                        .animation(
+                            .spring(response: 0.5, dampingFraction: 0.8)
+                            .delay(Double(index) * 0.08),
+                            value: buttonsAppeared
+                        )
                     }
                 }
                 .padding(.horizontal, 30)
@@ -173,6 +117,12 @@ struct HomeView: View {
                             .foregroundColor(.white)
                     }
                 }
+            }
+        }
+        .onAppear {
+            buttonsAppeared = false
+            withAnimation(.easeOut(duration: 0.1)) {
+                buttonsAppeared = true
             }
         }
     }

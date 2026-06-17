@@ -30,12 +30,20 @@ struct GameHistoryView: View {
             .pickerStyle(.segmented)
             .padding()
 
-            List {
-                ForEach(filteredSessions) { session in
-                    NavigationLink {
-                        GameSessionDetailView(session: session)
-                    } label: {
-                        sessionRow(session)
+            if filteredSessions.isEmpty {
+                ContentUnavailableView(
+                    "Sin partidas",
+                    systemImage: "clock.arrow.circlepath",
+                    description: Text(filter == .all ? "Aún no has jugado ninguna partida" : "No hay \(filter == .wins ? "victorias" : "derrotas") registradas")
+                )
+            } else {
+                List {
+                    ForEach(filteredSessions) { session in
+                        NavigationLink {
+                            GameSessionDetailView(session: session)
+                        } label: {
+                            sessionRow(session)
+                        }
                     }
                 }
             }
