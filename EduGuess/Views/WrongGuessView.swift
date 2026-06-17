@@ -10,6 +10,7 @@ struct WrongGuessView: View {
     @State private var authVM = AuthViewModel.shared
     @State private var characterName: String = ""
     @State private var didSave = false
+    @State private var showToast = false
 
     var body: some View {
 
@@ -89,6 +90,7 @@ struct WrongGuessView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .toast(message: "Personaje aprendido", icon: "book.fill", isShowing: $showToast)
     }
 
     private func saveLearnedCharacter() {
@@ -127,6 +129,7 @@ struct WrongGuessView: View {
 
         withAnimation {
             didSave = true
+            showToast = true
         }
     }
 }

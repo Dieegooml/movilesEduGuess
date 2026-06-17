@@ -30,6 +30,19 @@ struct LeaderboardView: View {
                     ProgressView()
                         .tint(.white)
                     Spacer()
+                } else if !NetworkMonitor.shared.isConnected {
+                    Spacer()
+                    VStack(spacing: 12) {
+                        Image(systemName: "wifi.slash")
+                            .font(.largeTitle)
+                            .foregroundColor(.white.opacity(0.7))
+                        Text("Sin conexión")
+                            .foregroundColor(.white.opacity(0.7))
+                        Text("Conéctate a internet para ver el ranking")
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.5))
+                    }
+                    Spacer()
                 } else if entries.isEmpty {
                     Spacer()
                     Text("Aún no hay datos")
@@ -49,7 +62,19 @@ struct LeaderboardView: View {
             .padding(.top)
         }
         .navigationTitle("Ranking")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    Task { await loadLeaderboard() }
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.white)
+                }
+                .disabled(isLoading)
+            }
+        }
         .task { await loadLeaderboard() }
+        .refreshable { await loadLeaderboard() }
     }
 
     private var backgroundGradient: some View {

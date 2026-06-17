@@ -24,7 +24,19 @@ struct ProfileView: View {
             }
         }
         .navigationTitle("Perfil")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    Task { await loadData() }
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.white)
+                }
+                .disabled(isLoading)
+            }
+        }
         .task { await loadData() }
+        .refreshable { await loadData() }
     }
 
     private var backgroundGradient: some View {

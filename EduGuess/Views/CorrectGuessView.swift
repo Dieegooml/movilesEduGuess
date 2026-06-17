@@ -10,6 +10,7 @@ struct CorrectGuessView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var authVM = AuthViewModel.shared
     @State private var showContent = false
+    @State private var showToast = false
 
     private var score: Int {
         GameScoring.calculateScore(questionsAsked: askedAttributes.count, won: true)
@@ -84,11 +85,13 @@ struct CorrectGuessView: View {
             .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.2), value: showContent)
         }
         .navigationBarBackButtonHidden(true)
+        .toast(message: "Partida guardada", icon: "checkmark.circle.fill", isShowing: $showToast)
         .onAppear {
             withAnimation(.easeOut(duration: 0.4)) {
                 showContent = true
             }
             saveSession()
+            withAnimation { showToast = true }
         }
     }
 

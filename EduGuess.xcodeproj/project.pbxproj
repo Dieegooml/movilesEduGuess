@@ -53,6 +53,8 @@
 		0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9F57B001B4063966C482B /* WikiService.swift */; };
 		FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B4F200274C708E1E9615 /* HowToPlayView.swift */; };
 		0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A02971A848A5B8612E68 /* SettingsView.swift */; };
+		4CB03316082D4124907A516B /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF76C0802FA48A8A33CAF73 /* ToastView.swift */; };
+		FC01F65A1F02407DA8520A0D /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +102,8 @@
 		0A87B4F200274C708E1E9615 /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
 		50B5A02971A848A5B8612E68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2ED9F57B001B4063966C482B /* WikiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiService.swift; sourceTree = "<group>"; };
+		BBF76C0802FA48A8A33CAF73 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +220,7 @@
 				5C41F7932FB7674F002814AC /* AIService.swift */,
 				5C41F7952FB76760002814AC /* DataService.swift */,
 		2ED9F57B001B4063966C482B /* WikiService.swift */,
+		49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -235,6 +240,7 @@
 				5C41F79B2FB768D7002814AC /* QuestionCard.swift */,
 				5C41F79D2FB768E6002814AC /* RobotAvatar.swift */,
 				5C41F79F2FB768F5002814AC /* CategoryButton.swift */,
+				BBF76C0802FA48A8A33CAF73 /* ToastView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -354,6 +360,8 @@
 				FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */,
 				0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */,
 				0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */,
+				4CB03316082D4124907A516B /* ToastView.swift in Sources */,
+				FC01F65A1F02407DA8520A0D /* NetworkMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

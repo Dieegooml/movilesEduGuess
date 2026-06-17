@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct QuestionView: View {
 
@@ -99,18 +100,21 @@ struct QuestionView: View {
 
             VStack(spacing: 12) {
                 AnswerButton(title: "Sí", color: .green) {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     withAnimation(.easeInOut(duration: 0.2)) {
                         viewModel.answerQuestion(answer: .yes)
                     }
                 }
 
                 AnswerButton(title: "No", color: .red) {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     withAnimation(.easeInOut(duration: 0.2)) {
                         viewModel.answerQuestion(answer: .no)
                     }
                 }
 
                 Button {
+                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     withAnimation(.easeInOut(duration: 0.2)) {
                         viewModel.answerQuestion(answer: .unknown)
                     }
