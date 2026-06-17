@@ -4,6 +4,7 @@ import GoogleSignIn
 import FacebookLogin
 import UIKit
 import CryptoKit
+import Security
 
 enum AuthError: LocalizedError {
     case noRootViewController
@@ -103,21 +104,41 @@ final class FirebaseAuthService {
 
     // MARK: - Facebook Limited Login
 
-    /// Generates a cryptographically random nonce string for Limited Login.
-    private func generateNonce() -> String {
-        let data = SHA256.hash(data: Data(UUID().uuidString.utf8))
-        return data.compactMap { String(format: "%02x", $0) }.prefix(32).joined()
+    /// Generates a cryptographically random nonce string (original, unhashed).
+    private func randomNonceString() -> String {
+        let charset = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remaining = 32
+        while remaining > 0 {
+            var randomBytes = [UInt8](repeating: 0, count: 16)
+            let status = SecRandomCopyBytes(kSecRandomDefault, 16, &randomBytes)
+            guard status == errSecSuccess else { break }
+            for byte in randomBytes {
+                guard remaining > 0 else { break }
+                let index = Int(byte) % charset.count
+                result.append(charset[index])
+                remaining -= 1
+            }
+        }
+        return result
+    }
+
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        return hashedData.compactMap { String(format: "%02x", $0) }.joined()
     }
 
     @MainActor
     func signInWithFacebook() async throws {
         let loginManager = LoginManager()
-        let nonce = generateNonce()
+        let rawNonce = randomNonceString()
+        let hashedNonce = sha256(rawNonce)
 
         guard let config = LoginConfiguration(
             permissions: ["email", "public_profile"],
             tracking: .limited,
-            nonce: nonce
+            nonce: hashedNonce
         ) else {
             throw AuthError.noCredential
         }
@@ -156,7 +177,7 @@ final class FirebaseAuthService {
         let credential = OAuthProvider.credential(
             providerID: .facebook,
             idToken: authToken,
-            rawNonce: nonce
+            rawNonce: rawNonce
         )
 
         let authResult = try await Auth.auth().signIn(with: credential)
