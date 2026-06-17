@@ -1,6 +1,7 @@
 import Foundation
 import FirebaseAuth
 import GoogleSignIn
+import FacebookLogin
 import UIKit
 
 enum AuthError: LocalizedError {
@@ -101,26 +102,34 @@ final class FirebaseAuthService {
 
     @MainActor
     func signInWithFacebook() async throws {
-        let provider = OAuthProvider(providerID: .facebook)
-        provider.scopes = ["email", "public_profile"]
+        let loginManager = LoginManager()
 
-        let credential = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<AuthCredential, Error>) in
-            provider.getCredentialWith(nil) { credential, error in
+        guard let rootVC = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first?
+            .windows
+            .first?
+            .rootViewController else {
+            throw AuthError.noRootViewController
+        }
+
+        let result = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<LoginManagerLoginResult, Error>) in
+            loginManager.logIn(permissions: ["email", "public_profile"], from: rootVC) { result, error in
                 if let error = error {
-                    let nsError = error as NSError
-                    if nsError.domain == "FIRAuthErrorDomain" && nsError.code == 17017 {
-                        continuation.resume(throwing: AuthError.facebookCancelled)
-                    } else {
-                        continuation.resume(throwing: error)
-                    }
-                } else if let credential = credential {
-                    continuation.resume(returning: credential)
+                    continuation.resume(throwing: error)
+                } else if let result = result {
+                    continuation.resume(returning: result)
                 } else {
                     continuation.resume(throwing: AuthError.noCredential)
                 }
             }
         }
 
+        guard !result.isCancelled, let token = result.token?.tokenString else {
+            throw AuthError.facebookCancelled
+        }
+
+        let credential = FacebookAuthProvider.credential(withAccessToken: token)
         let authResult = try await Auth.auth().signIn(with: credential)
         self.user = authResult.user
         cacheSession(authResult.user)

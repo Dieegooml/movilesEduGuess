@@ -1,12 +1,14 @@
 import UIKit
 import GoogleSignIn
 import FirebaseCore
+import FacebookCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         configureGIDSignIn()
         return true
     }
@@ -14,7 +16,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ app: UIApplication,
                      open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
+        let handledByFB = ApplicationDelegate.shared.application(app, open: url, options: options)
+        let handledByGoogle = GIDSignIn.sharedInstance.handle(url)
+        return handledByFB || handledByGoogle
     }
 
     private func configureGIDSignIn() {
