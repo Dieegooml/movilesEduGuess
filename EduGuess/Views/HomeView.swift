@@ -12,6 +12,7 @@ struct HomeView: View {
     @State private var buttonsAppeared = false
 
     private let menuItems: [(title: String, color: Color, destination: AnyView)] = [
+        ("Desafío Diario", .yellow, AnyView(DailyChallengeView())),
         ("Comenzar", .white, AnyView(CategorySelectView())),
         ("Personajes", .clear, AnyView(CharacterListView())),
         ("Historial", .clear, AnyView(GameHistoryView())),
@@ -64,10 +65,10 @@ struct HomeView: View {
                                 .foregroundColor(index == 0 ? .orange : .white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(index == 0 ? Color.white : Color.clear)
+                                .background(index == 0 ? Color.white : (index == 1 ? Color.orange : Color.clear))
                                 .cornerRadius(18)
                                 .overlay(
-                                    index != 0 ?
+                                    index > 1 ?
                                     RoundedRectangle(cornerRadius: 18)
                                         .stroke(Color.white, lineWidth: 2) : nil
                                 )

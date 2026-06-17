@@ -1,0 +1,64 @@
+import Foundation
+import SwiftData
+
+struct DailyScore: Codable, Identifiable {
+    let id: String
+    let userId: String
+    let userName: String
+    let characterName: String
+    let questionsAsked: Int
+    let score: Int
+    let timestamp: Date
+
+    init(userId: String, userName: String, characterName: String, questionsAsked: Int, score: Int) {
+        self.id = "\(userId)_\(DailyChallengeService.dateFormatter.string(from: Date()))"
+        self.userId = userId
+        self.userName = userName
+        self.characterName = characterName
+        self.questionsAsked = questionsAsked
+        self.score = score
+        self.timestamp = Date()
+    }
+}
+
+actor DailyChallengeService {
+    static let shared = DailyChallengeService()
+
+    static let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        return f
+    }()
+
+    func characterForToday(context: ModelContext) -> Character? {
+        let service = DataService()
+        let all = service.fetchCharacters(context: context)
+        guard !all.isEmpty else { return nil }
+
+        let dayNumber = Calendar.current.ordinality(of: .day, in: .era, for: Date()) ?? 0
+        let index = dayNumber % all.count
+        return all[index]
+    }
+
+    func saveScore(userId: String, userName: String, characterName: String, questionsAsked: Int, score: Int) async {
+        do {
+            try await FirestoreService.shared.saveDailyScore(
+                userId: userId,
+                userName: userName,
+                characterName: characterName,
+                questionsAsked: questionsAsked,
+                score: score
+            )
+        } catch {
+            print("Failed to save daily score: \(error)")
+        }
+    }
+
+    func leaderboard() async -> [DailyScore] {
+        (try? await FirestoreService.shared.fetchDailyLeaderboard()) ?? []
+    }
+
+    func hasPlayedToday(userId: String) async -> Bool {
+        (try? await FirestoreService.shared.hasPlayedDaily(userId: userId)) ?? false
+    }
+}

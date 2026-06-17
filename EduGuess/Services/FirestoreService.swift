@@ -27,6 +27,56 @@ final class FirestoreService {
         return try doc.data(as: FirebaseUser.self)
     }
 
+    // MARK: - Daily Challenge
+
+    func saveDailyScore(userId: String, userName: String, characterName: String, questionsAsked: Int, score: Int) async throws {
+        let key = dailyKey()
+        try await db
+            .collection("daily_challenges")
+            .document(key)
+            .collection("scores")
+            .document(userId)
+            .setData([
+                "userId": userId,
+                "userName": userName,
+                "characterName": characterName,
+                "questionsAsked": questionsAsked,
+                "score": score,
+                "timestamp": FieldValue.serverTimestamp(),
+            ])
+    }
+
+    func fetchDailyLeaderboard() async throws -> [DailyScore] {
+        let key = dailyKey()
+        let snapshot = try await db
+            .collection("daily_challenges")
+            .document(key)
+            .collection("scores")
+            .order(by: "score", descending: true)
+            .limit(to: 50)
+            .getDocuments()
+        return snapshot.documents.compactMap { try? $0.data(as: DailyScore.self) }
+    }
+
+    func hasPlayedDaily(userId: String) async throws -> Bool {
+        let key = dailyKey()
+        let doc = try await db
+            .collection("daily_challenges")
+            .document(key)
+            .collection("scores")
+            .document(userId)
+            .getDocument()
+        return doc.exists
+    }
+
+    private func dailyKey() -> String {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        return f.string(from: Date())
+    }
+
+    // MARK: - Stats
+
     func updateStats(uid: String, won: Bool, score: Int) async throws {
         let ref = db.collection(usersCollection).document(uid)
         let _ = try await db.runTransaction { transaction, errorPointer in

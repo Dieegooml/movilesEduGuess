@@ -11,9 +11,13 @@ struct QuestionView: View {
     @State private var isLoading = true
 
     let preloadedCharacters: [Character]?
+    let isDailyChallenge: Bool
+    let dailyCharacterName: String?
 
-    init(preloadedCharacters: [Character]? = nil) {
+    init(preloadedCharacters: [Character]? = nil, isDailyChallenge: Bool = false, dailyCharacterName: String? = nil) {
         self.preloadedCharacters = preloadedCharacters
+        self.isDailyChallenge = isDailyChallenge
+        self.dailyCharacterName = dailyCharacterName
     }
 
     var body: some View {
@@ -46,8 +50,10 @@ struct QuestionView: View {
             switch newState {
             case .guessed:
                 correctDestinationActive = true
+                saveDailyIfNeeded()
             case .failed:
                 wrongDestinationActive = true
+                saveDailyIfNeeded()
             default:
                 break
             }
@@ -68,6 +74,21 @@ struct QuestionView: View {
 
     private var gameContent: some View {
         VStack(spacing: 24) {
+            if isDailyChallenge {
+                HStack {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                    Text("Desafío Diario: \(dailyCharacterName ?? "")")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color.yellow.opacity(0.2))
+                .cornerRadius(20)
+                .transition(.slide.combined(with: .opacity))
+            }
+
             Spacer()
 
             RobotAvatar()
@@ -183,6 +204,25 @@ struct QuestionView: View {
         let total = asked + viewModel.remainingAttributes
         guard total > 0 else { return 0 }
         return CGFloat(asked) / CGFloat(total)
+    }
+
+    private func saveDailyIfNeeded() {
+        guard isDailyChallenge, let name = dailyCharacterName else { return }
+        let won = viewModel.gameState == .guessed
+        let score = GameScoring.calculateScore(questionsAsked: viewModel.questionsAskedCount, won: won)
+        let uid = AuthViewModel.shared.userUID ?? ""
+        let userName = AuthViewModel.shared.userName
+        let questions = viewModel.questionsAskedCount
+
+        Task {
+            await DailyChallengeService.shared.saveScore(
+                userId: uid,
+                userName: userName,
+                characterName: name,
+                questionsAsked: questions,
+                score: score
+            )
+        }
     }
 }
 
