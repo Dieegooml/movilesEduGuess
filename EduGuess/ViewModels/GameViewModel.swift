@@ -23,7 +23,7 @@ class GameViewModel: ObservableObject {
     // MARK: - Internal State
 
     private let aiService = AIService.shared
-    private(set) var maxQuestions: Int = 20
+    private let totalAttributes = AttributeDefinition.pool.count
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
@@ -37,9 +37,10 @@ class GameViewModel: ObservableObject {
     var askedAttributeKeys: [String] { sessionQuestions }
     var givenAnswers: [Bool] { sessionAnswers }
     var hasValidData: Bool { true }
+    var remainingAttributes: Int { totalAttributes - askedAttributes.count }
     var finalScore: Int {
         guard gameState == .guessed else { return 0 }
-        return GameScoring.calculateScore(questionsAsked: questionsAskedCount, maxQuestions: maxQuestions, won: true)
+        return GameScoring.calculateScore(questionsAsked: questionsAskedCount, won: true)
     }
 
     // MARK: - Start Game
@@ -52,7 +53,6 @@ class GameViewModel: ObservableObject {
         allCharacters = characters
         possibleCharacters = allCharacters
         questionsAskedCount = 0
-        maxQuestions = max(20, characters.count)
         guessedCharacter = nil
         finalProfile = [:]
         isAttemptingGuess = false
@@ -131,7 +131,11 @@ class GameViewModel: ObservableObject {
         guard questionsAskedCount >= 3, !possibleCharacters.isEmpty else {
             return false
         }
-        let guessInterval = max(5, maxQuestions / 6)
+        let ratio = Double(possibleCharacters.count) / Double(max(allCharacters.count, 1))
+        if ratio <= 0.1 {
+            return true
+        }
+        let guessInterval = max(3, totalAttributes / 6)
         return possibleCharacters.count <= 3 || questionsAskedCount % guessInterval == 0
     }
 
@@ -147,13 +151,9 @@ class GameViewModel: ObservableObject {
             guessedCharacter = possibleCharacters.first
             finalProfile = characterProfile
             gameState = .guessed
-            return
-        }
-
-        if questionsAskedCount >= maxQuestions {
+        } else if possibleCharacters.isEmpty {
             finalProfile = characterProfile
             gameState = .failed
-            return
         }
     }
 

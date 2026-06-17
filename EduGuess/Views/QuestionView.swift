@@ -98,7 +98,7 @@ struct QuestionView: View {
             }
             .padding(.horizontal)
 
-            Text("Pregunta \(viewModel.questionsAskedCount + 1) de \(viewModel.maxQuestions)")
+            Text("Pregunta \(viewModel.questionsAskedCount + 1)")
                 .font(.caption)
                 .foregroundColor(.gray)
         }
@@ -136,8 +136,7 @@ struct QuestionView: View {
                 characterName: viewModel.guessedCharacter?.name ?? "Desconocido",
                 profile: viewModel.finalProfile,
                 askedAttributes: viewModel.askedAttributeKeys,
-                answers: viewModel.givenAnswers,
-                maxQuestions: viewModel.maxQuestions
+                answers: viewModel.givenAnswers
             ),
             isActive: $correctDestinationActive
         ) { EmptyView() }
@@ -163,8 +162,10 @@ struct QuestionView: View {
     }
 
     private var progressValue: CGFloat {
-        let total = CGFloat(max(viewModel.maxQuestions, 1))
-        return CGFloat(viewModel.questionsAskedCount) / total
+        let asked = viewModel.questionsAskedCount
+        let total = asked + viewModel.remainingAttributes
+        guard total > 0 else { return 0 }
+        return CGFloat(asked) / CGFloat(total)
     }
 }
 

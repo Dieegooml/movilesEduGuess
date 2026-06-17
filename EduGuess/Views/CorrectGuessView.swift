@@ -6,13 +6,12 @@ struct CorrectGuessView: View {
     let profile: [String: Bool]
     let askedAttributes: [String]
     let answers: [Bool]
-    let maxQuestions: Int
 
     @Environment(\.modelContext) private var modelContext
     @State private var authVM = AuthViewModel.shared
 
     private var score: Int {
-        GameScoring.calculateScore(questionsAsked: askedAttributes.count, maxQuestions: maxQuestions, won: true)
+        GameScoring.calculateScore(questionsAsked: askedAttributes.count, won: true)
     }
 
     var body: some View {
@@ -112,8 +111,7 @@ struct CorrectGuessView_Previews: PreviewProvider {
             characterName: "Harry Potter",
             profile: ["usesMagic": true],
             askedAttributes: ["usesMagic"],
-            answers: [true],
-            maxQuestions: 20
+            answers: [true]
         )
     }
 }
