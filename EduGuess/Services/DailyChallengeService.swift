@@ -2,16 +2,15 @@ import Foundation
 import SwiftData
 
 struct DailyScore: Codable, Identifiable {
-    let id: String
+    var id: String { "\(userId)_\(DailyChallengeService.dateFormatter.string(from: Date()))" }
     let userId: String
     let userName: String
     let characterName: String
     let questionsAsked: Int
     let score: Int
-    let timestamp: Date
+    let timestamp: Date?
 
     init(userId: String, userName: String, characterName: String, questionsAsked: Int, score: Int) {
-        self.id = "\(userId)_\(DailyChallengeService.dateFormatter.string(from: Date()))"
         self.userId = userId
         self.userName = userName
         self.characterName = characterName

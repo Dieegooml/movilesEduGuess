@@ -33,14 +33,18 @@ struct QuestionView: View {
                 characterName: viewModel.guessedCharacter?.name ?? "Desconocido",
                 profile: viewModel.finalProfile,
                 askedAttributes: viewModel.askedAttributeKeys,
-                answers: viewModel.givenAnswers
+                answers: viewModel.givenAnswers,
+                isDailyChallenge: isDailyChallenge,
+                dailyCharacterName: dailyCharacterName
             )
         }
         .navigationDestination(isPresented: $wrongDestinationActive) {
             WrongGuessView(
                 profile: viewModel.finalProfile,
                 askedAttributes: viewModel.askedAttributeKeys,
-                answers: viewModel.givenAnswers
+                answers: viewModel.givenAnswers,
+                isDailyChallenge: isDailyChallenge,
+                dailyCharacterName: dailyCharacterName
             )
         }
         .onAppear {

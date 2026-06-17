@@ -5,6 +5,8 @@ struct WrongGuessView: View {
     let profile: [String: Bool]
     let askedAttributes: [String]
     let answers: [Bool]
+    var isDailyChallenge: Bool = false
+    var dailyCharacterName: String? = nil
 
     @Environment(\.modelContext) private var modelContext
     @State private var authVM = AuthViewModel.shared
@@ -101,6 +103,21 @@ struct WrongGuessView: View {
                             .background(Color.white.opacity(0.25))
                             .cornerRadius(18)
                     }
+                }
+
+                if isDailyChallenge {
+                    NavigationLink {
+                        DailyLeaderboardView()
+                    } label: {
+                        Text("Ver ranking del día")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(18)
+                    }
+                    .padding(.horizontal, 30)
                 }
 
                 Spacer().frame(height: 20)
