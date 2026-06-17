@@ -2,6 +2,12 @@ import SwiftUI
 
 struct CharacterDetailView: View {
     let character: Character
+    @State private var wikiSummary: String?
+    @State private var wikiState: WikiLoadState = .idle
+
+    enum WikiLoadState {
+        case idle, loading, loaded, error(String)
+    }
 
     private var attributesByCategory: [(AttributeCategory, [AttributeDefinition])] {
         let pool = AttributeDefinition.pool
@@ -17,11 +23,29 @@ struct CharacterDetailView: View {
             VStack(spacing: 24) {
                 headerSection
                 attributesSection
+                wikiSection
             }
             .padding()
         }
         .navigationTitle(character.name)
         .navigationBarTitleDisplayMode(.large)
+        .task {
+            await loadWikiSummary()
+        }
+    }
+
+    private func loadWikiSummary() async {
+        guard case .idle = wikiState else { return }
+        wikiState = .loading
+        do {
+            let response = try await WikiService.shared.fetchSummary(for: character.name)
+            wikiSummary = response.extract
+            wikiState = response.extract != nil ? .loaded : .error("No disponible")
+        } catch let error as WikiError {
+            wikiState = .error(error.localizedDescription)
+        } catch {
+            wikiState = .error("Error de conexión")
+        }
     }
 
     private var headerSection: some View {
@@ -49,6 +73,68 @@ struct CharacterDetailView: View {
             Text("\(knownCount) atributos conocidos de \(AttributeDefinition.pool.count)")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+        }
+    }
+
+    @ViewBuilder
+    private var wikiSection: some View {
+        switch wikiState {
+        case .idle, .loading:
+            VStack(spacing: 12) {
+                ProgressView()
+                    .tint(.orange)
+                Text("Cargando información...")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color(.systemGray6))
+            )
+            .transition(.opacity)
+
+        case .loaded:
+            if let summary = wikiSummary {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Información adicional")
+                        .font(.headline)
+                        .foregroundColor(.orange)
+                        .padding(.bottom, 4)
+
+                    Text(summary
+                        .replacingOccurrences(of: "\n", with: " ")
+                        .trimmingCharacters(in: .whitespaces)
+                    )
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(8)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(.systemGray6))
+                )
+                .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+
+        case .error(let message):
+            HStack {
+                Image(systemName: "wifi.slash")
+                    .foregroundColor(.secondary)
+                Text(message)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color(.systemGray6))
+            )
+            .transition(.opacity)
         }
     }
 

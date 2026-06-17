@@ -50,6 +50,7 @@
 		6CE7160249AB483D9A8D6F46 /* AdminListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D46A660E6874ECB87893C27 /* AdminListView.swift */; };
 		D64C67AB393B4E018564288A /* CharacterFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62734DE69DD34D1780A5F915 /* CharacterFormView.swift */; };
 		A67B8E0289774930AAA1FCF8 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2CEB9F95A45AFA67762E7 /* CategorySelectView.swift */; };
+		0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9F57B001B4063966C482B /* WikiService.swift */; };
 		FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B4F200274C708E1E9615 /* HowToPlayView.swift */; };
 		0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A02971A848A5B8612E68 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -98,6 +99,7 @@
 		BDA2CEB9F95A45AFA67762E7 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
 		0A87B4F200274C708E1E9615 /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
 		50B5A02971A848A5B8612E68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2ED9F57B001B4063966C482B /* WikiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				8419A9142FE2511300F1F187 /* FirestoreService.swift */,
 				5C41F7932FB7674F002814AC /* AIService.swift */,
 				5C41F7952FB76760002814AC /* DataService.swift */,
+		2ED9F57B001B4063966C482B /* WikiService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				A67B8E0289774930AAA1FCF8 /* CategorySelectView.swift in Sources */,
 				FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */,
 				0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */,
+				0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
