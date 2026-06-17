@@ -192,21 +192,52 @@ Xcode descarga Firebase (~100-200 MB). Esto puede tomar **2-5 minutos** dependie
 
 Verás una barra de progreso en la parte superior de Xcode.
 
-### Paso 7: Verificar
+### Paso 7: Agregar Google Sign-In SDK
+
+1. Click **File → Add Package Dependencies...** (o el botón + en Package Dependencies)
+2. Pegar:
+   ```
+   https://github.com/google/GoogleSignIn-iOS
+   ```
+3. Dependency Rule: `Up to Next Major Version` → `7.1.0`
+4. Seleccionar producto: `[x] GoogleSignIn`
+5. Click **"Add Package"**
+
+### Paso 8: Agregar Facebook SDK
+
+1. Click **File → Add Package Dependencies...**
+2. Pegar:
+   ```
+   https://github.com/facebook/facebook-ios-sdk
+   ```
+3. Dependency Rule: `Up to Next Major Version` → `17.4.0`
+4. Seleccionar productos:
+   ```
+   [x] FacebookLogin
+   [x] FacebookCore
+   ```
+5. Click **"Add Package"**
+
+### Paso 9: Verificar
 
 Cuando termine:
 1. En el Project Navigator, debe aparecer una sección **"Package Dependencies"**
-2. Dentro debe estar `firebase-ios-sdk` con `FirebaseAuth` y `FirebaseFirestore`
+2. Dentro debe estar:
+   - `firebase-ios-sdk` con `FirebaseAuth` y `FirebaseFirestore`
+   - `GoogleSignIn-iOS` con `GoogleSignIn`
+   - `facebook-ios-sdk` con `FacebookLogin` y `FacebookCore`
 
-### Paso 8: (Opcional) Resetear cache
+### Paso 10: Resetear cache (si es necesario)
 
 Si después de agregarlo todo compila con errores de módulos no encontrados:
 
 ```
 File → Packages → Reset Package Caches
+File → Packages → Resolve Package Versions
+Product → Clean Build Folder
 ```
 
-✅ Firebase SDK instalado.
+✅ SDKs instalados.
 
 ---
 
@@ -238,18 +269,32 @@ En el navegador, en la consola de Firebase:
 
 El proveedor `Email/Password` debe aparecer como **"Enabled"**
 
-### Paso 5: Crear un usuario de prueba (opcional pero recomendado)
+### Paso 5: Habilitar Google Sign-In
+
+1. Click **"Add new provider"** o **"Add new sign-in method"** (dependiendo de la UI)
+2. Seleccionar **"Google"**
+3. Activar el toggle **"Enable"**
+4. En **"Project public-facing name"** escribir `EduGuess`
+5. En **"Support email for the project"** seleccionar tu email
+6. Click **"Save"**
+
+### Paso 6: Habilitar Facebook Sign-In
+
+1. Click **"Add new provider"** → **"Facebook"**
+2. Activar el toggle **"Enable"**
+3. En **"App ID"** ingresar el ID de tu app de Facebook (desde https://developers.facebook.com)
+4. En **"App Secret"** ingresar el App Secret de tu app de Facebook
+5. Click **"Save"**
+
+### Paso 7: Crear un usuario de prueba (opcional pero recomendado)
 
 1. Click pestaña **"Users"**
-
 2. Click **"Add user"**
-
 3. Ingresar:
    ```
    Email:    prueba@eduguess.com
    Password: contraseña123
    ```
-
 4. Click **"Add user"**
 
 ✅ Authentication configurado.
@@ -511,17 +556,127 @@ Si sigue fallando:
 2. Clean Build Folder (Cmd+Shift+K)
 3. Recompilar
 
+### Error: Google Sign-In crash "The operation couldn't be completed"
+
+**Causa:** Falta el URL scheme de Google en Info.plist.
+
+**Solución:**
+1. Abrir `Info.plist`
+2. Verificar que existe `CFBundleURLTypes` con un scheme como:
+   ```
+   com.googleusercontent.apps.TU_GOOGLE_CLIENT_ID
+   ```
+3. El CLIENT_ID debe coincidir con el de `GoogleService-Info.plist`
+4. Clean Build Folder y recompilar
+
+### Error: "Sign in with Facebook is not supported via generic IDP"
+
+**Causa:** Se usó `OAuthProvider(providerID: .facebook)` en vez del SDK nativo de Facebook.
+
+**Solución:**
+1. NO usar `OAuthProvider` para Facebook (Firebase lo bloquea por TOS)
+2. Usar el SDK nativo: `LoginManager` de `facebook-ios-sdk`
+3. El código correcto ya está en `FirebaseAuthService.signInWithFacebook()`
+4. Verificar que `facebook-ios-sdk` está agregado como dependencia SPM
+
+### Error: "Missing package product 'FacebookLogin'"
+
+**Causa:** Los paquetes SPM no se resolvieron correctamente.
+
+**Solución:**
+```bash
+# Desde terminal
+xcodebuild -resolvePackageDependencies -project EduGuess.xcodeproj
+```
+O desde Xcode: File → Packages → Resolve Package Versions
+
+### Error: Facebook Login no abre ni muestra error
+
+**Causa:** El SDK de Facebook no se inicializó en AppDelegate.
+
+**Solución:**
+1. Verificar que `AppDelegate.swift` llama a:
+   ```swift
+   ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+   ```
+2. Verificar que `Info.plist` tiene `FacebookAppID` y `FacebookClientToken`
+3. Verificar que `CFBundleURLSchemes` incluye `fb{APP-ID}` (ej: `fbTU_FACEBOOK_APP_ID`)
+
+---
+
+## 10. Configurar App de Facebook
+
+Además de Firebase, necesitas una app de Facebook para el login.
+
+### Paso 1: Ir a Meta Developer Portal
+
+```
+https://developers.facebook.com
+```
+
+### Paso 2: Crear o seleccionar app
+
+1. Click **"My Apps"** → **"Create App"**
+2. Seleccionar **"Consumer"** como tipo de app
+3. Nombre: `EduGuess`
+4. Email de contacto: tu email
+5. Click **"Create App ID"**
+
+### Paso 3: Configurar iOS
+
+1. En el dashboard de la app, buscar **"Add Products"** → **"Facebook Login"** → **"Set Up"**
+2. En la sección **"Settings"**, agregar:
+   ```
+   Bundle ID: com.tecsup.EduGuess
+   ```
+3. Click **"Save"**
+
+### Paso 4: Obtener App ID y Client Token
+
+1. En el dashboard, ve a **"Settings"** → **"Basic"**
+2. Anota el **"App ID"** (ej: `TU_FACEBOOK_APP_ID`)
+3. Ve a **"Settings"** → **"Advanced"** → **"Security"**
+4. Copia el **"Client Token"** (es un string de ~32 caracteres hexadecimales)
+
+### Paso 5: Configurar Info.plist
+
+El proyecto ya tiene `Info.plist` con estas claves. Si necesitas cambiarlas:
+
+| Key | Value |
+|-----|-------|
+| `FacebookAppID` | `TU_FACEBOOK_APP_ID` |
+| `FacebookClientToken` | `{tu-client-token}` |
+| `FacebookDisplayName` | `EduGuess` |
+| `CFBundleURLTypes` → item 2 → `CFBundleURLSchemes` | `fbTU_FACEBOOK_APP_ID` |
+
+### Paso 6: Configurar URL Scheme en AppDelegate
+
+El proyecto ya tiene `AppDelegate.swift` manejando las URLs de Facebook y Google:
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+    let handledByFB = ApplicationDelegate.shared.application(app, open: url, options: options)
+    let handledByGoogle = GIDSignIn.sharedInstance.handle(url)
+    return handledByFB || handledByGoogle
+}
+```
+
 ---
 
 ## Resumen rápido (checklist)
 
 - [ ] Crear proyecto Firebase (console.firebase.google.com)
 - [ ] Registrar app iOS con bundle ID `com.tecsup.EduGuess`
-- [ ] Descargar `GoogleService-Info.plist`
-- [ ] Agregar plist a Xcode (arrastrar al proyecto)
+- [ ] Descargar `GoogleService-Info.plist` y agregar a Xcode
 - [ ] Agregar Firebase SDK via SPM (FirebaseAuth + FirebaseFirestore)
+- [ ] Agregar GoogleSignIn-iOS via SPM
+- [ ] Agregar facebook-ios-sdk via SPM (FacebookLogin + FacebookCore)
 - [ ] Habilitar Authentication → Email/Password
+- [ ] Habilitar Authentication → Google Sign-In
+- [ ] Habilitar Authentication → Facebook Sign-In
 - [ ] Crear Firestore Database en modo prueba
+- [ ] Crear app de Facebook (developers.facebook.com)
+- [ ] Configurar FacebookAppID, FacebookClientToken y URL scheme en Info.plist
 - [ ] Compilar y probar (Cmd+R)
 - [ ] Verificar datos en Firebase Console
 
@@ -530,23 +685,30 @@ Si sigue fallando:
 ## Arquitectura final
 
 ```
-                    ┌──────────────────────┐
-                    │     EduGuess App      │
-                    │  (SwiftUI + SwiftData) │
-                    └──────────┬───────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-              ▼                ▼                ▼
-    ┌─────────────────┐ ┌──────────┐ ┌──────────────┐
-    │  Firebase Auth   │ │ Firestore │ │  SwiftData    │
-    │  (login/signup)  │ │ (online)  │ │  (local cache)│
-    └─────────────────┘ └──────────┘ └──────────────┘
-                              │
-                              ▼
-                    ┌──────────────────┐
-                    │  Firestore DB     │
-                    │  - users/{uid}    │
-                    │  - game_sessions  │
-                    └──────────────────┘
+                    ┌──────────────────────────┐
+                    │      EduGuess App        │
+                    │  (SwiftUI + SwiftData)    │
+                    └──────┬─────────┬─────────┘
+                           │         │
+              ┌────────────┼─────────┼──────────────┐
+              │            │         │              │
+              ▼            ▼         ▼              ▼
+     ┌────────────┐ ┌──────────┐ ┌──────┐ ┌──────────────┐
+     │Firebase Auth│ │ Firestore│ │GIDSI-│ │ Facebook SDK │
+     │email/Google │ │ (online) │ │gnIn  │ │ LoginManager │
+     │   /Facebook │ │          │ │      │ │              │
+     └────────────┘ └──────────┘ └──────┘ └──────────────┘
+                           │
+                           ▼
+                 ┌──────────────────────┐
+                 │     Firestore DB      │
+                 │  - users/{uid}        │
+                 │  - game_sessions/{id} │
+                 │  - leaderboard (vista)│
+                 └──────────────────────┘
+
+Flujo Auth:
+  Email:      FirebaseAuth.signIn(withEmail:password:)
+  Google:     GIDSignIn.signIn() → GoogleAuthProvider → FirebaseAuth
+  Facebook:   LoginManager.logIn() → FacebookAuthProvider → FirebaseAuth
 ```

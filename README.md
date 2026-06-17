@@ -1,85 +1,141 @@
-EduGuess - La IA que Adivina Personajes 🧠
+# EduGuess - La IA que Adivina Personajes
 
-Descripción del Proyecto
+## Descripción
 
-EduGuess es una aplicación educativa interactiva desarrollada en SwiftUI que implementa un juego estilo "20 Preguntas". La aplicación utiliza un sistema de filtrado inteligente donde un usuario piensa en un personaje y la "IA" realiza preguntas de sí/no para intentar adivinarlo.
+EduGuess es una aplicación educativa interactiva desarrollada en SwiftUI para iOS 17+ que implementa un juego estilo "20 Preguntas". El usuario piensa en un personaje y la "IA" realiza preguntas de sí/no para intentar adivinarlo.
 
-Características Principales
+## Características Principales
 
-- Juego interactivo basado en preguntas de sí/no
-- Sistema de filtrado inteligente de personajes
-- Interfaz moderna con gradientes y animaciones
-- Diseño responsivo para iOS, iPadOS y macOS
-- Interfaz en español
-- Navegación con NavigationStack
-- Pantallas de acierto y fallo
-- Arquitectura MVVM
+- Juego interactivo basado en preguntas de sí/no con filtrado inteligente
+- **Autenticación**: Email/Password, Google Sign-In y Facebook Login
+- **Firestore**: perfiles de usuario, sesiones de juego y leaderboard global
+- **Leaderboard**: ranking all-time y semanal con puntuaciones
+- **Perfil de usuario**: estadísticas de partidas, victorias, puntaje total
+- **Seed automático**: 31 personajes peruanos y latinoamericanos importados al primer inicio
+- **Sistema de puntuación**: (20 − preguntas) × 10 por acierto
+- **Interfaz moderna**: gradientes, animaciones, español, NavigationStack
+- **Arquitectura MVVM** + SwiftData local + Firestore online
 
-Requerimientos
+## Requerimientos
 
-- macOS: 12.0 o superior
-- Xcode: 14.0 o superior
-- iOS: 15.0 o superior
-- Swift: 5.7 o superior
+- iOS 17.0 o superior
+- Xcode 15.0 o superior
+- macOS 14.0+ (para compilar)
+- Swift 5.9+
 
-Estructura de Carpetas
+## Estructura del Proyecto
 
+```
 EduGuess/
 ├── EduGuess/
-│   ├── EduGuessApp.swift
-│   ├── ContentView.swift
-│   ├── Assets/
-│   │   └── Assets.xcassets/
+│   ├── EduGuessApp.swift              # @main, SwiftData container, auth guard
+│   ├── AppDelegate.swift              # Firebase, Facebook SDK, GIDSignIn setup
+│   ├── Info.plist                     # URL schemes (Google, Facebook), FacebookAppID
+│   ├── GoogleService-Info.plist       # Firebase config (NO Facebook keys)
+│   ├── characters_seed.json           # 31 personajes de semilla
 │   ├── Models/
-│   │   ├── GameState.swift
-│   │   ├── Question.swift
-│   │   └── Character.swift
+│   │   ├── AttributeDefinition.swift  # Pool de 38 atributos booleanos
+│   │   ├── Character.swift            # SDCharacter (SwiftData)
+│   │   ├── GameState.swift            # enum: playing, guessed, failed
+│   │   ├── Question.swift             # SDQuestion (SwiftData)
+│   │   └── UserStats.swift            # Firestore codable models + scoring
 │   ├── ViewModels/
-│   │   └── GameViewModel.swift
+│   │   ├── AuthViewModel.swift        # Estado de autenticación observable
+│   │   └── GameViewModel.swift        # Lógica central del juego
 │   ├── Views/
-│   │   ├── SplashView.swift
-│   │   ├── HomeView.swift
-│   │   ├── QuestionView.swift
-│   │   ├── CorrectGuessView.swift
-│   │   └── WrongGuessView.swift
+│   │   ├── SplashView.swift           # Pantalla inicial
+│   │   ├── HomeView.swift             # Pantalla principal + logout
+│   │   ├── LoginView.swift            # Login/registro + Google + Facebook
+│   │   ├── QuestionView.swift         # Preguntas con SwiftData
+│   │   ├── CorrectGuessView.swift     # Pantalla de victoria
+│   │   ├── WrongGuessView.swift       # Pantalla de derrota
+│   │   ├── ProfileView.swift          # Estadísticas del usuario
+│   │   └── LeaderboardView.swift      # Ranking global all-time/semanal
 │   ├── Components/
-│   │   ├── AnswerButton.swift
-│   │   ├── CategoryButton.swift
-│   │   ├── ProgressBar.swift
-│   │   ├── QuestionCard.swift
-│   │   └── RobotAvatar.swift
+│   │   ├── AnswerButton.swift         # Botón Sí/No
+│   │   ├── CategoryButton.swift       # Botón de categoría
+│   │   ├── ProgressBar.swift          # Barra de progreso
+│   │   ├── QuestionCard.swift         # Tarjeta de pregunta
+│   │   └── RobotAvatar.swift          # Avatar de IA
 │   └── Services/
-│       ├── AIService.swift
-│       └── DataService.swift
+│       ├── AIService.swift            # Placeholder para IA externa
+│       ├── DataService.swift          # SwiftData CRUD + saveSessionToFirestore
+│       ├── FirebaseAuthService.swift  # Auth unificado (email, Google, Facebook)
+│       ├── FirestoreService.swift     # CRUD Firestore (users, sessions, leaderboard)
+│       └── SeedManager.swift          # Importa characters_seed.json al primer launch
+├── scripts/
+│   └── scrape_and_classify.py         # Scraper + LLM para generar personajes
+├── GUIA_FIREBASE.md                   # Guía completa de configuración Firebase
+├── TROUBLESHOOTING.md                 # Historial de errores y soluciones
 └── EduGuess.xcodeproj/
+```
 
-Abrir y Ejecutar en Xcode
+## Dependencias (Swift Package Manager)
 
-1) Desde la terminal: open EduGuess.xcodeproj
-2) O abrir Xcode y seleccionar File → Open → EduGuess.xcodeproj
-3) Seleccionar un simulador o dispositivo y presionar Cmd+R
+- **FirebaseAuth** v12.15.0 — autenticación Email/Password, Google, Facebook
+- **FirebaseFirestore** v12.15.0 — base de datos en la nube
+- **GoogleSignIn-iOS** v7.1.0 — Google Sign-In nativo
+- **facebook-ios-sdk** v17.4.0 — Facebook Login nativo (producto: `FacebookLogin`)
 
-Agregar Preguntas y Personajes
+## Configuración Inicial
 
-- Las preguntas y personajes se definen en `GameViewModel.swift`.
-- Cada pregunta tiene `attributeKey` que debe coincidir con las claves booleanas en `Character.attributes`.
-- Todos los personajes deben incluir las mismas claves de atributos.
+1. Clonar el repositorio
+2. Abrir `EduGuess.xcodeproj` en Xcode
+3. **File → Add Package Dependencies...** si los paquetes no se resuelven automáticamente
+4. Ir a [Firebase Console](https://console.firebase.google.com) y crear proyecto
+5. Registrar app iOS con Bundle ID `com.tecsup.EduGuess`
+6. Descargar `GoogleService-Info.plist` y agregarlo al proyecto
+7. Habilitar Authentication: Email/Password, Google, Facebook
+8. Crear Firestore Database en modo prueba
+9. Registrar una app de Facebook en [developers.facebook.com](https://developers.facebook.com) y obtener App ID y Client Token
+10. En el `Info.plist` del proyecto, verificar que `FacebookAppID`, `FacebookClientToken` y `FacebookDisplayName` estén configurados
+11. **Product → Clean Build Folder** y **Run**
 
-Posibles Mejoras
+## Flujo de Autenticación
 
-- Integración con IA (OpenAI) para generar preguntas dinámicas.
-- Cargar datos desde API o Base de Datos (Core Data, CloudKit).
-- Gamificación: puntos, logros y rankings.
-- Mejoras de diseño y accesibilidad.
-- Tests unitarios y de UI.
+- La app usa `@UIApplicationDelegateAdaptor(AppDelegate.self)` para inicializar Firebase, Facebook SDK y GIDSignIn
+- `AuthViewModel` observa el estado de autenticación; la pantalla de login se oculta hasta que el estado se resuelve (`isReady` guard)
+- Soporta tres métodos: Email/Password, Google Sign-In (GIDSignIn), Facebook Login (LoginManager + FacebookAuthProvider)
+- Las sesiones se cachean en UserDefaults para persistencia entre lanzamientos
 
-Notas rápidas
+## Seed de Personajes
 
-- Flujo: SplashView → HomeView → QuestionView (en desarrollo) → Correct/Wrong View
-- Lógica: `GameViewModel` filtra personajes según respuestas (atributos booleanos)
+`SeedManager.swift` verifica si la base de datos SwiftData está vacía al primer inicio. Si lo está, importa automáticamente los 31 personajes desde `characters_seed.json`. Los personajes incluyen figuras peruanas y latinoamericanas (reales y ficticias) con 38 atributos booleanos cada uno.
 
-Contacto
+## Scoring
+
+- Victoria: (20 − preguntasRealizadas) × 10
+- Derrota: 0 puntos
+- Las sesiones se guardan en Firestore con userId, userName, characterName, score, won, preguntasRealizadas
+
+## Arquitectura de Datos
+
+```
+                    ┌──────────────────────────┐
+                    │      EduGuess App        │
+                    │  (SwiftUI + SwiftData)    │
+                    └──────────┬───────────────┘
+                               │
+              ┌────────────────┼─────────────────┐
+              │                │                  │
+              ▼                ▼                  ▼
+    ┌────────────────┐ ┌──────────────┐ ┌──────────────────┐
+    │  Firebase Auth  │ │  Firestore   │ │    SwiftData      │
+    │(email/Google/FB)│ │(online sync) │ │  (local cache)    │
+    └────────────────┘ └──────────────┘ └──────────────────┘
+                              │
+                              ▼
+                    ┌──────────────────────┐
+                    │     Firestore DB      │
+                    │  - users/{uid}        │
+                    │  - game_sessions/{id} │
+                    │  - leaderboard (vista)│
+                    └──────────────────────┘
+```
+
+## Contacto
 
 - Creadora Original: Daniela Nicol Salazar Quina
+- Repositorio: github.com/Dieegooml/movilesEduGuess
 
-¡Disfruta mejorando EduGuess! 🎮✨
+¡Disfruta mejorando EduGuess!

@@ -1,6 +1,6 @@
 // TROUBLESHOOTING & ERROR FIXES DOCUMENT
 // EduGuess Project - Error Analysis & Solutions
-// Updated: June 12, 2026
+// Updated: June 17, 2026
 
 ## ERRORES IDENTIFICADOS Y ARREGLADOS
 
@@ -168,5 +168,169 @@ ERRORES TOTALES IDENTIFICADOS Y ARREGLADOS: 5
 CRÍTICOS: 2
 MAYORES: 3
 MENORES: 0
+
+Estado: ✅ TODOS ARREGLADOS Y COMPILANDO
+
+---
+
+## FASE 2: FIREBASE + AUTENTICACIÓN SOCIAL
+
+### 6. ❌ FirebaseApp.configure() FUERA DE APPDELEGATE
+**Problema:**
+- `FirebaseApp.configure()` se llamaba en `EduGuessApp.init()` antes de inicializar SwiftData
+- Firebase espera que `configure()` se llame desde `AppDelegate.application(_:didFinishLaunchingWithOptions:)`
+- Causaba warning: "The Firebase App Delegate swizzler is not being applied"
+
+**Impacto:**
+- ⚠️ MAYOR: Firebase no se inicializaba correctamente
+- Posibles fallos intermitentes en autenticación
+
+**Solución Implementada:**
+✅ Se creó `AppDelegate.swift` con `@UIApplicationDelegateAdaptor`
+✅ `FirebaseApp.configure()` se movió a `application(_:didFinishLaunchingWithOptions:)`
+✅ Eliminado el configure() de `EduGuessApp.init()`
+
+### 7. ❌ GOOGLE SIGN-IN CRASH: URL Scheme Faltante
+**Problema:**
+- `GIDSignIn.sharedInstance.signIn(withPresenting:)` crasheaba porque no encontraba el URL scheme
+- El scheme `com.googleusercontent.apps.TU_FIREBASE_SENDER_ID-...` no estaba registrado
+- `INFOPLIST_KEY_CFBundleURLTypes` no soporta arrays/dicts complejos en build settings
+
+**Impacto:**
+- ❌ CRÍTICO: Google Sign-In no funcionaba, crash inmediato
+
+**Solución Implementada:**
+✅ Se creó `Info.plist` explícito (reemplazando `GENERATE_INFOPLIST_FILE = YES`)
+✅ Se agregó `CFBundleURLTypes` con el scheme de Google
+✅ Se fijó `INFOPLIST_FILE = EduGuess/Info.plist` en build settings
+
+### 8. ❌ FACEBOOK SIGN-IN: Firebase OAuthProvider BLOQUEADO
+**Problema:**
+- Se usaba `OAuthProvider(providerID: .facebook).getCredentialWith(nonce:)` para Facebook
+- FirebaseAuth lanza `fatalError: "Sign in with Facebook is not supported via generic IDP"` (OAuthProvider.swift:79)
+- Firebase bloquea explícitamente Facebook login por términos de servicio
+
+**Impacto:**
+- ❌ CRÍTICO: Facebook Sign-In crasheaba siempre
+
+**Solución Implementada:**
+✅ Se reemplazó `OAuthProvider` por el SDK nativo de Facebook (`facebook-ios-sdk` v17.4.0)
+✅ Se usa `LoginManager.logIn(permissions:from:completion:)` para obtener token
+✅ Se usa `FacebookAuthProvider.credential(withAccessToken:)` para Firebase Auth
+✅ Se agregó `ApplicationDelegate.shared.application(_:didFinishLaunchingWithOptions:)` en AppDelegate
+✅ Se agregó `ApplicationDelegate.shared.application(_:open:options:)` para URL handling
+✅ Se agregó `import FacebookLogin` en FirebaseAuthService
+
+### 9. ❌ FACEBOOK CONFIG EN GOOGLESERVICE-INFO.PLIST
+**Problema:**
+- Se editaron claves de Facebook (`FacebookAppID`, `FacebookClientToken`) en `GoogleService-Info.plist`
+- Se duplicó `CLIENT_ID` y se agregó `FacebookClientToken` en el archivo equivocado
+- El archivo quedó con formato inválido
+
+**Impacto:**
+- ⚠️ MAYOR: GoogleService-Info.plist corrupto, Firebase podía fallar
+
+**Solución Implementada:**
+✅ Se eliminaron todas las claves de Facebook de `GoogleService-Info.plist`
+✅ Se movieron a `Info.plist`: `FacebookAppID`, `FacebookClientToken`, `FacebookDisplayName`
+✅ Se restauró `GoogleService-Info.plist` a su formato original de Firebase
+
+### 10. ❌ MISSING PACKAGE PRODUCT: SPM NO RESUELTO
+**Problema:**
+- Xcode mostraba errores: "Missing package product 'FacebookLogin'", "Missing package product 'GoogleSignIn'", etc.
+- Los paquetes SPM no estaban resueltos en el workspace
+
+**Impacto:**
+- ❌ CRÍTICO: La app no compilaba
+
+**Solución Implementada:**
+✅ `xcodebuild -resolvePackageDependencies -project EduGuess.xcodeproj`
+✅ File → Packages → Resolve Package Versions en Xcode
+
+### 11. ❌ FACEBOOK SDK INIT: ApplicationDelegate NO CONFIGURADO
+**Problema:**
+- `LoginManager.logIn(permissions:from:completion:)` fallaba silenciosamente porque el SDK de Facebook no se inicializaba
+- Faltaba la llamada a `ApplicationDelegate.shared.application(_:didFinishLaunchingWithOptions:)`
+
+**Impacto:**
+- ⚠️ MAYOR: Facebook Login no mostraba error ni resultado
+
+**Solución Implementada:**
+✅ Se agregó la inicialización en `AppDelegate.application(_:didFinishLaunchingWithOptions:)`
+✅ Se agregó el manejo de URL callback en `AppDelegate.application(_:open:options:)`
+
+---
+
+## RESUMEN DE CAMBIOS FASE 2
+
+### Archivos Nuevos
+```
+AppDelegate.swift          - Configura Firebase, Facebook SDK, GIDSignIn
+Info.plist                 - URL schemes, FacebookAppID, FacebookClientToken, FacebookDisplayName
+AuthViewModel.swift        - Observable auth state
+LoginView.swift            - Login/registro + Google + Facebook buttons
+ProfileView.swift          - Estadísticas de usuario
+LeaderboardView.swift      - Ranking all-time/semanal
+UserStats.swift            - Firestore models + scoring
+FirebaseAuthService.swift  - Auth con email, Google, Facebook
+FirestoreService.swift     - CRUD Firestore
+SeedManager.swift          - Importa characters_seed.json
+characters_seed.json       - 31 personajes semilla
+GUIA_FIREBASE.md           - Guía de configuración Firebase
+```
+
+### Archivos Modificados
+```
+EduGuessApp.swift          - @UIApplicationDelegateAdaptor, onAppear config
+HomeView.swift             - Perfil, Ranking, logout buttons
+CorrectGuessView.swift     - Firebase session save
+WrongGuessView.swift       - Firebase session save
+DataService.swift          - saveSessionToFirestore helper
+GameViewModel.swift        - removeHardcodedData (ya estaba limpio)
+```
+
+### Dependencias SPM Agregadas
+```
+GoogleSignIn-iOS v7.1.0
+facebook-ios-sdk v17.4.0 (productos: FacebookLogin, FacebookCore)
+```
+
+---
+
+## VALIDACIONES IMPLEMENTADAS (FASE 2)
+
+✅ Firebase Auth: email/password, Google, Facebook
+✅ Firestore: users, game_sessions, leaderboard queries
+✅ Google Sign-In: URL scheme registrado, GIDSignIn config
+✅ Facebook Login: SDK nativo, token → Firebase credential
+✅ Sesiones cacheadas en UserDefaults
+✅ Seed automático si SwiftData vacío
+✅ Login flash prevenido (isReady guard)
+✅ Scoring: (20 − preguntas) × 10
+✅ Profile: stats grid + sesiones recientes
+✅ Leaderboard: all-time + weekly con win ratio
+✅ Info.plist con URL schemes de Google y Facebook
+✅ GoogleService-Info.plist limpio (sin claves Facebook)
+✅ SPM packages resueltos
+
+---
+
+## PRÓXIMAS MEJORAS RECOMENDADAS (FASE 2)
+
+[ ] Admin Panel para agregar personajes desde UI
+[ ] Editar perfil de usuario (foto, nombre)
+[ ] Pull-to-refresh en leaderboard
+[ ] Splash con animación
+[ ] Tests unitarios para auth y firestore
+[ ] Paginación en leaderboard
+[ ] Notificaciones push
+[ ] Modo offline con cola de sincronización
+
+---
+
+ERRORES TOTALES IDENTIFICADOS Y ARREGLADOS: 11
+CRÍTICOS: 5
+MAYORES: 5
+MENORES: 1
 
 Estado: ✅ TODOS ARREGLADOS Y COMPILANDO

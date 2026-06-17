@@ -1,247 +1,145 @@
-EduGuess - La IA que Adivina Personajes 🧠
+EduGuess - La IA que Adivina Personajes
 
-Descripción del Proyecto
-
-EduGuess es una aplicación educativa interactiva desarrollida para iOS 17+ en SwiftUI que implementa un juego estilo "20 Preguntas". Utiliza SwiftData para persistencia de datos, donde un usuario piensa en un personaje y la "IA" realiza preguntas de sí/no para intentar adivinarlo.
+EduGuess es una aplicación educativa interactiva desarrollada para iOS 17+ en SwiftUI que implementa un juego estilo "20 Preguntas". Utiliza SwiftData para persistencia local y Firebase (Auth + Firestore) para autenticación y datos en la nube.
 
 Características Principales
 
-- Juego interactivo basado en preguntas de sí/no
-- Sistema de filtrado inteligente de personajes
-- Interfaz moderna con gradientes y animaciones
-- Persistencia de datos con SwiftData
-- Datos iniciales automáticos (sin hardcoding)
-- Gestión CRUD completa de personajes y preguntas
-- Arquitectura MVVM + SOLID principles
-- Navegación moderna con NavigationStack y navigationDestination
+- Juego interactivo basado en preguntas de sí/no con filtrado inteligente
+- Autenticación: Email/Password, Google Sign-In, Facebook Login
+- Firestore: perfiles de usuario, sesiones de juego, leaderboard global
+- Leaderboard all-time y semanal con puntuaciones
+- Perfil con estadísticas (partidas, victorias, puntaje total, mejor puntaje, win rate)
+- Seed automático de 31 personajes peruanos y latinoamericanos al primer inicio
+- Sistema de puntuación: (20 − preguntas) × 10 por acierto, 0 por derrota
+- Interfaz moderna con gradientes, animaciones, español
+- Arquitectura MVVM + SwiftData local + Firestore online
 
 Requerimientos
 
-- iOS: 17.0 o superior (SwiftData requirement)
+- iOS: 17.0 o superior
 - Xcode: 15.0 o superior
 - macOS: 14.0+ (para compilar)
 - Swift: 5.9+
+
+Dependencias (SPM)
+
+- FirebaseAuth v12.15.0
+- FirebaseFirestore v12.15.0
+- GoogleSignIn-iOS v7.1.0
+- facebook-ios-sdk v17.4.0 (producto: FacebookLogin)
 
 Estructura de Carpetas
 
 EduGuess/
 ├── EduGuess/
-│   ├── EduGuessApp.swift                 # Punto de entrada + ModelContainer
-│   ├── ContentView.swift                 # Vista principal Backup
-│   ├── Assets/
-│   │   └── Assets.xcassets/
+│   ├── EduGuessApp.swift              # @main, SwiftData ModelContainer, onAppear
+│   ├── AppDelegate.swift              # Firebase, Facebook SDK, GIDSignIn config
+│   ├── Info.plist                     # URL schemes, FacebookAppID, ClientToken
+│   ├── GoogleService-Info.plist       # Firebase config (sin Facebook keys)
+│   ├── characters_seed.json           # 31 personajes de semilla
 │   ├── Models/
-│   │   ├── GameState.swift               # enum: playing, guessed, failed
-│   │   ├── Question.swift                # Question + SDQuestion (SwiftData)
-│   │   └── Character.swift               # Character + SDCharacter (SwiftData)
+│   │   ├── AttributeDefinition.swift  # 38 atributos booleanos (pool)
+│   │   ├── Character.swift            # SDCharacter @Model + Character struct
+│   │   ├── GameState.swift            # enum: playing, guessed, failed
+│   │   ├── Question.swift             # SDQuestion @Model + Question struct
+│   │   └── UserStats.swift            # FirebaseUser, FirebaseGameSession, LeaderboardEntry, GameScoring
 │   ├── ViewModels/
-│   │   └── GameViewModel.swift           # Lógica central del juego
+│   │   ├── AuthViewModel.swift        # Observable auth state + signIn/signUp/signOut
+│   │   └── GameViewModel.swift        # Lógica del juego, filtrado, scoring
 │   ├── Views/
-│   │   ├── SplashView.swift              # Pantalla inicial (2s)
-│   │   ├── HomeView.swift                # Pantalla principal
-│   │   ├── QuestionView.swift            # Vista de preguntas con SwiftData
-│   │   ├── CorrectGuessView.swift        # Pantalla de victoria
-│   │   └── WrongGuessView.swift          # Pantalla de derrota
+│   │   ├── SplashView.swift           # Pantalla inicial
+│   │   ├── HomeView.swift             # Menú principal + botones Perfil/Ranking/logout
+│   │   ├── LoginView.swift            # Login/registro + Google + Facebook buttons
+│   │   ├── QuestionView.swift         # Preguntas con SwiftData
+│   │   ├── CorrectGuessView.swift     # Victoria con puntuación
+│   │   ├── WrongGuessView.swift       # Derrota
+│   │   ├── ProfileView.swift          # Estadísticas + sesiones recientes
+│   │   └── LeaderboardView.swift      # Ranking all-time / semanal
 │   ├── Components/
-│   │   ├── AnswerButton.swift            # Botón Sí/No
-│   │   ├── CategoryButton.swift          # Botón de categoría
-│   │   ├── ProgressBar.swift             # Barra de progreso
-│   │   ├── QuestionCard.swift            # Tarjeta de pregunta
-│   │   └── RobotAvatar.swift             # Avatar de IA
+│   │   ├── AnswerButton.swift         # Botón Sí/No
+│   │   ├── CategoryButton.swift       # Botón de categoría
+│   │   ├── ProgressBar.swift          # Barra de progreso
+│   │   ├── QuestionCard.swift         # Tarjeta de pregunta
+│   │   └── RobotAvatar.swift          # Avatar de IA
 │   └── Services/
-│       ├── AIService.swift               # Servicio para IA (placeholder)
-│       └── DataService.swift             # Gestión de SwiftData (CRUD)
+│       ├── AIService.swift            # Placeholder para IA externa
+│       ├── DataService.swift          # SwiftData CRUD + saveSessionToFirestore
+│       ├── FirebaseAuthService.swift  # signIn/signUp/signOut + Google + Facebook
+│       ├── FirestoreService.swift     # CRUD Firestore (users, game_sessions, leaderboard)
+│       └── SeedManager.swift          # Importa characters_seed.json si BD vacía
+├── scripts/
+│   └── scrape_and_classify.py         # Scraper Wikipedia + OpenAI classifier
+├── GUIA_FIREBASE.md                   # Guía Firebase completa
+├── TROUBLESHOOTING.md                 # Errores identificados y soluciones
 └── EduGuess.xcodeproj/
+
+Flujo de Autenticación
+
+1. AppDelegate.application(_:didFinishLaunchingWithOptions:) configura Firebase, Facebook SDK y GIDSignIn
+2. EduGuessApp.onAppear llama a authVM.configure() que verifica Auth.auth().currentUser o UserDefaults cache
+3. Si hay sesión activa → HomeView; si no → LoginView
+4. LoginView ofrece tres métodos:
+   - Email/Password: signIn(withEmail:password:)
+   - Google: GIDSignIn.sharedInstance.signIn(withPresenting:) → GoogleAuthProvider
+   - Facebook: LoginManager().logIn(permissions:from:) → FacebookAuthProvider
+5. Al registrarse, se crea un documento en Firestore (users/{uid})
+6. Al terminar una partida, se guarda la sesión en Firestore (game_sessions/{id})
+
+SeedManager
+
+SeedManager.seedIfNeeded(context:) se llama en EduGuessApp.onAppear. Si la tabla SDCharacter está vacía, carga characters_seed.json y lo inserta en SwiftData. Los 31 personajes incluyen:
+
+- Peruanos: Mario Vargas Llosa, Túpac Amaru II, Susana Baca, Sofía Mulanovich, etc.
+- Latinomericanos: Gabriel García Márquez, Frida Kahlo, Lionel Messi, etc.
+- Ficticios: El Chavo del 8, La Llorona, El Coco, etc.
+
+Scoring
+
+GameScoring.calculateScore(questionsAsked: Int, won: Bool) -> Int
+- Victoria: (20 − questionsAsked) × 10
+- Derrota: 0 puntos
+
+Firestore Collections
+
+users/{uid}:
+  - name, email, totalGames, wins, losses, totalScore, bestScore
+
+game_sessions/{auto-id}:
+  - userId, userName, characterName, won, score, questionsAsked, timestamp
+
+LeaderboardEntry (vista):
+  - userId, userName, totalGames, wins, score, winRatio
+
+Reglas de Firestore (producción)
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    match /game_sessions/{sessionId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+    match /leaderboard/{entryId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+  }
+}
 
 Abrir y Ejecutar en Xcode
 
-1) Desde la terminal:
-   open EduGuess.xcodeproj
-
-2) O abrir Xcode y seleccionar:
-   File → Open → EduGuess.xcodeproj
-
-3) Seleccionar un simulador (iPhone 15+ recomendado para iOS 17+)
-
-4) Presionar Cmd+R o hacer clic en Play
-
-Arquitectura de Datos con SwiftData
-
-Models
-
-Character struct - representación en memoria
-- id: UUID
-- name: String
-- image: String
-- attributes: [String: Bool]
-
-SDCharacter @Model - modelo SwiftData persistente
-- id: UUID (unique)
-- name: String
-- image: String
-- attributesData: Data (JSON encoded)
-- Métodos: toCharacter() para convertir a Character
-
-Question struct - representación en memoria
-- id: UUID
-- text: String
-- attributeKey: String
-
-SDQuestion @Model - modelo SwiftData persistente
-- id: UUID (unique)
-- text: String
-- attributeKey: String
-- Métodos: toQuestion() para convertir a Question
-
-Services
-
-DataService - Gestor de SwiftData
-
-Métodos CRUD disponibles:
-- saveDefaultDataIfNeeded(context: ModelContext) - Verifica si hay datos (no hay defaults)
-- fetchCharacters(context: ModelContext) -> [Character] - Obtiene todos los personajes
-- fetchQuestions(context: ModelContext) -> [Question] - Obtiene todas las preguntas
-- addCharacter(name:, image:, attributes:, context:) - Añade nuevo personaje
-- addQuestion(text:, attributeKey:, context:) - Añade nueva pregunta
-- deleteCharacter(_:, context:) - Elimina personaje
-- deleteQuestion(_:, context:) - Elimina pregunta
-- updateCharacter(..., context:) - Actualiza personaje existente
-- updateQuestion(..., context:) - Actualiza pregunta existente
-
-Acceso en ViewModels/Views
-
-import SwiftData
-
-struct MyView: View {
-    @Environment(\.modelContext) private var modelContext
-    
-    var body: some View {
-        VStack {
-            // ...
-        }
-        .onAppear {
-            let dataService = DataService()
-            let characters = dataService.fetchCharacters(context: modelContext)
-            let questions = dataService.fetchQuestions(context: modelContext)
-            
-            // Usar datos
-        }
-    }
-}
-
-Agregar Primeros Personajes y Preguntas
-
-⚠️ IMPORTANTE: La base de datos empieza vacía. Debes agregar tus propios personajes y preguntas para que el juego funcione.
-
-Estructura de Atributos
-
-Define atributos booleanos que se usarán para filtrar personajes. Ejemplos:
-- "usesMagic": true/false
-- "wearsGlasses": true/false
-- "isReal": true/false
-- "isMale": true/false
-
-REGLA CRÍTICA: Todos los personajes DEBEN tener exactamente los MISMOS atributos clave.
-
-Ejemplo Completo
-
-```swift
-@Environment(\.modelContext) var modelContext
-let dataService = DataService()
-
-// Agregar preguntas (primero define el esquema de atributos)
-dataService.addQuestion(text: "¿Tu personaje usa magia?", attributeKey: "usesMagic", context: modelContext)
-dataService.addQuestion(text: "¿Tu personaje usa lentes?", attributeKey: "wearsGlasses", context: modelContext)
-dataService.addQuestion(text: "¿Tu personaje es real?", attributeKey: "isReal", context: modelContext)
-dataService.addQuestion(text: "¿Tu personaje es hombre?", attributeKey: "isMale", context: modelContext)
-
-// Agregar personajes CON LOS MISMOS ATRIBUTOS
-dataService.addCharacter(
-    name: "Harry Potter",
-    image: "harry",
-    attributes: [
-        "usesMagic": true,
-        "wearsGlasses": true,
-        "isReal": false,
-        "isMale": true
-    ],
-    context: modelContext
-)
-
-dataService.addCharacter(
-    name: "Hermione Granger",
-    image: "hermione",
-    attributes: [
-        "usesMagic": true,
-        "wearsGlasses": false,
-        "isReal": false,
-        "isMale": false
-    ],
-    context: modelContext
-)
-```
-
-Mejores Prácticas
-
-1. **Primero define las preguntas** - decide qué atributos tendrán los personajes
-2. **Luego agrega personajes** - todos con los mismos atributos
-3. **Verifica consistencia** - todos los personajes deben tener las MISMAS claves
-4. **Actualizar datos** - usa updateCharacter() o updateQuestion() para modificar
-5. **Eliminar datos** - usa deleteCharacter() o deleteQuestion()
-
-Función para Agregar Múltiples Datos (Recomendado)
-
-```swift
-func seedGameData(context: ModelContext) {
-    let service = DataService()
-    
-    // Preguntas
-    let questions = [
-        ("¿Tu personaje usa magia?", "usesMagic"),
-        ("¿Tu personaje usa lentes?", "wearsGlasses"),
-        ("¿Tu personaje es real?", "isReal"),
-        ("¿Tu personaje es hombre?", "isMale")
-    ]
-    
-    for (text, key) in questions {
-        service.addQuestion(text: text, attributeKey: key, context: context)
-    }
-    
-    // Personajes
-    let characters = [
-        ("Harry Potter", "harry", ["usesMagic": true, "wearsGlasses": true, "isReal": false, "isMale": true]),
-        ("Hermione Granger", "hermione", ["usesMagic": true, "wearsGlasses": false, "isReal": false, "isMale": false]),
-    ]
-    
-    for (name, image, attrs) in characters {
-        service.addCharacter(name: name, image: image, attributes: attrs, context: context)
-    }
-}
-
-Próximas Mejoras
-
-- Panel de administración para CRUD desde UI
-- Integración con IA (OpenAI API) para generar preguntas dinámicas
-- Gamificación: puntos, logros, rankings
-- Sistema de categorías
-- Sincronización iCloud (CloudKit)
-- Respaldo automático de datos
-- Tests unitarios y UI tests
-- Soporte multiidioma
-
-Notas de Desarrollo
-
-- El proyecto requiere iOS 17+ debido a SwiftData
-- Los datos se persisten automáticamente en el dispositivo
-- NavigationStack + navigationDestination para navegación moderna
-- No hay datos hardcodeados en la app (todo desde SwiftData)
-- La BD se inicializa automáticamente en primer launch
+1) open EduGuess.xcodeproj
+2) File → Packages → Resolve Package Versions (si hay errores)
+3) Seleccionar simulador (iPhone 15+ para iOS 17+)
+4) Cmd+R
 
 Contacto
 
 - Creadora Original: Daniela Nicol Salazar Quina
 - Repositorio: github.com/Dieegooml/movilesEduGuess
-- Tecnología: SwiftUI, SwiftData, MVVM Architecture
 
-¡Disfruta jugando y mejorando EduGuess! 🎮✨
-
+¡Disfruta jugando y mejorando EduGuess!
