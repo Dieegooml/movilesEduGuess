@@ -23,7 +23,7 @@ class GameViewModel: ObservableObject {
     // MARK: - Internal State
 
     private let aiService = AIService.shared
-    private let maxQuestions = 20
+    private(set) var maxQuestions: Int = 20
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
@@ -37,6 +37,10 @@ class GameViewModel: ObservableObject {
     var askedAttributeKeys: [String] { sessionQuestions }
     var givenAnswers: [Bool] { sessionAnswers }
     var hasValidData: Bool { true }
+    var finalScore: Int {
+        guard gameState == .guessed else { return 0 }
+        return GameScoring.calculateScore(questionsAsked: questionsAskedCount, maxQuestions: maxQuestions, won: true)
+    }
 
     // MARK: - Start Game
 
@@ -48,6 +52,7 @@ class GameViewModel: ObservableObject {
         allCharacters = characters
         possibleCharacters = allCharacters
         questionsAskedCount = 0
+        maxQuestions = max(20, characters.count)
         guessedCharacter = nil
         finalProfile = [:]
         isAttemptingGuess = false
@@ -126,7 +131,8 @@ class GameViewModel: ObservableObject {
         guard questionsAskedCount >= 3, !possibleCharacters.isEmpty else {
             return false
         }
-        return possibleCharacters.count <= 3 || questionsAskedCount % 5 == 0
+        let guessInterval = max(5, maxQuestions / 6)
+        return possibleCharacters.count <= 3 || questionsAskedCount % guessInterval == 0
     }
 
     private func attemptGuess() {

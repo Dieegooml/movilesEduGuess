@@ -45,9 +45,10 @@ struct LeaderboardEntry: Codable, Identifiable {
 // MARK: - Scoring
 
 enum GameScoring {
-    static func calculateScore(questionsAsked: Int, won: Bool) -> Int {
+    static func calculateScore(questionsAsked: Int, maxQuestions: Int = 20, won: Bool) -> Int {
         guard won else { return 0 }
-        return (20 - questionsAsked) * 10
+        let score = (maxQuestions - questionsAsked) * 10
+        return max(0, score)
     }
 }
 
