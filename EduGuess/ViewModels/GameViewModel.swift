@@ -1,98 +1,189 @@
-//
-//  GameViewModel.swift
-//  EduGuess
-//
-//  Created by Daniela Nicol Salazar Quina on 15/05/26.
-//
-
 import Foundation
 import SwiftUI
 
+enum AnswerType {
+    case yes
+    case no
+    case unknown
+}
+
 class GameViewModel: ObservableObject {
 
-    // MARK: - Published Properties
+    // MARK: - Published Properties (UI State)
 
-    @Published var currentQuestionIndex = 0
     @Published var gameState: GameState = .playing
-    @Published var filteredCharacters: [Character] = []
+    @Published var currentQuestion: String = ""
+    @Published var currentAttributeKey: String = ""
+    @Published var questionsAskedCount: Int = 0
+    @Published var guessedCharacter: Character?
+    @Published var finalProfile: [String: Bool] = [:]
+    @Published var isAttemptingGuess: Bool = false
+    @Published var guessCandidate: Character?
 
-    // MARK: - Properties (loaded from SwiftData)
+    // MARK: - Internal State
 
-    @Published var questions: [Question] = []
-    @Published var characters: [Character] = []
+    private let aiService = AIService.shared
+    private let maxQuestions = 20
 
-    // MARK: - Init
+    private var characterProfile: [String: Bool] = [:]
+    private var askedAttributes: [String] = []
+    private var sessionQuestions: [String] = []
+    private var sessionAnswers: [Bool] = []
+    private var allCharacters: [Character] = []
+    private var possibleCharacters: [Character] = []
 
-    init() {
-        // Data is loaded from SwiftData via loadData()
+    // MARK: - Read-Only Exports
+
+    var askedAttributeKeys: [String] { sessionQuestions }
+    var givenAnswers: [Bool] { sessionAnswers }
+    var hasValidData: Bool { true }
+
+    // MARK: - Start Game
+
+    func startNewGame(characters: [Character]) {
+        characterProfile = [:]
+        askedAttributes = []
+        sessionQuestions = []
+        sessionAnswers = []
+        allCharacters = characters
+        possibleCharacters = allCharacters
+        questionsAskedCount = 0
+        guessedCharacter = nil
+        finalProfile = [:]
+        isAttemptingGuess = false
+        guessCandidate = nil
+        gameState = .playing
+
+        generateNextQuestion()
     }
 
-    // MARK: - Current Question
+    // MARK: - Answer Question (Sí / No / No sé)
 
-    var currentQuestion: Question {
-        guard currentQuestionIndex < questions.count else {
-            return Question(text: "No hay preguntas", attributeKey: "")
+    func answerQuestion(answer: AnswerType) {
+        switch answer {
+        case .yes:
+            characterProfile[currentAttributeKey] = true
+            possibleCharacters = possibleCharacters.filter {
+                $0.attributes[currentAttributeKey] == true
+            }
+            sessionQuestions.append(currentAttributeKey)
+            sessionAnswers.append(true)
+
+        case .no:
+            characterProfile[currentAttributeKey] = false
+            possibleCharacters = possibleCharacters.filter {
+                $0.attributes[currentAttributeKey] == false
+            }
+            sessionQuestions.append(currentAttributeKey)
+            sessionAnswers.append(false)
+
+        case .unknown:
+            break
         }
-        return questions[currentQuestionIndex]
+
+        askedAttributes.append(currentAttributeKey)
+        questionsAskedCount += 1
+
+        evaluateGameState()
+
+        if gameState == .playing {
+            if shouldAttemptGuess() {
+                attemptGuess()
+            } else {
+                generateNextQuestion()
+            }
+        }
     }
 
-    // MARK: - Answer Logic
+    // MARK: - Respond to Guess Attempt
 
-    func answerQuestion(answer: Bool) {
-        let key = currentQuestion.attributeKey
+    func respondToGuess(correct: Bool) {
+        isAttemptingGuess = false
 
-        filteredCharacters = filteredCharacters.filter {
-            $0.attributes[key] == answer
+        if correct, let character = guessCandidate {
+            guessedCharacter = character
+            finalProfile = characterProfile
+            gameState = .guessed
+            guessCandidate = nil
+            return
         }
 
-        nextQuestion()
+        if let character = guessCandidate {
+            possibleCharacters.removeAll { $0.id == character.id }
+        }
+        guessCandidate = nil
+
+        evaluateGameState()
+
+        if gameState == .playing {
+            generateNextQuestion()
+        }
     }
 
-    // MARK: - Next Question
+    // MARK: - Guess Logic (Akinator-style)
 
-    func nextQuestion() {
-        if filteredCharacters.count == 1 {
+    private func shouldAttemptGuess() -> Bool {
+        guard questionsAskedCount >= 3, !possibleCharacters.isEmpty else {
+            return false
+        }
+        return possibleCharacters.count <= 3 || questionsAskedCount % 5 == 0
+    }
+
+    private func attemptGuess() {
+        guessCandidate = possibleCharacters.first
+        isAttemptingGuess = true
+    }
+
+    // MARK: - Evaluation
+
+    private func evaluateGameState() {
+        if possibleCharacters.count == 1 {
+            guessedCharacter = possibleCharacters.first
+            finalProfile = characterProfile
             gameState = .guessed
             return
         }
 
-        if filteredCharacters.isEmpty {
+        if questionsAskedCount >= maxQuestions {
+            finalProfile = characterProfile
+            gameState = .failed
+            return
+        }
+    }
+
+    // MARK: - Generate Next Question
+
+    private func generateNextQuestion() {
+        guard let attribute = aiService.selectNextAttribute(
+            askedAttributes: askedAttributes,
+            possibleCharacters: possibleCharacters,
+            allCharacters: allCharacters
+        ) else {
+            finalProfile = characterProfile
             gameState = .failed
             return
         }
 
-        if currentQuestionIndex < questions.count - 1 {
-            currentQuestionIndex += 1
-        } else {
-            gameState = .failed
-        }
+        currentAttributeKey = attribute.key
+        currentQuestion = aiService.generateQuestion(for: attribute.key)
     }
 
-    // MARK: - Reset Game
+    // MARK: - Reset
 
     func resetGame() {
-        currentQuestionIndex = 0
-        filteredCharacters = characters
+        characterProfile = [:]
+        askedAttributes = []
+        sessionQuestions = []
+        sessionAnswers = []
+        allCharacters = []
+        possibleCharacters = []
+        questionsAskedCount = 0
+        currentQuestion = ""
+        currentAttributeKey = ""
+        guessedCharacter = nil
+        finalProfile = [:]
+        isAttemptingGuess = false
+        guessCandidate = nil
         gameState = .playing
-    }
-
-    // MARK: - Load Data from SwiftData
-
-    func loadData(characters: [Character], questions: [Question]) {
-        self.characters = characters
-        self.questions = questions
-        resetGame()
-    }
-
-    // MARK: - Final Character
-
-    var guessedCharacter: Character? {
-        filteredCharacters.first
-    }
-
-    // MARK: - Game Status
-
-    var hasValidData: Bool {
-        !characters.isEmpty && !questions.isEmpty
     }
 }

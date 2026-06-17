@@ -12,20 +12,17 @@ struct QuestionCard: View {
 
     var body: some View {
 
-        VStack(spacing: 20) {
-
-            Text(question)
-                .font(.system(size: 28, weight: .bold))
-                .multilineTextAlignment(.center)
-                .foregroundColor(.black)
-                .padding()
-        }
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(Color.white)
-        .cornerRadius(25)
-        .shadow(radius: 5)
-        .padding(.horizontal)
+        Text(question)
+            .font(.title2.weight(.bold))
+            .multilineTextAlignment(.center)
+            .foregroundColor(.black)
+            .minimumScaleFactor(0.6)
+            .padding(24)
+            .frame(maxWidth: .infinity)
+            .background(Color.white)
+            .cornerRadius(25)
+            .shadow(radius: 5)
+            .padding(.horizontal)
     }
 }
 

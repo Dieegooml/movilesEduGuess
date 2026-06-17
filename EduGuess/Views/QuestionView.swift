@@ -1,10 +1,3 @@
-//
-//  QuestionView.swift
-//  EduGuess
-//
-//  Created by Daniela Nicol Salazar Quina on 15/05/26.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -14,15 +7,14 @@ struct QuestionView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var correctDestinationActive = false
     @State private var wrongDestinationActive = false
-    @State private var errorMessage: String = ""
-    @State private var showError = false
+    @State private var isLoading = true
 
     var body: some View {
         NavigationStack {
-            if viewModel.hasValidData {
-                gameContent
+            if isLoading {
+                loadingContent
             } else {
-                emptyStateContent
+                gameContent
             }
         }
         .onAppear {
@@ -38,12 +30,19 @@ struct QuestionView: View {
                 break
             }
         }
-        .alert("Error", isPresented: $showError) {
-            Button("OK") { }
-        } message: {
-            Text(errorMessage)
-        }
         .navigationBarBackButtonHidden(false)
+    }
+
+    private var loadingContent: some View {
+        VStack(spacing: 20) {
+            Spacer()
+            ProgressView()
+                .scaleEffect(1.5)
+            Text("Preparando el juego...")
+                .font(.headline)
+                .foregroundColor(.gray)
+            Spacer()
+        }
     }
 
     private var gameContent: some View {
@@ -55,18 +54,11 @@ struct QuestionView: View {
             ProgressBar(progress: progressValue)
                 .frame(height: 40)
 
-            QuestionCard(question: viewModel.currentQuestion.text)
-
-            VStack(spacing: 12) {
-                AnswerButton(title: "Sí", color: .green) {
-                    viewModel.answerQuestion(answer: true)
-                }
-
-                AnswerButton(title: "No", color: .red) {
-                    viewModel.answerQuestion(answer: false)
-                }
+            if viewModel.isAttemptingGuess {
+                guessContent
+            } else {
+                questionContent
             }
-            .padding(.horizontal)
 
             Spacer()
 
@@ -75,75 +67,103 @@ struct QuestionView: View {
         .padding()
     }
 
-    private var emptyStateContent: some View {
-        VStack(spacing: 20) {
-            Spacer()
+    // MARK: - Normal Question Mode
 
-            Image(systemName: "exclamationmark.triangle.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80, height: 80)
-                .foregroundColor(.orange)
+    private var questionContent: some View {
+        VStack(spacing: 16) {
+            QuestionCard(question: viewModel.currentQuestion)
 
-            Text("No hay datos disponibles")
-                .font(.headline)
-                .foregroundColor(.black)
+            VStack(spacing: 12) {
+                AnswerButton(title: "Sí", color: .green) {
+                    viewModel.answerQuestion(answer: .yes)
+                }
 
-            Text("Debes agregar personajes y preguntas desde la base de datos antes de jugar.")
-                .font(.body)
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+                AnswerButton(title: "No", color: .red) {
+                    viewModel.answerQuestion(answer: .no)
+                }
 
-            Spacer()
-
-            NavigationLink {
-                HomeView()
-            } label: {
-                Text("Volver al inicio")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.orange)
-                    .cornerRadius(18)
+                Button {
+                    viewModel.answerQuestion(answer: .unknown)
+                } label: {
+                    Text("No sé")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.gray.opacity(0.5), lineWidth: 1.5)
+                        )
+                }
             }
-            .padding(.horizontal, 30)
-            .padding(.bottom, 40)
+            .padding(.horizontal)
+
+            Text("Pregunta \(viewModel.questionsAskedCount + 1) de 20")
+                .font(.caption)
+                .foregroundColor(.gray)
         }
     }
+
+    // MARK: - Guess Attempt Mode
+
+    private var guessContent: some View {
+        VStack(spacing: 16) {
+            QuestionCard(question: "¿Es \(viewModel.guessCandidate?.name ?? "...")?")
+
+            VStack(spacing: 12) {
+                AnswerButton(title: "Sí, es correcto", color: .green) {
+                    viewModel.respondToGuess(correct: true)
+                }
+
+                AnswerButton(title: "No, no es", color: .red) {
+                    viewModel.respondToGuess(correct: false)
+                }
+            }
+            .padding(.horizontal)
+
+            Text("Intento de adivinanza")
+                .font(.caption)
+                .foregroundColor(.gray)
+        }
+    }
+
+    // MARK: - Navigation
 
     @ViewBuilder
     private var navigationDestinations: some View {
         NavigationLink(
-            destination: CorrectGuessView(characterName: viewModel.guessedCharacter?.name ?? "Desconocido"),
+            destination: CorrectGuessView(
+                characterName: viewModel.guessedCharacter?.name ?? "Desconocido",
+                profile: viewModel.finalProfile,
+                askedAttributes: viewModel.askedAttributeKeys,
+                answers: viewModel.givenAnswers
+            ),
             isActive: $correctDestinationActive
         ) { EmptyView() }
 
         NavigationLink(
-            destination: WrongGuessView(),
+            destination: WrongGuessView(
+                profile: viewModel.finalProfile,
+                askedAttributes: viewModel.askedAttributeKeys,
+                answers: viewModel.givenAnswers
+            ),
             isActive: $wrongDestinationActive
         ) { EmptyView() }
     }
 
+    // MARK: - Data
+
     private func loadDataFromSwiftData() {
         let dataService = DataService()
-
-        // Fetch data from SwiftData
         let characters = dataService.fetchCharacters(context: modelContext)
-        let questions = dataService.fetchQuestions(context: modelContext)
 
-        if characters.isEmpty || questions.isEmpty {
-            errorMessage = "Base de datos vacía. Agrega personajes y preguntas primero."
-            showError = false // No mostramos alert, el UI muestra el mensaje
-        } else {
-            viewModel.loadData(characters: characters, questions: questions)
-        }
+        isLoading = false
+        viewModel.startNewGame(characters: characters)
     }
 
     private var progressValue: CGFloat {
-        let total = CGFloat(max(viewModel.questions.count, 1))
-        return CGFloat(viewModel.currentQuestionIndex) / total
+        let total = CGFloat(20)
+        return CGFloat(viewModel.questionsAskedCount) / total
     }
 }
 
@@ -152,4 +172,3 @@ struct QuestionView_Previews: PreviewProvider {
         QuestionView()
     }
 }
- 
