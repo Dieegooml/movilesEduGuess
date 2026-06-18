@@ -122,34 +122,43 @@ struct DailyLeaderboardView: View {
                 )
             } else {
                 ForEach(Array(scores.enumerated()), id: \.element.id) { index, score in
-                    HStack {
-                        Text("#\(index + 1)")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(rankColor(index))
-                            .frame(width: 50)
-
-                        VStack(alignment: .leading) {
-                            Text(score.userName)
-                                .fontWeight(.semibold)
-                            Text(score.characterName)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-
-                        Spacer()
-
-                        VStack(alignment: .trailing) {
-                            Text("\(score.score)")
-                                .font(.title3)
+                    NavigationLink {
+                        PublicProfileView(userId: score.userId, userName: score.userName, userAvatar: score.userAvatar)
+                    } label: {
+                        HStack {
+                            Text("#\(index + 1)")
+                                .font(.title2)
                                 .fontWeight(.bold)
-                                .foregroundColor(.orange)
-                            Text("\(score.questionsAsked) preg")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(rankColor(index))
+                                .frame(width: 50)
+
+                            Image(systemName: score.userAvatar.isEmpty ? "person.circle.fill" : score.userAvatar)
+                                .foregroundColor(rankColor(index))
+                                .font(.title3)
+                                .frame(width: 30)
+
+                            VStack(alignment: .leading) {
+                                Text(score.userName)
+                                    .fontWeight(.semibold)
+                                Text(score.characterName)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+
+                            Spacer()
+
+                            VStack(alignment: .trailing) {
+                                Text("\(score.score)")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.orange)
+                                Text("\(score.questionsAsked) preg")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
+                        .padding(.vertical, 4)
                     }
-                    .padding(.vertical, 4)
                 }
             }
         }

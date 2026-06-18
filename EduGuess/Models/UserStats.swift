@@ -5,7 +5,7 @@ import Foundation
 struct FirebaseUser: Codable {
     var name: String
     var email: String
-    var avatar: String
+    var avatar: String = "person.circle.fill"
     var createdAt: Date
     var stats: UserStats
     var streak: StreakData = StreakData()
@@ -38,6 +38,7 @@ struct LeaderboardEntry: Codable, Identifiable {
     var id: String { userId }
     var userId: String
     var name: String
+    var avatar: String
     var score: Int
     var wins: Int
     var games: Int

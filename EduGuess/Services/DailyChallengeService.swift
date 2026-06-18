@@ -5,14 +5,16 @@ struct DailyScore: Codable, Identifiable {
     var id: String { "\(userId)_\(DailyChallengeService.dateFormatter.string(from: Date()))" }
     let userId: String
     let userName: String
+    var userAvatar: String
     let characterName: String
     let questionsAsked: Int
     let score: Int
     let timestamp: Date?
 
-    init(userId: String, userName: String, characterName: String, questionsAsked: Int, score: Int) {
+    init(userId: String, userName: String, userAvatar: String = "person.circle.fill", characterName: String, questionsAsked: Int, score: Int) {
         self.userId = userId
         self.userName = userName
+        self.userAvatar = userAvatar
         self.characterName = characterName
         self.questionsAsked = questionsAsked
         self.score = score
@@ -39,11 +41,12 @@ actor DailyChallengeService {
         return all[index]
     }
 
-    func saveScore(userId: String, userName: String, characterName: String, questionsAsked: Int, score: Int) async {
+    func saveScore(userId: String, userName: String, avatar: String, characterName: String, questionsAsked: Int, score: Int) async {
         do {
             try await FirestoreService.shared.saveDailyScore(
                 userId: userId,
                 userName: userName,
+                avatar: avatar,
                 characterName: characterName,
                 questionsAsked: questionsAsked,
                 score: score

@@ -218,10 +218,12 @@ struct QuestionView: View {
         let userName = AuthViewModel.shared.userName
         let questions = viewModel.questionsAskedCount
 
+        let avatar = UserDefaults.standard.string(forKey: "avatarName") ?? "person.circle.fill"
         Task {
             await DailyChallengeService.shared.saveScore(
                 userId: uid,
                 userName: userName,
+                avatar: avatar,
                 characterName: name,
                 questionsAsked: questions,
                 score: score

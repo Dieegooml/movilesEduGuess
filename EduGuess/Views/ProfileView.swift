@@ -4,6 +4,7 @@ import SwiftData
 struct ProfileView: View {
     @State private var authVM = AuthViewModel.shared
     @State private var stats: UserStats?
+    @State private var avatarName = "person.circle.fill"
     @State private var isLoading = true
 
     var body: some View {
@@ -53,10 +54,14 @@ struct ProfileView: View {
 
     private var profileHeader: some View {
         VStack(spacing: 12) {
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .frame(width: 80, height: 80)
-                .foregroundColor(.white)
+            NavigationLink {
+                SettingsView()
+            } label: {
+                Image(systemName: avatarName)
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .foregroundColor(.white)
+            }
 
             Text(authVM.userName)
                 .font(.title)
@@ -140,6 +145,7 @@ struct ProfileView: View {
         do {
             let fbUser = try await FirestoreService.shared.fetchUser(uid: uid)
             stats = fbUser?.stats
+            avatarName = fbUser?.avatar ?? "person.circle.fill"
         } catch {
             print("Failed to load profile: \(error)")
         }

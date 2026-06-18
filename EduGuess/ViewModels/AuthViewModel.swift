@@ -10,7 +10,11 @@ final class AuthViewModel {
     var errorMessage: String?
 
     var userUID: String? { FirebaseAuthService.shared.user?.uid }
-    var userName: String { FirebaseAuthService.shared.user?.displayName ?? "Usuario" }
+    var userName: String {
+        let stored = UserDefaults.standard.string(forKey: "displayName") ?? ""
+        if !stored.isEmpty { return stored }
+        return FirebaseAuthService.shared.user?.displayName ?? "Usuario"
+    }
     var userEmail: String { FirebaseAuthService.shared.user?.email ?? "" }
 
     private init() {}

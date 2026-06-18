@@ -16,7 +16,7 @@ final class FirestoreService {
         let user = FirebaseUser(
             name: name,
             email: email,
-            avatar: "",
+            avatar: "person.circle.fill",
             createdAt: Date(),
             stats: UserStats()
         )
@@ -30,7 +30,7 @@ final class FirestoreService {
 
     // MARK: - Daily Challenge
 
-    func saveDailyScore(userId: String, userName: String, characterName: String, questionsAsked: Int, score: Int) async throws {
+    func saveDailyScore(userId: String, userName: String, avatar: String, characterName: String, questionsAsked: Int, score: Int) async throws {
         let key = dailyKey()
         try await db
             .collection("daily_challenges")
@@ -40,6 +40,7 @@ final class FirestoreService {
             .setData([
                 "userId": userId,
                 "userName": userName,
+                "userAvatar": avatar,
                 "characterName": characterName,
                 "questionsAsked": questionsAsked,
                 "score": score,
@@ -76,6 +77,15 @@ final class FirestoreService {
         return f.string(from: Date())
     }
 
+    func updateUserProfile(uid: String, name: String?, avatar: String?) async throws {
+        let ref = db.collection(usersCollection).document(uid)
+        var data: [String: Any] = [:]
+        if let name { data["name"] = name }
+        if let avatar { data["avatar"] = avatar }
+        guard !data.isEmpty else { return }
+        try await ref.updateData(data)
+    }
+
     // MARK: - Stats
 
     func updateStats(uid: String, won: Bool, score: Int) async throws {
@@ -87,7 +97,7 @@ final class FirestoreService {
             fbUser = existing
         } else {
             let name = try await fetchUserName(uid: uid)
-            fbUser = FirebaseUser(name: name, email: "", avatar: "", createdAt: Date(), stats: UserStats())
+            fbUser = FirebaseUser(name: name, email: "", avatar: "person.circle.fill", createdAt: Date(), stats: UserStats())
         }
 
         fbUser.stats.totalGames += 1
@@ -131,6 +141,7 @@ final class FirestoreService {
             return LeaderboardEntry(
                 userId: doc.documentID,
                 name: fbUser.name,
+                avatar: fbUser.avatar,
                 score: fbUser.stats.totalScore,
                 wins: fbUser.stats.wins,
                 games: fbUser.stats.totalGames
@@ -156,10 +167,14 @@ final class FirestoreService {
             scores[session.userId] = entry
         }
 
-        return scores
-            .map { LeaderboardEntry(userId: $0.key, name: $0.value.name, score: $0.value.score, wins: $0.value.wins, games: $0.value.games) }
-            .sorted { $0.score > $1.score }
-            .prefix(limit)
-            .map { $0 }
+        var result: [LeaderboardEntry] = []
+        for (uid, data) in scores {
+            var avatar = ""
+            if let fbUser = try? await fetchUser(uid: uid) {
+                avatar = fbUser.avatar
+            }
+            result.append(LeaderboardEntry(userId: uid, name: data.name, avatar: avatar, score: data.score, wins: data.wins, games: data.games))
+        }
+        return result.sorted { $0.score > $1.score }.prefix(limit).map { $0 }
     }
 }

@@ -52,7 +52,7 @@ struct LeaderboardView: View {
                     List {
                         ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
                             NavigationLink {
-                                PublicProfileView(userId: entry.userId, userName: entry.name)
+                                PublicProfileView(userId: entry.userId, userName: entry.name, userAvatar: entry.avatar)
                             } label: {
                                 leaderboardRow(rank: index + 1, entry: entry)
                             }
@@ -98,7 +98,7 @@ struct LeaderboardView: View {
                 .foregroundColor(rank <= 3 ? .yellow : .white)
                 .frame(width: 40)
 
-            Image(systemName: "person.circle.fill")
+            Image(systemName: entry.avatar.isEmpty ? "person.circle.fill" : entry.avatar)
                 .foregroundColor(.white)
                 .font(.title2)
 

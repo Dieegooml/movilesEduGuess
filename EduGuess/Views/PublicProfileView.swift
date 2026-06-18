@@ -3,9 +3,18 @@ import SwiftUI
 struct PublicProfileView: View {
     let userId: String
     let userName: String
+    let userAvatar: String
 
     @State private var stats: UserStats?
+    @State private var avatarName: String
     @State private var isLoading = true
+
+    init(userId: String, userName: String, userAvatar: String = "person.circle.fill") {
+        self.userId = userId
+        self.userName = userName
+        self.userAvatar = userAvatar
+        _avatarName = State(initialValue: userAvatar)
+    }
 
     var body: some View {
         ZStack {
@@ -40,7 +49,7 @@ struct PublicProfileView: View {
 
     private var profileHeader: some View {
         VStack(spacing: 12) {
-            Image(systemName: "person.circle.fill")
+            Image(systemName: avatarName)
                 .resizable()
                 .frame(width: 80, height: 80)
                 .foregroundColor(.white)
@@ -72,6 +81,9 @@ struct PublicProfileView: View {
         do {
             let fbUser = try await FirestoreService.shared.fetchUser(uid: userId)
             stats = fbUser?.stats
+            if let avatar = fbUser?.avatar, !avatar.isEmpty {
+                avatarName = avatar
+            }
         } catch {
             print("Failed to load user: \(error)")
         }
