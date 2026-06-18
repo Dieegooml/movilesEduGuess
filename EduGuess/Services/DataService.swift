@@ -193,6 +193,7 @@ class DataService {
 
     // MARK: - Save Game Session to Firestore
 
+    @discardableResult
     func saveSessionToFirestore(
         characterName: String,
         characterAttributes: [String: Bool],
@@ -202,7 +203,7 @@ class DataService {
         userId: String,
         userName: String,
         score: Int
-    ) {
+    ) async -> Bool {
         let fbSession = FirebaseGameSession(
             userId: userId,
             userName: userName,
@@ -213,13 +214,17 @@ class DataService {
             answers: answers,
             timestamp: Date()
         )
-        Task {
-            try? await FirestoreService.shared.saveSession(fbSession)
-            try? await FirestoreService.shared.updateStats(uid: userId, won: won, score: score)
+        do {
+            try await FirestoreService.shared.saveSession(fbSession)
+            try await FirestoreService.shared.updateStats(uid: userId, won: won, score: score)
             let streak = await AchievementService.shared.updateStreak(uid: userId)
             if let fbUser = try? await FirestoreService.shared.fetchUser(uid: userId) {
                 let _ = await AchievementService.shared.checkAndUnlock(uid: userId, stats: fbUser.stats, streak: streak)
             }
+            return true
+        } catch {
+            print("Failed to sync to Firestore: \(error)")
+            return false
         }
     }
 

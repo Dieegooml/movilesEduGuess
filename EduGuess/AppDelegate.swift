@@ -1,6 +1,7 @@
 import UIKit
 import GoogleSignIn
 import FirebaseCore
+import FirebaseFirestore
 import FacebookCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -8,6 +9,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
+
+        let settings = Firestore.firestore().settings
+        settings.isPersistenceEnabled = true
+        settings.cacheSizeBytes = FirestoreCacheSizeUnlimited
+        Firestore.firestore().settings = settings
+
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         configureGIDSignIn()
         return true

@@ -12,6 +12,8 @@ struct WrongGuessView: View {
     @State private var authVM = AuthViewModel.shared
     @State private var characterName: String = ""
     @State private var didSave = false
+    @State private var toastMessage = "Personaje aprendido"
+    @State private var toastIcon = "book.fill"
     @State private var showToast = false
 
     var body: some View {
@@ -124,7 +126,7 @@ struct WrongGuessView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toast(message: "Personaje aprendido", icon: "book.fill", isShowing: $showToast)
+        .toast(message: toastMessage, icon: toastIcon, isShowing: $showToast)
     }
 
     private func saveLearnedCharacter() {
@@ -146,24 +148,31 @@ struct WrongGuessView: View {
             context: modelContext
         )
 
+        toastMessage = "Personaje aprendido"
+        toastIcon = "book.fill"
+
         guard let uid = authVM.userUID else {
-            withAnimation { didSave = true }
+            withAnimation { didSave = true; showToast = true }
             return
         }
-        service.saveSessionToFirestore(
-            characterName: name,
-            characterAttributes: profile,
-            questionsAsked: askedAttributes,
-            answers: answers,
-            won: false,
-            userId: uid,
-            userName: authVM.userName,
-            score: 0
-        )
-
-        withAnimation {
-            didSave = true
-            showToast = true
+        Task {
+            let ok = await service.saveSessionToFirestore(
+                characterName: name,
+                characterAttributes: profile,
+                questionsAsked: askedAttributes,
+                answers: answers,
+                won: false,
+                userId: uid,
+                userName: authVM.userName,
+                score: 0
+            )
+            await MainActor.run {
+                if !ok {
+                    toastMessage = "Error al guardar en la nube"
+                    toastIcon = "exclamationmark.circle.fill"
+                }
+                withAnimation { didSave = true; showToast = true }
+            }
         }
     }
 }

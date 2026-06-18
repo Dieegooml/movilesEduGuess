@@ -55,20 +55,25 @@ final class SDGameSession {
     var userId: String = ""
     var userName: String = ""
     var characterName: String
-    var characterAttributes: [String: Bool]
-    var questionsAsked: [String]      // Preguntas que hizo
-    var answers: [Bool]               // Respuestas del usuario (true=sí, false=no)
+    var attributesData: Data
+    var questionsAsked: [String]
+    var answers: [Bool]
     var won: Bool
     var score: Int = 0
     var timestamp: Date = Date()
-    
+
+    var characterAttributes: [String: Bool] {
+        get { (try? JSONDecoder().decode([String: Bool].self, from: attributesData)) ?? [:] }
+        set { attributesData = (try? JSONEncoder().encode(newValue)) ?? Data() }
+    }
+
     init(characterName: String,
          characterAttributes: [String: Bool],
          questionsAsked: [String],
          answers: [Bool],
          won: Bool) {
         self.characterName = characterName
-        self.characterAttributes = characterAttributes
+        self.attributesData = (try? JSONEncoder().encode(characterAttributes)) ?? Data()
         self.questionsAsked = questionsAsked
         self.answers = answers
         self.won = won

@@ -12,6 +12,8 @@ struct CorrectGuessView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var authVM = AuthViewModel.shared
     @State private var showContent = false
+    @State private var toastMessage = ""
+    @State private var toastIcon = "checkmark.circle.fill"
     @State private var showToast = false
 
     private var score: Int {
@@ -121,13 +123,12 @@ struct CorrectGuessView: View {
             .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.2), value: showContent)
         }
         .navigationBarBackButtonHidden(true)
-        .toast(message: "Partida guardada", icon: "checkmark.circle.fill", isShowing: $showToast)
+        .toast(message: toastMessage, icon: toastIcon, isShowing: $showToast)
         .onAppear {
             withAnimation(.easeOut(duration: 0.4)) {
                 showContent = true
             }
             saveSession()
-            withAnimation { showToast = true }
         }
     }
 
@@ -144,17 +145,31 @@ struct CorrectGuessView: View {
             score: score,
             context: modelContext
         )
-        guard let uid = authVM.userUID else { return }
-        service.saveSessionToFirestore(
-            characterName: characterName,
-            characterAttributes: profile,
-            questionsAsked: askedAttributes,
-            answers: answers,
-            won: true,
-            userId: uid,
-            userName: authVM.userName,
-            score: score
-        )
+        toastMessage = "Partida guardada"
+        toastIcon = "checkmark.circle.fill"
+        guard let uid = authVM.userUID else {
+            withAnimation { showToast = true }
+            return
+        }
+        Task {
+            let ok = await service.saveSessionToFirestore(
+                characterName: characterName,
+                characterAttributes: profile,
+                questionsAsked: askedAttributes,
+                answers: answers,
+                won: true,
+                userId: uid,
+                userName: authVM.userName,
+                score: score
+            )
+            await MainActor.run {
+                if !ok {
+                    toastMessage = "Error al guardar en la nube"
+                    toastIcon = "exclamationmark.circle.fill"
+                }
+                withAnimation { showToast = true }
+            }
+        }
     }
 }
 
