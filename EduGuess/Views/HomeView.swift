@@ -1,25 +1,8 @@
-//
-//  HomeView.swift
-//  EduGuess
-//
-//  Created by Daniela Nicol Salazar Quina on 15/05/26.
-//
-
 import SwiftUI
 
 struct HomeView: View {
     @State private var authVM = AuthViewModel.shared
     @State private var buttonsAppeared = false
-
-    private let menuItems: [(title: String, color: Color, destination: AnyView)] = [
-        ("Desafío Diario", .yellow, AnyView(DailyChallengeView())),
-        ("Comenzar", .white, AnyView(CategorySelectView())),
-        ("Personajes", .clear, AnyView(CharacterListView())),
-        ("Historial", .clear, AnyView(GameHistoryView())),
-        ("Administrar", .clear, AnyView(AdminListView())),
-        ("Mi Perfil", .clear, AnyView(ProfileView())),
-        ("Ranking", .clear, AnyView(LeaderboardView())),
-    ]
 
     var body: some View {
         ZStack {
@@ -58,29 +41,81 @@ struct HomeView: View {
                 }
 
                 VStack(spacing: 16) {
-                    ForEach(Array(menuItems.enumerated()), id: \.offset) { index, item in
-                        NavigationLink(destination: item.destination) {
-                            Text(item.title)
-                                .font(.headline)
-                                .foregroundColor(index == 0 ? .orange : .white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(index == 0 ? Color.white : (index == 1 ? Color.orange : Color.clear))
-                                .cornerRadius(18)
-                                .overlay(
-                                    index > 1 ?
-                                    RoundedRectangle(cornerRadius: 18)
-                                        .stroke(Color.white, lineWidth: 2) : nil
-                                )
+                    NavigationLink {
+                        DailyChallengeView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "star.fill")
+                            Text("Desafío Diario")
+                            Spacer()
+                            Image(systemName: "chevron.right")
                         }
-                        .offset(x: buttonsAppeared ? 0 : (index.isMultiple(of: 2) ? -200 : 200))
-                        .opacity(buttonsAppeared ? 1 : 0)
-                        .animation(
-                            .spring(response: 0.5, dampingFraction: 0.8)
-                            .delay(Double(index) * 0.08),
-                            value: buttonsAppeared
+                        .font(.headline)
+                        .foregroundColor(.orange)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(18)
+                    }
+                    .offset(x: buttonsAppeared ? 0 : -200)
+                    .opacity(buttonsAppeared ? 1 : 0)
+
+                    NavigationLink {
+                        CategorySelectView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "play.fill")
+                            Text("Comenzar")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.orange)
+                        .cornerRadius(18)
+                    }
+                    .offset(x: buttonsAppeared ? 0 : 200)
+                    .opacity(buttonsAppeared ? 1 : 0)
+
+                    NavigationLink {
+                        CharacterListView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "person.3.fill")
+                            Text("Personajes")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.white, lineWidth: 2)
                         )
                     }
+                    .offset(x: buttonsAppeared ? 0 : -200)
+                    .opacity(buttonsAppeared ? 1 : 0)
+
+                    NavigationLink {
+                        LeaderboardView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "trophy.fill")
+                            Text("Ranking")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.white, lineWidth: 2)
+                        )
+                    }
+                    .offset(x: buttonsAppeared ? 0 : 200)
+                    .opacity(buttonsAppeared ? 1 : 0)
                 }
                 .padding(.horizontal, 30)
 
@@ -110,12 +145,22 @@ struct HomeView: View {
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                if authVM.isAuthenticated {
-                    Button {
-                        authVM.signOut()
+                HStack {
+                    NavigationLink {
+                        ProfileView()
                     } label: {
-                        Text("Salir")
+                        Image(systemName: "person.circle")
+                            .font(.title3)
                             .foregroundColor(.white)
+                    }
+
+                    if authVM.isAuthenticated {
+                        Button {
+                            authVM.signOut()
+                        } label: {
+                            Text("Salir")
+                                .foregroundColor(.white)
+                        }
                     }
                 }
             }
@@ -126,12 +171,5 @@ struct HomeView: View {
                 buttonsAppeared = true
             }
         }
-    }
-}
-
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
     }
 }

@@ -78,8 +78,13 @@ struct GameHistoryView: View {
     }
 
     private func loadSessions() {
-        let descriptor = FetchDescriptor<SDGameSession>(
-            sortBy: [SortDescriptor(\.timestamp, order: .reverse)]
+        let uid = AuthViewModel.shared.userUID ?? ""
+        let predicate = #Predicate<SDGameSession> { session in
+            session.userId == uid
+        }
+        var descriptor = FetchDescriptor<SDGameSession>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\SDGameSession.timestamp, order: .reverse)]
         )
         sessions = (try? modelContext.fetch(descriptor)) ?? []
     }

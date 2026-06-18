@@ -1,9 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct ProfileView: View {
     @State private var authVM = AuthViewModel.shared
     @State private var stats: UserStats?
-    @State private var recentSessions: [FirebaseGameSession] = []
     @State private var isLoading = true
 
     var body: some View {
@@ -17,13 +17,14 @@ struct ProfileView: View {
                             .tint(.white)
                     } else {
                         statsCards
-                        recentGames
+                        adminSection
+                        historySection
                     }
                 }
                 .padding()
             }
         }
-        .navigationTitle("Perfil")
+        .navigationTitle("Mi Perfil")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -88,7 +89,67 @@ struct ProfileView: View {
         return "\(Int(s.winRate * 100))%"
     }
 
-    private var recentGames: some View {
+    private var adminSection: some View {
+        VStack(spacing: 12) {
+            NavigationLink {
+                AdminListView()
+            } label: {
+                HStack {
+                    Image(systemName: "key.fill")
+                        .font(.title3)
+                    Text("Administrar personajes")
+                        .font(.headline)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                }
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.white.opacity(0.15))
+                .cornerRadius(12)
+            }
+
+            NavigationLink {
+                GameHistoryView()
+            } label: {
+                HStack {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.title3)
+                    Text("Historial de partidas")
+                        .font(.headline)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                }
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.white.opacity(0.15))
+                .cornerRadius(12)
+            }
+        }
+    }
+
+    private var historySection: some View {
+        HistoryPreviewView()
+    }
+
+    private func loadData() async {
+        guard let uid = authVM.userUID else { return }
+        do {
+            let fbUser = try await FirestoreService.shared.fetchUser(uid: uid)
+            stats = fbUser?.stats
+        } catch {
+            print("Failed to load profile: \(error)")
+        }
+        isLoading = false
+    }
+}
+
+private struct HistoryPreviewView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var recentSessions: [SDGameSession] = []
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Últimas partidas")
                 .font(.headline)
@@ -98,7 +159,7 @@ struct ProfileView: View {
                 Text("Aún no has jugado")
                     .foregroundColor(.white.opacity(0.7))
             } else {
-                ForEach(recentSessions, id: \.timestamp) { session in
+                ForEach(recentSessions) { session in
                     HStack {
                         Image(systemName: session.won ? "checkmark.circle.fill" : "xmark.circle.fill")
                             .foregroundColor(session.won ? .green : .red)
@@ -112,9 +173,11 @@ struct ProfileView: View {
                                 .foregroundColor(.white.opacity(0.7))
                         }
                         Spacer()
-                        Text("\(session.score) pts")
-                            .font(.subheadline)
-                            .foregroundColor(.white)
+                        if session.won {
+                            Text("+\(session.score)")
+                                .font(.subheadline)
+                                .foregroundColor(.yellow)
+                        }
                     }
                     .padding()
                     .background(Color.white.opacity(0.15))
@@ -122,18 +185,20 @@ struct ProfileView: View {
                 }
             }
         }
+        .onAppear(perform: loadSessions)
     }
 
-    private func loadData() async {
-        guard let uid = authVM.userUID else { return }
-        do {
-            let fbUser = try await FirestoreService.shared.fetchUser(uid: uid)
-            stats = fbUser?.stats
-            recentSessions = try await FirestoreService.shared.fetchUserSessions(uid: uid)
-        } catch {
-            print("Failed to load profile: \(error)")
+    private func loadSessions() {
+        let uid = AuthViewModel.shared.userUID ?? ""
+        let predicate = #Predicate<SDGameSession> { session in
+            session.userId == uid
         }
-        isLoading = false
+        var descriptor = FetchDescriptor<SDGameSession>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\SDGameSession.timestamp, order: .reverse)]
+        )
+        descriptor.fetchLimit = 5
+        recentSessions = (try? modelContext.fetch(descriptor)) ?? []
     }
 }
 

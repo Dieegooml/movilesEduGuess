@@ -4,6 +4,8 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("displayName") private var displayName = ""
     @AppStorage("appTheme") private var appTheme: Theme = .system
+    @AppStorage("soundEnabled") private var soundEnabled = true
+    @AppStorage("hapticEnabled") private var hapticEnabled = true
 
     var body: some View {
         Form {
@@ -20,12 +22,25 @@ struct SettingsView: View {
                 .pickerStyle(.menu)
             }
 
+            Section("Preferencias") {
+                Toggle("Sonidos", isOn: $soundEnabled)
+                Toggle("Vibración (Haptic)", isOn: $hapticEnabled)
+            }
+
             Section("Información") {
                 HStack {
                     Text("Versión")
                     Spacer()
                     Text("1.0.0")
                         .foregroundColor(.secondary)
+                }
+            }
+
+            Section("Datos") {
+                NavigationLink {
+                    AdminListView()
+                } label: {
+                    Label("Administrar personajes", systemImage: "key.fill")
                 }
             }
 

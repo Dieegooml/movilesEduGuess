@@ -79,19 +79,18 @@ final class FirestoreService {
 
     func updateStats(uid: String, won: Bool, score: Int) async throws {
         let ref = db.collection(usersCollection).document(uid)
-        let _ = try await db.runTransaction { transaction, errorPointer in
+        try await db.runTransaction { transaction, errorPointer in
             do {
                 let doc = try transaction.getDocument(ref)
-                guard let fbUser = try? doc.data(as: FirebaseUser.self) else {
+                guard var fbUser = try? doc.data(as: FirebaseUser.self) else {
                     errorPointer?.pointee = NSError(domain: "EduGuess", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not found"])
                     return nil
                 }
-                var stats = fbUser.stats
-                stats.totalGames += 1
-                if won { stats.wins += 1 } else { stats.losses += 1 }
-                stats.totalScore += score
-                if score > stats.bestScore { stats.bestScore = score }
-                try transaction.setData(from: stats, forDocument: ref)
+                fbUser.stats.totalGames += 1
+                if won { fbUser.stats.wins += 1 } else { fbUser.stats.losses += 1 }
+                fbUser.stats.totalScore += score
+                if score > fbUser.stats.bestScore { fbUser.stats.bestScore = score }
+                try transaction.setData(from: fbUser, forDocument: ref)
                 return nil
             } catch {
                 errorPointer?.pointee = error as NSError
@@ -118,12 +117,9 @@ final class FirestoreService {
     // MARK: - Leaderboard
 
     func fetchLeaderboard(limit: Int = 50) async throws -> [LeaderboardEntry] {
-        let snapshot = try await db.collection(usersCollection)
-            .order(by: "stats.totalScore", descending: true)
-            .limit(to: limit)
-            .getDocuments()
+        let snapshot = try await db.collection(usersCollection).getDocuments()
 
-        return snapshot.documents.compactMap { doc in
+        let entries = snapshot.documents.compactMap { doc -> LeaderboardEntry? in
             guard let fbUser = try? doc.data(as: FirebaseUser.self) else { return nil }
             return LeaderboardEntry(
                 userId: doc.documentID,
@@ -133,6 +129,7 @@ final class FirestoreService {
                 games: fbUser.stats.totalGames
             )
         }
+        return entries.sorted { $0.score > $1.score }.prefix(limit).map { $0 }
     }
 
     func fetchTopWeekly(limit: Int = 50) async throws -> [LeaderboardEntry] {
