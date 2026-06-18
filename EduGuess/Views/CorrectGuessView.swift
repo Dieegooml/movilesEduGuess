@@ -3,6 +3,7 @@ import SwiftUI
 struct CorrectGuessView: View {
 
     let characterName: String
+    let characterImage: String
     let profile: [String: Bool]
     let askedAttributes: [String]
     let answers: [Bool]
@@ -20,6 +21,14 @@ struct CorrectGuessView: View {
         GameScoring.calculateScore(questionsAsked: askedAttributes.count, won: true)
     }
 
+    private var fallbackIcon: some View {
+        Image(systemName: "checkmark.circle.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 130, height: 130)
+            .foregroundColor(.white)
+    }
+
     var body: some View {
         ZStack {
             LinearGradient(
@@ -32,13 +41,29 @@ struct CorrectGuessView: View {
             VStack(spacing: 25) {
                 Spacer()
 
-                Image(systemName: "checkmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
+                if !characterImage.isEmpty, let url = URL(string: characterImage) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 130, height: 130)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(.white, lineWidth: 3))
+                                .shadow(radius: 6)
+                        case .failure, .empty:
+                            fallbackIcon
+                        @unknown default:
+                            fallbackIcon
+                        }
+                    }
                     .frame(width: 130, height: 130)
-                    .foregroundColor(.white)
                     .scaleEffect(showContent ? 1 : 0.3)
                     .opacity(showContent ? 1 : 0)
+                } else {
+                    fallbackIcon
+                }
 
                 Text("¡Lo adiviné!")
                     .font(.system(size: 38, weight: .bold))
@@ -177,6 +202,7 @@ struct CorrectGuessView_Previews: PreviewProvider {
     static var previews: some View {
         CorrectGuessView(
             characterName: "Harry Potter",
+            characterImage: "",
             profile: ["usesMagic": true],
             askedAttributes: ["usesMagic"],
             answers: [true]

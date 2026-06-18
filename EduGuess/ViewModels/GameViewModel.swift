@@ -24,7 +24,7 @@ class GameViewModel: ObservableObject {
 
     private let aiService = AIService.shared
     private let totalAttributes = AttributeDefinition.pool.count
-    private let minimumQuestionsBeforeGuess = 5
+    private let minimumQuestionsBeforeGuess = 15
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
@@ -137,11 +137,11 @@ class GameViewModel: ObservableObject {
             return false
         }
         let ratio = Double(possibleCharacters.count) / Double(max(allCharacters.count, 1))
-        if ratio <= 0.1 {
+        if ratio <= 0.05 {
             return true
         }
-        let guessInterval = max(3, totalAttributes / 6)
-        return possibleCharacters.count <= 3 || questionsAskedCount % guessInterval == 0
+        let guessInterval = max(4, totalAttributes / 6)
+        return possibleCharacters.count <= 2 || questionsAskedCount % guessInterval == 0
     }
 
     private func attemptGuess() {

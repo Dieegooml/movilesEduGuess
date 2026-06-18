@@ -3,6 +3,7 @@ import SwiftData
 
 struct ImportedCharacter: Codable {
     let name: String
+    let image: String?
     let attributes: [String: Bool]
 }
 
@@ -32,7 +33,7 @@ actor CharacterImportService {
                 continue
             }
 
-            let newCharacter = SDCharacter(name: name, attributes: character.attributes)
+            let newCharacter = SDCharacter(name: name, image: character.image ?? "", attributes: character.attributes)
             context.insert(newCharacter)
             importedCount += 1
         }

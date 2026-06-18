@@ -31,6 +31,7 @@ struct QuestionView: View {
         .navigationDestination(isPresented: $correctDestinationActive) {
             CorrectGuessView(
                 characterName: viewModel.guessedCharacter?.name ?? "Desconocido",
+                characterImage: viewModel.guessedCharacter?.image ?? "",
                 profile: viewModel.finalProfile,
                 askedAttributes: viewModel.askedAttributeKeys,
                 answers: viewModel.givenAnswers,
@@ -168,6 +169,9 @@ struct QuestionView: View {
 
     private var guessContent: some View {
         VStack(spacing: 16) {
+            if let candidate = viewModel.guessCandidate, !candidate.image.isEmpty {
+                guessImage(candidate)
+            }
             QuestionCard(question: "¿Es \(viewModel.guessCandidate?.name ?? "...")?")
                 .transition(.scale.combined(with: .opacity))
                 .id("guess-\(viewModel.guessCandidate?.name ?? "")")
@@ -191,6 +195,28 @@ struct QuestionView: View {
             insertion: .scale(scale: 0.9).combined(with: .opacity),
             removal: .opacity
         ))
+    }
+
+    @ViewBuilder
+    private func guessImage(_ character: Character) -> some View {
+        if let url = URL(string: character.image) {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 80, height: 80)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.orange, lineWidth: 2))
+                case .failure, .empty:
+                    EmptyView()
+                @unknown default:
+                    EmptyView()
+                }
+            }
+            .frame(width: 80, height: 80)
+        }
     }
 
     // MARK: - Data

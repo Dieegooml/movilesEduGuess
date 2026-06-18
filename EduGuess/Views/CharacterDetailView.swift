@@ -48,22 +48,52 @@ struct CharacterDetailView: View {
         }
     }
 
+    @ViewBuilder
+    private var characterImage: some View {
+        if !character.image.isEmpty, let url = URL(string: character.image) {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 120, height: 120)
+                        .clipShape(Circle())
+                        .shadow(radius: 4)
+                case .failure:
+                    fallbackImage
+                case .empty:
+                    ProgressView().tint(.orange)
+                @unknown default:
+                    fallbackImage
+                }
+            }
+            .frame(width: 120, height: 120)
+        } else {
+            fallbackImage
+        }
+    }
+
+    private var fallbackImage: some View {
+        Circle()
+            .fill(
+                LinearGradient(
+                    colors: [.orange, .red],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .frame(width: 100, height: 100)
+            .overlay(
+                Text(String(character.name.prefix(1)))
+                    .font(.system(size: 44, weight: .bold))
+                    .foregroundColor(.white)
+            )
+    }
+
     private var headerSection: some View {
         VStack(spacing: 12) {
-            Circle()
-                .fill(
-                    LinearGradient(
-                        colors: [.orange, .red],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 100, height: 100)
-                .overlay(
-                    Text(String(character.name.prefix(1)))
-                        .font(.system(size: 44, weight: .bold))
-                        .foregroundColor(.white)
-                )
+            characterImage
 
             Text(character.name)
                 .font(.title2)

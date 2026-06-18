@@ -12,6 +12,8 @@ struct AdminListView: View {
     @State private var importURLString = "https://example.com/characters.json"
     @State private var showImport = false
     @State private var isImporting = false
+    @State private var isFetchingImages = false
+    @State private var fetchProgress = ""
 
     var body: some View {
         List {
@@ -25,11 +27,12 @@ struct AdminListView: View {
                 } else {
                     ForEach(characters, id: \.id) { character in
                         NavigationLink {
-                            CharacterFormView(character: character) { name, attributes in
+                            CharacterFormView(character: character) { name, image, attributes in
                                 let service = DataService()
                                 service.updateCharacter(
                                     character,
                                     newName: name,
+                                    newImage: image.isEmpty ? nil : image,
                                     newAttributes: attributes,
                                     context: modelContext
                                 )
@@ -37,14 +40,7 @@ struct AdminListView: View {
                             }
                         } label: {
                             HStack {
-                                Circle()
-                                    .fill(Color.orange.opacity(0.3))
-                                    .frame(width: 36, height: 36)
-                                    .overlay(
-                                        Text(String(character.name.prefix(1)))
-                                            .font(.caption)
-                                            .foregroundColor(.orange)
-                                    )
+                                characterThumbnail(character)
                                 Text(character.name)
                             }
                         }
@@ -77,6 +73,26 @@ struct AdminListView: View {
                     }
                 }
                 .disabled(isImporting || importURLString.isEmpty)
+
+                Button {
+                    Task { await fetchAllImages() }
+                } label: {
+                    HStack {
+                        if isFetchingImages {
+                            ProgressView()
+                                .tint(.white)
+                        } else {
+                            Image(systemName: "photo.fill")
+                        }
+                        Text("Buscar imágenes en Wikipedia")
+                    }
+                }
+                .disabled(isFetchingImages || characters.isEmpty)
+                if !fetchProgress.isEmpty {
+                    Text(fetchProgress)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
             Section {
@@ -90,9 +106,9 @@ struct AdminListView: View {
         .navigationTitle("Administrar")
         .sheet(isPresented: $showNewForm) {
             NavigationStack {
-                CharacterFormView { name, attributes in
+                CharacterFormView { name, image, attributes in
                     let service = DataService()
-                    service.addCharacter(name: name, image: "", attributes: attributes, context: modelContext)
+                    service.addCharacter(name: name, image: image, attributes: attributes, context: modelContext)
                     loadCharacters()
                 }
             }
@@ -116,6 +132,64 @@ struct AdminListView: View {
             Text(msg)
         }
         .onAppear(perform: loadCharacters)
+    }
+
+    @ViewBuilder
+    private func characterThumbnail(_ character: Character) -> some View {
+        if !character.image.isEmpty, let url = URL(string: character.image) {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 36, height: 36)
+                        .clipShape(Circle())
+                case .failure:
+                    fallbackCircle(character)
+                case .empty:
+                    ProgressView().tint(.orange)
+                @unknown default:
+                    fallbackCircle(character)
+                }
+            }
+            .frame(width: 36, height: 36)
+        } else {
+            fallbackCircle(character)
+        }
+    }
+
+    private func fallbackCircle(_ character: Character) -> some View {
+        Circle()
+            .fill(Color.orange.opacity(0.3))
+            .frame(width: 36, height: 36)
+            .overlay(
+                Text(String(character.name.prefix(1)))
+                    .font(.caption)
+                    .foregroundColor(.orange)
+            )
+    }
+
+    private func fetchAllImages() async {
+        isFetchingImages = true
+        var fetched = 0
+        let service = DataService()
+
+        for character in characters {
+            if !character.image.isEmpty { continue }
+            let name = character.name
+            await MainActor.run { fetchProgress = "Buscando: \(name)..." }
+            if let url = await WikiService.shared.fetchThumbnailURL(for: name) {
+                service.updateCharacter(character, newImage: url, context: modelContext)
+                fetched += 1
+            }
+        }
+
+        await MainActor.run {
+            loadCharacters()
+            isFetchingImages = false
+            fetchProgress = fetched > 0 ? "\(fetched) imágenes actualizadas" : "Sin imágenes nuevas"
+        }
     }
 
     private func loadCharacters() {
