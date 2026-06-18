@@ -167,14 +167,10 @@ final class FirestoreService {
             scores[session.userId] = entry
         }
 
-        var result: [LeaderboardEntry] = []
-        for (uid, data) in scores {
-            var avatar = ""
-            if let fbUser = try? await fetchUser(uid: uid) {
-                avatar = fbUser.avatar
-            }
-            result.append(LeaderboardEntry(userId: uid, name: data.name, avatar: avatar, score: data.score, wins: data.wins, games: data.games))
-        }
-        return result.sorted { $0.score > $1.score }.prefix(limit).map { $0 }
+        return scores
+            .map { LeaderboardEntry(userId: $0.key, name: $0.value.name, avatar: "person.circle.fill", score: $0.value.score, wins: $0.value.wins, games: $0.value.games) }
+            .sorted { $0.score > $1.score }
+            .prefix(limit)
+            .map { $0 }
     }
 }
