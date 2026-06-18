@@ -18,6 +18,8 @@ struct PublicProfileView: View {
                             .tint(.white)
                     } else {
                         statsCards
+                        CommentsView(profileUserId: userId)
+                            .padding(.top, 8)
                     }
                 }
                 .padding()

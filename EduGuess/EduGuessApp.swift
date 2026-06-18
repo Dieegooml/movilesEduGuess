@@ -46,6 +46,10 @@ struct EduGuessApp: App {
                 isReady = true
                 let context = container.mainContext
                 SeedManager.seedIfNeeded(context: context)
+                Task {
+                    await NotificationService.shared.requestPermission()
+                    await NotificationService.shared.scheduleDailyChallengeReminder()
+                }
             }
         }
     }

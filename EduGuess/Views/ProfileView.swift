@@ -17,6 +17,8 @@ struct ProfileView: View {
                             .tint(.white)
                     } else {
                         statsCards
+                        AchievementListView(isOwnProfile: true)
+                            .padding(.top, 8)
                         adminSection
                         historySection
                     }

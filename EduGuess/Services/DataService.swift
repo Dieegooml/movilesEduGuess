@@ -216,6 +216,10 @@ class DataService {
         Task {
             try? await FirestoreService.shared.saveSession(fbSession)
             try? await FirestoreService.shared.updateStats(uid: userId, won: won, score: score)
+            let streak = await AchievementService.shared.updateStreak(uid: userId)
+            if let fbUser = try? await FirestoreService.shared.fetchUser(uid: userId) {
+                let _ = await AchievementService.shared.checkAndUnlock(uid: userId, stats: fbUser.stats, streak: streak)
+            }
         }
     }
 

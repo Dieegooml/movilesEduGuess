@@ -8,6 +8,7 @@ struct FirebaseUser: Codable {
     var avatar: String
     var createdAt: Date
     var stats: UserStats
+    var streak: StreakData = StreakData()
 }
 
 struct UserStats: Codable {
