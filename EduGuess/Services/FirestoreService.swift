@@ -1,5 +1,6 @@
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
 
 final class FirestoreService {
     static let shared = FirestoreService()
@@ -79,24 +80,30 @@ final class FirestoreService {
 
     func updateStats(uid: String, won: Bool, score: Int) async throws {
         let ref = db.collection(usersCollection).document(uid)
-        try await db.runTransaction { transaction, errorPointer in
-            do {
-                let doc = try transaction.getDocument(ref)
-                guard var fbUser = try? doc.data(as: FirebaseUser.self) else {
-                    errorPointer?.pointee = NSError(domain: "EduGuess", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not found"])
-                    return nil
-                }
-                fbUser.stats.totalGames += 1
-                if won { fbUser.stats.wins += 1 } else { fbUser.stats.losses += 1 }
-                fbUser.stats.totalScore += score
-                if score > fbUser.stats.bestScore { fbUser.stats.bestScore = score }
-                try transaction.setData(from: fbUser, forDocument: ref)
-                return nil
-            } catch {
-                errorPointer?.pointee = error as NSError
-                return nil
-            }
+        let doc = try await ref.getDocument()
+        var fbUser: FirebaseUser
+
+        if let existing = try? doc.data(as: FirebaseUser.self) {
+            fbUser = existing
+        } else {
+            let name = try await fetchUserName(uid: uid)
+            fbUser = FirebaseUser(name: name, email: "", avatar: "", createdAt: Date(), stats: UserStats())
         }
+
+        fbUser.stats.totalGames += 1
+        if won { fbUser.stats.wins += 1 } else { fbUser.stats.losses += 1 }
+        fbUser.stats.totalScore += score
+        if score > fbUser.stats.bestScore { fbUser.stats.bestScore = score }
+        try ref.setData(from: fbUser)
+    }
+
+    private func fetchUserName(uid: String) async throws -> String {
+        // Try to get name from Firebase Auth (local session)
+        if let displayName = Auth.auth().currentUser?.displayName, !displayName.isEmpty {
+            return displayName
+        }
+        // Fallback: try to read from other auth providers or existing user doc
+        return "Usuario"
     }
 
     // MARK: - Game Sessions
