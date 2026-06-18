@@ -132,6 +132,16 @@ struct LoginView: View {
                     .disabled(authVM.isLoading)
                 }
 
+                if !isRegistering {
+                    Button {
+                        authVM.resetPassword(email: email)
+                    } label: {
+                        Text("¿Olvidaste tu contraseña?")
+                            .foregroundColor(.white.opacity(0.8))
+                            .font(.caption)
+                    }
+                }
+
                 Button {
                     isRegistering.toggle()
                     authVM.errorMessage = nil

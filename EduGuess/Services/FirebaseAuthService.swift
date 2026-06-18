@@ -68,10 +68,17 @@ final class FirebaseAuthService {
         let changeRequest = result.user.createProfileChangeRequest()
         changeRequest.displayName = name
         try await changeRequest.commitChanges()
+        try await result.user.sendEmailVerification()
         await MainActor.run {
             self.user = result.user
             self.cacheSession(result.user)
         }
+    }
+
+    // MARK: - Password Reset
+
+    func resetPassword(email: String) async throws {
+        try await Auth.auth().sendPasswordReset(withEmail: email)
     }
 
     // MARK: - Google Sign In

@@ -42,7 +42,7 @@ actor AchievementService {
 
     private let db = Firestore.firestore()
 
-    func checkAndUnlock(uid: String, stats: UserStats, streak: StreakData) async -> [UserAchievement] {
+    func checkAndUnlock(uid: String, stats: UserStats, streak: StreakData, questionsCount: Int = 0) async -> [UserAchievement] {
         let existing = await fetchUnlocked(uid: uid)
         let existingIds = Set(existing.map { $0.achievementId })
         var newOnes: [UserAchievement] = []
@@ -55,6 +55,7 @@ actor AchievementService {
             ("streak_30", { streak.currentStreak >= 30 }),
             ("win_10", { stats.wins >= 10 }),
             ("win_50", { stats.wins >= 50 }),
+            ("quick_guess", { questionsCount > 0 && questionsCount <= 5 }),
             ("daily_7", { stats.wins >= 7 }),
             ("score_500", { stats.totalScore >= 500 }),
         ]
@@ -74,7 +75,6 @@ actor AchievementService {
             }
         }
 
-        // special: quick_guess — checked separately
         return newOnes
     }
 

@@ -204,10 +204,7 @@ struct QuestionView: View {
     }
 
     private var progressValue: CGFloat {
-        let asked = viewModel.questionsAskedCount
-        let total = asked + viewModel.remainingAttributes
-        guard total > 0 else { return 0 }
-        return CGFloat(asked) / CGFloat(total)
+        CGFloat(min(viewModel.progressRatio, 1.0))
     }
 
     private func saveDailyIfNeeded() {

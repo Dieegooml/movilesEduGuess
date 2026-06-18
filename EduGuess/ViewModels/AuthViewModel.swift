@@ -110,6 +110,25 @@ final class AuthViewModel {
         }
     }
 
+    func resetPassword(email: String) {
+        isLoading = true
+        errorMessage = nil
+        Task {
+            do {
+                try await FirebaseAuthService.shared.resetPassword(email: email)
+                await MainActor.run {
+                    errorMessage = "Te hemos enviado un correo para restablecer tu contraseña."
+                    isLoading = false
+                }
+            } catch {
+                await MainActor.run {
+                    errorMessage = error.localizedDescription
+                    isLoading = false
+                }
+            }
+        }
+    }
+
     func signOut() {
         FirebaseAuthService.shared.signOut()
         isAuthenticated = false

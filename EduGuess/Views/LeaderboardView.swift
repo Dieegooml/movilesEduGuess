@@ -4,6 +4,7 @@ struct LeaderboardView: View {
     @State private var entries: [LeaderboardEntry] = []
     @State private var isLoading = true
     @State private var selectedTab: Tab = .allTime
+    @State private var pageSize = 20
 
     enum Tab: String, CaseIterable {
         case allTime = "Todos"
@@ -50,11 +51,26 @@ struct LeaderboardView: View {
                     Spacer()
                 } else {
                     List {
-                        ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
+                        ForEach(Array(entries.prefix(pageSize).enumerated()), id: \.element.id) { index, entry in
                             NavigationLink {
                                 PublicProfileView(userId: entry.userId, userName: entry.name, userAvatar: entry.avatar)
                             } label: {
                                 leaderboardRow(rank: index + 1, entry: entry)
+                            }
+                            .listRowBackground(Color.clear)
+                        }
+                        if pageSize < entries.count {
+                            Button {
+                                pageSize += 20
+                            } label: {
+                                HStack {
+                                    Spacer()
+                                    Text("Cargar más (\(entries.count - pageSize) restantes)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.white.opacity(0.8))
+                                    Spacer()
+                                }
+                                .padding(.vertical, 8)
                             }
                             .listRowBackground(Color.clear)
                         }
@@ -127,6 +143,7 @@ struct LeaderboardView: View {
 
     private func loadLeaderboard() async {
         isLoading = true
+        pageSize = 20
         do {
             switch selectedTab {
             case .allTime:

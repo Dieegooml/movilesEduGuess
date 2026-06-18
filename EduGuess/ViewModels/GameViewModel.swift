@@ -39,6 +39,10 @@ class GameViewModel: ObservableObject {
     var givenAnswers: [Bool] { sessionAnswers }
     var hasValidData: Bool { true }
     var remainingAttributes: Int { totalAttributes - askedAttributes.count }
+    var progressRatio: Double {
+        guard !allCharacters.isEmpty else { return 0 }
+        return 1.0 - Double(possibleCharacters.count) / Double(allCharacters.count)
+    }
     var finalScore: Int {
         guard gameState == .guessed else { return 0 }
         return GameScoring.calculateScore(questionsAsked: questionsAskedCount, won: true)
