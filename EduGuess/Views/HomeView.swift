@@ -45,16 +45,34 @@ struct HomeView: View {
                         DailyChallengeView()
                     } label: {
                         HStack {
-                            Image(systemName: "star.fill")
-                            Text("Desafío Diario")
+                            ZStack {
+                                Circle()
+                                    .fill(Color.orange)
+                                    .frame(width: 36, height: 36)
+                                Image(systemName: "star.fill")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                            }
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Desafío Diario")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                Text("Un personaje nuevo cada día")
+                                    .font(.caption)
+                                    .opacity(0.8)
+                            }
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .fontWeight(.bold)
                         }
-                        .font(.headline)
                         .foregroundColor(.orange)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(18)
+                        .padding(16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.white)
+                                .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                        )
                     }
                     .offset(x: buttonsAppeared ? 0 : -200)
                     .opacity(buttonsAppeared ? 1 : 0)
@@ -63,16 +81,40 @@ struct HomeView: View {
                         CategorySelectView()
                     } label: {
                         HStack {
-                            Image(systemName: "play.fill")
-                            Text("Comenzar")
+                            ZStack {
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 36, height: 36)
+                                Image(systemName: "play.fill")
+                                    .font(.subheadline)
+                                    .foregroundColor(.orange)
+                            }
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Comenzar")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                Text("Elige una categoría y juega")
+                                    .font(.caption)
+                                    .opacity(0.8)
+                            }
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .fontWeight(.bold)
                         }
-                        .font(.headline)
                         .foregroundColor(.white)
-                        .padding()
-                        .background(Color.orange)
-                        .cornerRadius(18)
+                        .padding(16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.orange, Color.orange.opacity(0.8)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .shadow(color: .orange.opacity(0.4), radius: 8, x: 0, y: 4)
+                        )
                     }
                     .offset(x: buttonsAppeared ? 0 : 200)
                     .opacity(buttonsAppeared ? 1 : 0)
@@ -81,17 +123,30 @@ struct HomeView: View {
                         CharacterListView()
                     } label: {
                         HStack {
-                            Image(systemName: "person.3.fill")
-                            Text("Personajes")
+                            ZStack {
+                                Circle()
+                                    .stroke(Color.white, lineWidth: 1.5)
+                                    .frame(width: 36, height: 36)
+                                Image(systemName: "person.3.fill")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                            }
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Personajes")
+                                    .font(.headline)
+                                Text("Explora la base de datos")
+                                    .font(.caption)
+                                    .opacity(0.8)
+                            }
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .font(.caption)
                         }
-                        .font(.headline)
                         .foregroundColor(.white)
-                        .padding()
+                        .padding(16)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 18)
-                                .stroke(Color.white, lineWidth: 2)
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
                         )
                     }
                     .offset(x: buttonsAppeared ? 0 : -200)
@@ -101,17 +156,30 @@ struct HomeView: View {
                         LeaderboardView()
                     } label: {
                         HStack {
-                            Image(systemName: "trophy.fill")
-                            Text("Ranking")
+                            ZStack {
+                                Circle()
+                                    .stroke(Color.white, lineWidth: 1.5)
+                                    .frame(width: 36, height: 36)
+                                Image(systemName: "trophy.fill")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                            }
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Ranking")
+                                    .font(.headline)
+                                Text("Compara tus puntajes")
+                                    .font(.caption)
+                                    .opacity(0.8)
+                            }
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .font(.caption)
                         }
-                        .font(.headline)
                         .foregroundColor(.white)
-                        .padding()
+                        .padding(16)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 18)
-                                .stroke(Color.white, lineWidth: 2)
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
                         )
                     }
                     .offset(x: buttonsAppeared ? 0 : 200)

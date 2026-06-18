@@ -51,8 +51,12 @@ struct LeaderboardView: View {
                 } else {
                     List {
                         ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
-                            leaderboardRow(rank: index + 1, entry: entry)
-                                .listRowBackground(Color.clear)
+                            NavigationLink {
+                                PublicProfileView(userId: entry.userId, userName: entry.name)
+                            } label: {
+                                leaderboardRow(rank: index + 1, entry: entry)
+                            }
+                            .listRowBackground(Color.clear)
                         }
                     }
                     .listStyle(.plain)
