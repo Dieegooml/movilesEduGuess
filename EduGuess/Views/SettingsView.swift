@@ -6,6 +6,7 @@ struct SettingsView: View {
     @AppStorage("appTheme") private var appTheme: Theme = .system
     @AppStorage("soundEnabled") private var soundEnabled = true
     @AppStorage("hapticEnabled") private var hapticEnabled = true
+    @State private var showAdmin = false
 
     var body: some View {
         Form {
@@ -34,13 +35,9 @@ struct SettingsView: View {
                     Text("1.0.0")
                         .foregroundColor(.secondary)
                 }
-            }
-
-            Section("Datos") {
-                NavigationLink {
-                    AdminListView()
-                } label: {
-                    Label("Administrar personajes", systemImage: "key.fill")
+                .contentShape(Rectangle())
+                .onLongPressGesture(minimumDuration: 2) {
+                    showAdmin = true
                 }
             }
 
@@ -60,6 +57,14 @@ struct SettingsView: View {
                 Button("Listo") { dismiss() }
             }
         }
+        .background(
+            NavigationLink(
+                destination: AdminListView(),
+                isActive: $showAdmin,
+                label: { EmptyView() }
+            )
+            .hidden()
+        )
     }
 
     private func clearAllData() {

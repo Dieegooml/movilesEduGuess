@@ -9,17 +9,20 @@ struct AdminListView: View {
     @State private var showDeleteAlert = false
     @State private var errorMessage: String?
     @State private var showError = false
+    @State private var importURLString = "https://example.com/characters.json"
+    @State private var showImport = false
+    @State private var isImporting = false
 
     var body: some View {
-        Group {
-            if characters.isEmpty {
-                ContentUnavailableView(
-                    "Sin personajes",
-                    systemImage: "person.slash",
-                    description: Text("Agrega personajes usando el botón +")
-                )
-            } else {
-                List {
+        List {
+            Section {
+                if characters.isEmpty {
+                    ContentUnavailableView(
+                        "Sin personajes",
+                        systemImage: "person.slash",
+                        description: Text("Agrega o importa personajes")
+                    )
+                } else {
                     ForEach(characters, id: \.id) { character in
                         NavigationLink {
                             CharacterFormView(character: character) { name, attributes in
@@ -53,17 +56,38 @@ struct AdminListView: View {
                     }
                 }
             }
-        }
-        .navigationTitle("Administrar")
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+
+            Section("Importación masiva") {
+                TextField("URL del JSON", text: $importURLString)
+                    .keyboardType(.URL)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+
+                Button {
+                    Task { await importFromAPI() }
+                } label: {
+                    HStack {
+                        if isImporting {
+                            ProgressView()
+                                .tint(.white)
+                        } else {
+                            Image(systemName: "icloud.and.arrow.down")
+                        }
+                        Text("Importar desde API")
+                    }
+                }
+                .disabled(isImporting || importURLString.isEmpty)
+            }
+
+            Section {
                 Button {
                     showNewForm = true
                 } label: {
-                    Image(systemName: "plus")
+                    Label("Agregar manualmente", systemImage: "plus.circle")
                 }
             }
         }
+        .navigationTitle("Administrar")
         .sheet(isPresented: $showNewForm) {
             NavigationStack {
                 CharacterFormView { name, attributes in
@@ -97,5 +121,32 @@ struct AdminListView: View {
     private func loadCharacters() {
         let service = DataService()
         characters = service.fetchCharacters(context: modelContext)
+    }
+
+    private func importFromAPI() async {
+        guard let url = URL(string: importURLString.trimmingCharacters(in: .whitespacesAndNewlines)),
+              url.scheme == "https" || url.scheme == "http" else {
+            errorMessage = "URL inválida"
+            showError = true
+            return
+        }
+
+        isImporting = true
+        do {
+            let imported = try await CharacterImportService.shared.fetchCharacters(from: url)
+            let result = CharacterImportService.shared.importCharacters(imported, context: modelContext)
+            await MainActor.run {
+                loadCharacters()
+                isImporting = false
+                errorMessage = "Importados: \(result.imported)\nSaltados (duplicados/vacíos): \(result.skipped)"
+                showError = true
+            }
+        } catch {
+            await MainActor.run {
+                isImporting = false
+                errorMessage = "Error al importar: \(error.localizedDescription)"
+                showError = true
+            }
+        }
     }
 }

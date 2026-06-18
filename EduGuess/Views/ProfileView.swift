@@ -92,12 +92,12 @@ struct ProfileView: View {
     private var adminSection: some View {
         VStack(spacing: 12) {
             NavigationLink {
-                AdminListView()
+                CharacterListView()
             } label: {
                 HStack {
-                    Image(systemName: "key.fill")
+                    Image(systemName: "person.3.fill")
                         .font(.title3)
-                    Text("Administrar personajes")
+                    Text("Personajes")
                         .font(.headline)
                     Spacer()
                     Image(systemName: "chevron.right")

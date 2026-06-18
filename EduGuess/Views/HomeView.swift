@@ -120,39 +120,6 @@ struct HomeView: View {
                     .opacity(buttonsAppeared ? 1 : 0)
 
                     NavigationLink {
-                        CharacterListView()
-                    } label: {
-                        HStack {
-                            ZStack {
-                                Circle()
-                                    .stroke(Color.white, lineWidth: 1.5)
-                                    .frame(width: 36, height: 36)
-                                Image(systemName: "person.3.fill")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                            }
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Personajes")
-                                    .font(.headline)
-                                Text("Explora la base de datos")
-                                    .font(.caption)
-                                    .opacity(0.8)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                        }
-                        .foregroundColor(.white)
-                        .padding(16)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
-                        )
-                    }
-                    .offset(x: buttonsAppeared ? 0 : -200)
-                    .opacity(buttonsAppeared ? 1 : 0)
-
-                    NavigationLink {
                         LeaderboardView()
                     } label: {
                         HStack {
