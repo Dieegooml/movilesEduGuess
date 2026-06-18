@@ -41,11 +41,6 @@ actor WikiService {
         session = URLSession(configuration: config)
     }
 
-    func fetchThumbnailURL(for characterName: String) async -> String? {
-        guard let response = try? await fetchSummary(for: characterName) else { return nil }
-        return response.thumbnail?.source
-    }
-
     func fetchSummary(for characterName: String) async throws -> WikiResponse {
         if let cached = cache[characterName] {
             return cached

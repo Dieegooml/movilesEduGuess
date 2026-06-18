@@ -13,7 +13,9 @@ struct DailyChallengeView: View {
                 ProgressView("Preparando desafío...")
             } else if let character = dailyCharacter {
                 VStack(spacing: 16) {
-                    characterImage(character)
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(.yellow)
 
                     Text("Desafío Diario")
                         .font(.largeTitle)
@@ -83,38 +85,6 @@ struct DailyChallengeView: View {
         .task {
             loadCharacter()
         }
-    }
-
-    @ViewBuilder
-    private func characterImage(_ character: Character) -> some View {
-        if !character.image.isEmpty, let url = URL(string: character.image) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 80, height: 80)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.yellow, lineWidth: 2))
-                case .failure:
-                    starFallback
-                case .empty:
-                    ProgressView()
-                @unknown default:
-                    starFallback
-                }
-            }
-            .frame(width: 80, height: 80)
-        } else {
-            starFallback
-        }
-    }
-
-    private var starFallback: some View {
-        Image(systemName: "star.fill")
-            .font(.system(size: 60))
-            .foregroundColor(.yellow)
     }
 
     private func loadCharacter() {

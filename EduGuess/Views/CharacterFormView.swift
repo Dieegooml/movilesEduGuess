@@ -6,22 +6,18 @@ struct CharacterFormView: View {
     @Environment(\.dismiss) private var dismiss
 
     let initialName: String
-    let initialImage: String
     let initialAttributes: [String: Bool]
-    let onSave: (String, String, [String: Bool]) -> Void
+    let onSave: (String, [String: Bool]) -> Void
 
     @State private var name: String
-    @State private var imageURL: String
     @State private var attributes: [String: Bool]
 
     init(character: Character? = nil,
-         onSave: @escaping (String, String, [String: Bool]) -> Void = { _, _, _ in }) {
+         onSave: @escaping (String, [String: Bool]) -> Void = { _, _ in }) {
         self.initialName = character?.name ?? ""
-        self.initialImage = character?.image ?? ""
         self.initialAttributes = character?.attributes ?? [:]
         self.onSave = onSave
         _name = State(initialValue: character?.name ?? "")
-        _imageURL = State(initialValue: character?.image ?? "")
         _attributes = State(initialValue: character?.attributes ?? [:])
     }
 
@@ -38,34 +34,6 @@ struct CharacterFormView: View {
         Form {
             Section("Nombre") {
                 TextField("Nombre del personaje", text: $name)
-            }
-
-            Section("Imagen") {
-                TextField("URL de imagen (opcional)", text: $imageURL)
-                    .keyboardType(.URL)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                if !imageURL.isEmpty, let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
-                                .clipShape(Circle())
-                        case .failure:
-                            Text("No se pudo cargar la imagen")
-                                .font(.caption)
-                                .foregroundColor(.red)
-                        case .empty:
-                            ProgressView()
-                        @unknown default:
-                            EmptyView()
-                        }
-                    }
-                    .frame(height: 80)
-                }
             }
 
             ForEach(categoriesWithAttributes, id: \.0.rawValue) { category, defs in
@@ -96,7 +64,7 @@ struct CharacterFormView: View {
     private func save() {
         let name = name.trimmingCharacters(in: .whitespaces)
         guard !name.isEmpty else { return }
-        onSave(name, imageURL.trimmingCharacters(in: .whitespaces), attributes)
+        onSave(name, attributes)
         dismiss()
     }
 }

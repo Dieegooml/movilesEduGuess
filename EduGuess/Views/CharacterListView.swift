@@ -18,7 +18,14 @@ struct CharacterListView: View {
                     CharacterDetailView(character: character)
                 } label: {
                     HStack {
-                        characterThumbnail(character)
+                        Circle()
+                            .fill(Color.orange.opacity(0.3))
+                            .frame(width: 40, height: 40)
+                            .overlay(
+                                Text(String(character.name.prefix(1)))
+                                    .font(.headline)
+                                    .foregroundColor(.orange)
+                            )
                         Text(character.name)
                             .font(.body)
                     }
@@ -28,42 +35,6 @@ struct CharacterListView: View {
         .searchable(text: $searchText, prompt: "Buscar personaje")
         .navigationTitle("Personajes")
         .onAppear(perform: loadCharacters)
-    }
-
-    @ViewBuilder
-    private func characterThumbnail(_ character: Character) -> some View {
-        if !character.image.isEmpty, let url = URL(string: character.image) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                case .failure:
-                    fallbackCircle(character)
-                case .empty:
-                    ProgressView().tint(.orange)
-                @unknown default:
-                    fallbackCircle(character)
-                }
-            }
-            .frame(width: 40, height: 40)
-        } else {
-            fallbackCircle(character)
-        }
-    }
-
-    private func fallbackCircle(_ character: Character) -> some View {
-        Circle()
-            .fill(Color.orange.opacity(0.3))
-            .frame(width: 40, height: 40)
-            .overlay(
-                Text(String(character.name.prefix(1)))
-                    .font(.caption)
-                    .foregroundColor(.orange)
-            )
     }
 
     private func loadCharacters() {
