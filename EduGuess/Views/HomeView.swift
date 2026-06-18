@@ -3,6 +3,8 @@ import SwiftUI
 struct HomeView: View {
     @State private var authVM = AuthViewModel.shared
     @State private var buttonsAppeared = false
+    @State private var showTutorial = false
+    @AppStorage("hasSeenTutorial") private var hasSeenTutorial = false
 
     var body: some View {
         ZStack {
@@ -200,10 +202,19 @@ struct HomeView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $showTutorial) {
+            NavigationStack {
+                HowToPlayView()
+            }
+        }
         .onAppear {
             buttonsAppeared = false
             withAnimation(.easeOut(duration: 0.1)) {
                 buttonsAppeared = true
+            }
+            if authVM.isAuthenticated && !hasSeenTutorial {
+                showTutorial = true
+                hasSeenTutorial = true
             }
         }
     }
