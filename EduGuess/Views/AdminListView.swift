@@ -170,26 +170,24 @@ struct AdminListView: View {
             )
     }
 
+    @MainActor
     private func fetchAllImages() async {
         isFetchingImages = true
         var fetched = 0
-        let service = DataService()
 
         for character in characters {
             if !character.image.isEmpty { continue }
             let name = character.name
-            await MainActor.run { fetchProgress = "Buscando: \(name)..." }
+            fetchProgress = "Buscando: \(name)..."
             if let url = await WikiService.shared.fetchThumbnailURL(for: name) {
-                service.updateCharacter(character, newImage: url, context: modelContext)
+                DataService().updateCharacter(character, newImage: url, context: modelContext)
                 fetched += 1
             }
         }
 
-        await MainActor.run {
-            loadCharacters()
-            isFetchingImages = false
-            fetchProgress = fetched > 0 ? "\(fetched) imágenes actualizadas" : "Sin imágenes nuevas"
-        }
+        loadCharacters()
+        isFetchingImages = false
+        fetchProgress = fetched > 0 ? "\(fetched) imágenes actualizadas" : "Sin imágenes nuevas"
     }
 
     private func loadCharacters() {
