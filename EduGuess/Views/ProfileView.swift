@@ -97,6 +97,24 @@ struct ProfileView: View {
     private var adminSection: some View {
         VStack(spacing: 12) {
             NavigationLink {
+                StatisticsView()
+            } label: {
+                HStack {
+                    Image(systemName: "chart.bar.fill")
+                        .font(.title3)
+                    Text("Estadísticas detalladas")
+                        .font(.headline)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                }
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.white.opacity(0.15))
+                .cornerRadius(12)
+            }
+
+            NavigationLink {
                 CharacterListView()
             } label: {
                 HStack {
