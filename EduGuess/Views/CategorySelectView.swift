@@ -29,6 +29,15 @@ struct CategorySelectView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
 
+                if allCharacters.isEmpty {
+                    ContentUnavailableView(
+                        "No hay personajes",
+                        systemImage: "person.slash",
+                        description: Text("Agrega personajes desde Ajustes > Personajes")
+                    )
+                    .padding(.top, 40)
+                }
+
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                     ForEach(filters.indices, id: \.self) { index in
                         let filter = filters[index]

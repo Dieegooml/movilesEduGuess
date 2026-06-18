@@ -21,11 +21,7 @@ struct DailyChallengeView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
 
-                    Text("Hoy: **\(character.name)**")
-                        .font(.title3)
-                        .multilineTextAlignment(.center)
-
-                    Text("Responde pensando en este personaje.\n¡Menos preguntas = mejor puntaje!")
+                    Text("Responde pensando en el personaje de hoy.\n¡Menos preguntas = mejor puntaje!")
                         .font(.body)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)

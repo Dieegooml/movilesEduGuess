@@ -49,10 +49,7 @@ struct PublicProfileView: View {
 
     private var profileHeader: some View {
         VStack(spacing: 12) {
-            Image(systemName: avatarName)
-                .resizable()
-                .frame(width: 80, height: 80)
-                .foregroundColor(.white)
+            AvatarView(avatar: avatarName, size: 80)
 
             Text(userName)
                 .font(.title)

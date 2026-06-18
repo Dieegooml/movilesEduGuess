@@ -57,11 +57,9 @@ struct ProfileView: View {
             NavigationLink {
                 SettingsView()
             } label: {
-                Image(systemName: avatarName)
-                    .resizable()
-                    .frame(width: 80, height: 80)
-                    .foregroundColor(.white)
+                AvatarView(avatar: avatarName, size: 80)
             }
+            .buttonStyle(.plain)
 
             Text(authVM.userName)
                 .font(.title)

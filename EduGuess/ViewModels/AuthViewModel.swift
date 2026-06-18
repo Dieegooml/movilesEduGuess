@@ -6,6 +6,7 @@ final class AuthViewModel {
     static let shared = AuthViewModel()
 
     var isAuthenticated = false
+    var isNewSession = true
     var isLoading = false
     var errorMessage: String?
 
@@ -22,6 +23,7 @@ final class AuthViewModel {
     func configure() {
         FirebaseAuthService.shared.configure()
         isAuthenticated = FirebaseAuthService.shared.isAuthenticated
+        isNewSession = false
     }
 
     func signIn(email: String, password: String) {
@@ -32,6 +34,7 @@ final class AuthViewModel {
                 try await FirebaseAuthService.shared.signIn(email: email, password: password)
                 await MainActor.run {
                     isAuthenticated = true
+                    isNewSession = true
                     isLoading = false
                 }
             } catch {
@@ -53,6 +56,7 @@ final class AuthViewModel {
                 try await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
                 await MainActor.run {
                     isAuthenticated = true
+                    isNewSession = true
                     isLoading = false
                 }
             } catch {
@@ -76,6 +80,7 @@ final class AuthViewModel {
                 try? await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
                 await MainActor.run {
                     isAuthenticated = true
+                    isNewSession = true
                     isLoading = false
                 }
             } catch {
@@ -99,6 +104,7 @@ final class AuthViewModel {
                 try? await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
                 await MainActor.run {
                     isAuthenticated = true
+                    isNewSession = true
                     isLoading = false
                 }
             } catch {

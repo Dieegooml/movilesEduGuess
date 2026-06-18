@@ -36,7 +36,11 @@ struct EduGuessApp: App {
             } else if let container {
                 Group {
                     if isReady {
-                        if authVM.isAuthenticated {
+                        if authVM.isAuthenticated && !authVM.isNewSession {
+                            NavigationStack {
+                                HomeView()
+                            }
+                        } else if authVM.isAuthenticated {
                             NavigationStack {
                                 SplashView()
                             }

@@ -1,4 +1,5 @@
 import SwiftUI
+import PhotosUI
 
 let avatarOptions = [
     "person.circle.fill",
@@ -38,6 +39,8 @@ struct SettingsView: View {
     @State private var showAdmin = false
     @State private var showAvatarPicker = false
     @State private var showNameSaved = false
+    @State private var showPhotoPicker = false
+    @State private var selectedPhotoItem: PhotosPickerItem?
 
     private let authVM = AuthViewModel.shared
 
@@ -45,12 +48,30 @@ struct SettingsView: View {
         Form {
             Section("Perfil") {
                 HStack {
-                    Image(systemName: avatarName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.accentColor)
-                    Button("Cambiar avatar") {
+                    AvatarView(avatar: avatarName, size: 44)
+                    if avatarName.hasPrefix("data:image/") {
+                        Button("Quitar foto") {
+                            avatarName = "person.circle.fill"
+                            saveProfile()
+                        }
+                        .font(.caption)
+                    }
+                }
+
+                HStack {
+                    PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
+                        HStack {
+                            Image(systemName: "camera.fill")
+                            Text("Elegir foto")
+                        }
+                    }
+                    .onChange(of: selectedPhotoItem) { _, item in
+                        Task {
+                            await loadPhoto(from: item)
+                        }
+                    }
+
+                    Button("Avatar SF") {
                         showAvatarPicker = true
                     }
                 }
@@ -181,10 +202,37 @@ struct SettingsView: View {
         }
     }
 
+    private func loadPhoto(from item: PhotosPickerItem?) async {
+        guard let item else { return }
+        if let data = try? await item.loadTransferable(type: Data.self) {
+            let maxSize: CGFloat = 300
+            guard let image = UIImage(data: data) else { return }
+            let scaled = image.aspectFitted(to: maxSize)
+            if let jpeg = scaled.jpegData(compressionQuality: 0.6) {
+                let b64 = "data:image/jpeg;base64," + jpeg.base64EncodedString()
+                await MainActor.run {
+                    avatarName = b64
+                    saveProfile()
+                }
+            }
+        }
+    }
+
     private func clearAllData() {
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let storeURL = documentsPath.appendingPathComponent("default.store")
         try? FileManager.default.removeItem(at: storeURL)
         dismiss()
+    }
+}
+
+extension UIImage {
+    func aspectFitted(to maxDimension: CGFloat) -> UIImage {
+        let scale = min(maxDimension / size.width, maxDimension / size.height, 1.0)
+        let newSize = CGSize(width: size.width * scale, height: size.height * scale)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { _ in
+            draw(in: CGRect(origin: .zero, size: newSize))
+        }
     }
 }

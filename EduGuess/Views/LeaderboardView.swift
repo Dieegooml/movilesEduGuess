@@ -114,9 +114,7 @@ struct LeaderboardView: View {
                 .foregroundColor(rank <= 3 ? .yellow : .white)
                 .frame(width: 40)
 
-            Image(systemName: entry.avatar.isEmpty ? "person.circle.fill" : entry.avatar)
-                .foregroundColor(.white)
-                .font(.title2)
+            AvatarView(avatar: entry.avatar, size: 32)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(entry.name)
