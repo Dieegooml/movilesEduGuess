@@ -139,13 +139,12 @@ struct EduGuessApp: App {
 
     private func resetStore() {
         isRetrying = true
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let storeURL = documentsPath.appendingPathComponent("default.store")
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let storeURL = appSupport.appendingPathComponent("EduGuess.store")
         try? FileManager.default.removeItem(at: storeURL)
-        // Also try the named store
-        let namedStoreURL = documentsPath.appendingPathComponent("EduGuess.store")
-        try? FileManager.default.removeItem(at: namedStoreURL)
-        // Retry initialization
+        // Also remove -wal and -shm files
+        try? FileManager.default.removeItem(at: URL(fileURLWithPath: storeURL.path + "-wal"))
+        try? FileManager.default.removeItem(at: URL(fileURLWithPath: storeURL.path + "-shm"))
         let schema = Schema([SDCharacter.self, SDQuestion.self, SDGameSession.self])
         let config = ModelConfiguration("EduGuess", schema: schema)
         do {

@@ -55,7 +55,7 @@ final class SDGameSession {
     var userId: String = ""
     var userName: String = ""
     var characterName: String
-    var attributesData: Data
+    var attributesData: Data?
     var questionsAsked: [String]
     var answers: [Bool]
     var won: Bool
@@ -63,8 +63,11 @@ final class SDGameSession {
     var timestamp: Date = Date()
 
     var characterAttributes: [String: Bool] {
-        get { (try? JSONDecoder().decode([String: Bool].self, from: attributesData)) ?? [:] }
-        set { attributesData = (try? JSONEncoder().encode(newValue)) ?? Data() }
+        get {
+            guard let data = attributesData else { return [:] }
+            return (try? JSONDecoder().decode([String: Bool].self, from: data)) ?? [:]
+        }
+        set { attributesData = (try? JSONEncoder().encode(newValue)) }
     }
 
     init(characterName: String,

@@ -23,7 +23,7 @@ final class SDCharacter {
     @Attribute(.unique) var id: UUID = UUID()
     var name: String
     var image: String
-    var attributesData: Data
+    var attributesData: Data?
 
     init(name: String, image: String = "", attributes: [String: Bool]) {
         self.name = name
@@ -33,10 +33,11 @@ final class SDCharacter {
 
     var attributes: [String: Bool] {
         get {
-            (try? JSONDecoder().decode([String: Bool].self, from: attributesData)) ?? [:]
+            guard let data = attributesData else { return [:] }
+            return (try? JSONDecoder().decode([String: Bool].self, from: data)) ?? [:]
         }
         set {
-            attributesData = (try? JSONEncoder().encode(newValue)) ?? Data()
+            attributesData = (try? JSONEncoder().encode(newValue))
         }
     }
 
