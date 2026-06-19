@@ -8,6 +8,8 @@ struct PublicProfileView: View {
     @State private var stats: UserStats?
     @State private var avatarName: String
     @State private var isLoading = true
+    @State private var showError = false
+    @State private var errorText = ""
 
     init(userId: String, userName: String, userAvatar: String = "person.circle.fill") {
         self.userId = userId
@@ -36,6 +38,8 @@ struct PublicProfileView: View {
         }
         .navigationTitle(userName)
         .task { await loadData() }
+        .refreshable { await loadData() }
+        .toast(message: errorText, icon: "exclamationmark.circle.fill", isShowing: $showError)
     }
 
     private var backgroundGradient: some View {
@@ -82,7 +86,8 @@ struct PublicProfileView: View {
                 avatarName = avatar
             }
         } catch {
-            print("Failed to load user: \(error)")
+            errorText = "Error al cargar perfil"
+            showError = true
         }
         isLoading = false
     }

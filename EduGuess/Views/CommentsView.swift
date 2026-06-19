@@ -16,12 +16,15 @@ struct CommentsView: View {
     @State private var newCommentText = ""
     @State private var isLoading = true
     @State private var isSending = false
+    @State private var showError = false
+    @State private var errorText = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Comentarios")
                 .font(.headline)
                 .foregroundColor(.white)
+                .onTapGesture { UIApplication.shared.endEditing() }
 
             if isLoading {
                 ProgressView()
@@ -78,17 +81,23 @@ struct CommentsView: View {
             }
         }
         .task { await loadComments() }
+        .toast(message: errorText, icon: "exclamationmark.circle.fill", isShowing: $showError)
     }
 
     private func loadComments() async {
         let db = Firestore.firestore()
-        let snapshot = try? await db.collection("users")
-            .document(profileUserId)
-            .collection("comments")
-            .order(by: "timestamp", descending: true)
-            .limit(to: 20)
-            .getDocuments()
-        comments = snapshot?.documents.compactMap { try? $0.data(as: Comment.self) } ?? []
+        do {
+            let snapshot = try await db.collection("users")
+                .document(profileUserId)
+                .collection("comments")
+                .order(by: "timestamp", descending: true)
+                .limit(to: 20)
+                .getDocuments()
+            comments = snapshot.documents.compactMap { try? $0.data(as: Comment.self) }
+        } catch {
+            errorText = "Error al cargar comentarios"
+            showError = true
+        }
         isLoading = false
     }
 
@@ -106,10 +115,15 @@ struct CommentsView: View {
         )
 
         let db = Firestore.firestore()
-        try? await db.collection("users")
-            .document(profileUserId)
-            .collection("comments")
-            .addDocument(from: comment)
+        do {
+            try await db.collection("users")
+                .document(profileUserId)
+                .collection("comments")
+                .addDocument(from: comment)
+        } catch {
+            errorText = "Error al enviar comentario"
+            showError = true
+        }
 
         newCommentText = ""
         isSending = false

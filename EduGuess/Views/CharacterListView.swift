@@ -35,6 +35,7 @@ struct CharacterListView: View {
         .searchable(text: $searchText, prompt: "Buscar personaje")
         .navigationTitle("Personajes")
         .onAppear(perform: loadCharacters)
+        .refreshable { loadCharacters() }
     }
 
     private func loadCharacters() {

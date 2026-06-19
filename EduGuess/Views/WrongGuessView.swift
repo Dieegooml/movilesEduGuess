@@ -26,6 +26,7 @@ struct WrongGuessView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
+            .onTapGesture { UIApplication.shared.endEditing() }
 
             VStack(spacing: 25) {
 

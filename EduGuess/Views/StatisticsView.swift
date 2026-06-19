@@ -62,6 +62,7 @@ struct StatisticsView: View {
         }
         .navigationTitle("Estadísticas")
         .onAppear(perform: loadSessions)
+        .refreshable { loadSessions() }
     }
 
     // MARK: - Score per Game

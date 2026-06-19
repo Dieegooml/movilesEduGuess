@@ -15,6 +15,7 @@ struct LoginView: View {
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
+            .onTapGesture { UIApplication.shared.endEditing() }
 
             VStack(spacing: 24) {
                 Spacer()
@@ -176,6 +177,11 @@ extension SecureField {
             .background(Color.white.opacity(0.2))
             .cornerRadius(12)
             .foregroundColor(.white)
-            .tint(.white)
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

@@ -6,6 +6,9 @@ struct ProfileView: View {
     @State private var stats: UserStats?
     @State private var avatarName = "person.circle.fill"
     @State private var isLoading = true
+    @State private var showSignOutAlert = false
+    @State private var showError = false
+    @State private var errorText = ""
 
     var body: some View {
         ZStack {
@@ -41,6 +44,7 @@ struct ProfileView: View {
         }
         .task { await loadData() }
         .refreshable { await loadData() }
+        .toast(message: errorText, icon: "exclamationmark.circle.fill", isShowing: $showError)
     }
 
     private var backgroundGradient: some View {
@@ -70,11 +74,17 @@ struct ProfileView: View {
                 .foregroundColor(.white.opacity(0.8))
 
             Button("Cerrar sesión", role: .destructive) {
-                authVM.signOut()
+                showSignOutAlert = true
             }
             .buttonStyle(.borderedProminent)
             .tint(.white.opacity(0.3))
             .padding(.top, 8)
+            .alert("Cerrar sesión", isPresented: $showSignOutAlert) {
+                Button("Cancelar", role: .cancel) {}
+                Button("Cerrar sesión", role: .destructive) { authVM.signOut() }
+            } message: {
+                Text("¿Estás seguro de que quieres cerrar sesión?")
+            }
         }
     }
 
@@ -157,13 +167,17 @@ struct ProfileView: View {
     }
 
     private func loadData() async {
-        guard let uid = authVM.userUID else { return }
+        guard let uid = authVM.userUID else {
+            isLoading = false
+            return
+        }
         do {
             let fbUser = try await FirestoreService.shared.fetchUser(uid: uid)
             stats = fbUser?.stats
             avatarName = fbUser?.avatar ?? "person.circle.fill"
         } catch {
-            print("Failed to load profile: \(error)")
+            errorText = "Error al cargar perfil: \(error.localizedDescription)"
+            showError = true
         }
         isLoading = false
     }

@@ -55,6 +55,7 @@ struct CategorySelectView: View {
         }
         .navigationTitle("Filtrar")
         .onAppear(perform: loadCharacters)
+        .refreshable { loadCharacters() }
     }
 
     private func filterCard(name: String, icon: String, index: Int) -> some View {

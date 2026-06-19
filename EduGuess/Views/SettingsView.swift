@@ -41,6 +41,7 @@ struct SettingsView: View {
     @State private var showNameSaved = false
     @State private var showPhotoPicker = false
     @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var showDeleteAlert = false
 
     private let authVM = AuthViewModel.shared
 
@@ -158,12 +159,18 @@ struct SettingsView: View {
 
             Section {
                 Button(role: .destructive) {
-                    clearAllData()
+                    showDeleteAlert = true
                 } label: {
                     Text("Borrar datos locales")
                 }
             } footer: {
                 Text("Esto eliminará todo el progreso local, incluyendo el historial de partidas. Esta acción no se puede deshacer.")
+            }
+            .alert("Borrar datos locales", isPresented: $showDeleteAlert) {
+                Button("Cancelar", role: .cancel) {}
+                Button("Borrar", role: .destructive) { clearAllData() }
+            } message: {
+                Text("Se eliminará todo el progreso local. Esta acción no se puede deshacer.")
             }
         }
         .navigationTitle("Ajustes")
@@ -219,7 +226,7 @@ struct SettingsView: View {
     }
 
     private func clearAllData() {
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         let storeURL = documentsPath.appendingPathComponent("default.store")
         try? FileManager.default.removeItem(at: storeURL)
         dismiss()

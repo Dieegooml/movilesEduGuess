@@ -50,6 +50,7 @@ struct GameHistoryView: View {
         }
         .navigationTitle("Historial")
         .onAppear(perform: loadSessions)
+        .refreshable { loadSessions() }
     }
 
     private func sessionRow(_ session: SDGameSession) -> some View {

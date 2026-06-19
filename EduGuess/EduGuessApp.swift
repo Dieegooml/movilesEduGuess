@@ -139,7 +139,10 @@ struct EduGuessApp: App {
 
     private func resetStore() {
         isRetrying = true
-        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        guard let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+            isRetrying = false
+            return
+        }
         let storeURL = appSupport.appendingPathComponent("EduGuess.store")
         try? FileManager.default.removeItem(at: storeURL)
         // Also remove -wal and -shm files

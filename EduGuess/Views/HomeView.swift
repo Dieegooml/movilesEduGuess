@@ -4,6 +4,7 @@ struct HomeView: View {
     @State private var authVM = AuthViewModel.shared
     @State private var buttonsAppeared = false
     @State private var showTutorial = false
+    @State private var showSignOutAlert = false
     @AppStorage("hasSeenTutorial") private var hasSeenTutorial = false
 
     var body: some View {
@@ -193,7 +194,7 @@ struct HomeView: View {
 
                     if authVM.isAuthenticated {
                         Button {
-                            authVM.signOut()
+                            showSignOutAlert = true
                         } label: {
                             Text("Salir")
                                 .foregroundColor(.white)
@@ -201,6 +202,12 @@ struct HomeView: View {
                     }
                 }
             }
+        }
+        .alert("Cerrar sesión", isPresented: $showSignOutAlert) {
+            Button("Cancelar", role: .cancel) {}
+            Button("Cerrar sesión", role: .destructive) { authVM.signOut() }
+        } message: {
+            Text("¿Estás seguro de que quieres cerrar sesión?")
         }
         .fullScreenCover(isPresented: $showTutorial) {
             NavigationStack {
