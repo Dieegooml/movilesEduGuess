@@ -40,8 +40,10 @@ struct AchievementListView: View {
 
     private func load() async {
         let uid = AuthViewModel.shared.userUID ?? ""
-        unlocked = await AchievementService.shared.fetchUnlocked(uid: uid)
-        streak = await AchievementService.shared.fetchStreak(uid: uid)
+        async let u = AchievementService.shared.fetchUnlocked(uid: uid)
+        async let s = AchievementService.shared.fetchStreak(uid: uid)
+        unlocked = await u
+        streak = await s
         isLoading = false
     }
 }

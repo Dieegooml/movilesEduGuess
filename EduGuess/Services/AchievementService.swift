@@ -41,6 +41,9 @@ actor AchievementService {
     static let shared = AchievementService()
 
     private let db = Firestore.firestore()
+    private var cachedUnlocked: (data: [UserAchievement], timestamp: Date)?
+    private var cachedStreak: (data: StreakData, timestamp: Date)?
+    private let cacheTTL: TimeInterval = 60
 
     func checkAndUnlock(uid: String, stats: UserStats, streak: StreakData, questionsCount: Int = 0) async -> [UserAchievement] {
         let existing = await fetchUnlocked(uid: uid)
@@ -75,14 +78,22 @@ actor AchievementService {
             }
         }
 
+        if !newOnes.isEmpty {
+            cachedUnlocked = nil
+        }
         return newOnes
     }
 
     func fetchUnlocked(uid: String) async -> [UserAchievement] {
+        if let cached = cachedUnlocked, Date().timeIntervalSince(cached.timestamp) < cacheTTL {
+            return cached.data
+        }
         let snapshot = try? await db.collection("users").document(uid).collection("achievements")
             .order(by: "unlockedAt", descending: true)
             .getDocuments()
-        return snapshot?.documents.compactMap { try? $0.data(as: UserAchievement.self) } ?? []
+        let result = snapshot?.documents.compactMap { try? $0.data(as: UserAchievement.self) } ?? []
+        cachedUnlocked = (result, Date())
+        return result
     }
 
     // MARK: - Streaks
@@ -116,12 +127,18 @@ actor AchievementService {
             "streak.lastPlayedDate": streak.lastPlayedDate,
         ])
 
+        cachedStreak = nil
         return streak
     }
 
     func fetchStreak(uid: String) async -> StreakData {
+        if let cached = cachedStreak, Date().timeIntervalSince(cached.timestamp) < cacheTTL {
+            return cached.data
+        }
         let doc = try? await db.collection("users").document(uid).getDocument()
-        return (try? doc?.data(as: FirebaseUser.self))?.streak ?? StreakData()
+        let result = (try? doc?.data(as: FirebaseUser.self))?.streak ?? StreakData()
+        cachedStreak = (result, Date())
+        return result
     }
 
     private func dailyKey(offset: Int = 0) -> String {
