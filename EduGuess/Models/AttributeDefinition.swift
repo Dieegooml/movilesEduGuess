@@ -12,66 +12,66 @@ enum AttributeCategory: String, CaseIterable {
 
 struct AttributeDefinition {
     let key: String
-    let questionTemplate: String
+    let questionTemplates: [String]
     let category: AttributeCategory
 
     func generateQuestion() -> String {
-        questionTemplate
+        questionTemplates.randomElement() ?? questionTemplates.first ?? "¿\(key)?"
     }
 }
 
 extension AttributeDefinition {
     static let pool: [AttributeDefinition] = [
         // Identity
-        .init(key: "isReal", questionTemplate: "¿Tu personaje es una persona real?", category: .identity),
-        .init(key: "isFictional", questionTemplate: "¿Tu personaje es ficticio?", category: .identity),
-        .init(key: "isHistorical", questionTemplate: "¿Tu personaje es histórico?", category: .identity),
-        .init(key: "isAlive", questionTemplate: "¿Tu personaje está vivo actualmente?", category: .identity),
+        .init(key: "isReal", questionTemplates: ["¿Tu personaje es una persona real?", "¿Existió en la vida real?", "¿Es un personaje de la vida real?"], category: .identity),
+        .init(key: "isFictional", questionTemplates: ["¿Tu personaje es ficticio?", "¿Es inventado?", "¿Pertenece a una obra de ficción?"], category: .identity),
+        .init(key: "isHistorical", questionTemplates: ["¿Tu personaje es histórico?", "¿Vivió en el pasado?", "¿Es una figura importante de la historia?"], category: .identity),
+        .init(key: "isAlive", questionTemplates: ["¿Tu personaje está vivo actualmente?", "¿Sigue con vida?", "¿Está vivo hoy en día?"], category: .identity),
 
         // Origin
-        .init(key: "isFromMovie", questionTemplate: "¿Tu personaje aparece en películas?", category: .origin),
-        .init(key: "isFromBook", questionTemplate: "¿Tu personaje aparece en libros?", category: .origin),
-        .init(key: "isFromTV", questionTemplate: "¿Tu personaje aparece en televisión?", category: .origin),
-        .init(key: "isFromVideoGame", questionTemplate: "¿Tu personaje es de un videojuego?", category: .origin),
-        .init(key: "isFromComic", questionTemplate: "¿Tu personaje es de un cómic?", category: .origin),
-        .init(key: "isFromMythology", questionTemplate: "¿Tu personaje es de la mitología?", category: .origin),
-        .init(key: "isFromAnime", questionTemplate: "¿Tu personaje es de un anime?", category: .origin),
-        .init(key: "isFromPeru", questionTemplate: "¿Tu personaje es peruano?", category: .origin),
-        .init(key: "isLatinAmerican", questionTemplate: "¿Tu personaje es latinoamericano?", category: .origin),
+        .init(key: "isFromMovie", questionTemplates: ["¿Tu personaje aparece en películas?", "¿Lo has visto en el cine?", "¿Ha sido protagonista de una película?"], category: .origin),
+        .init(key: "isFromBook", questionTemplates: ["¿Tu personaje aparece en libros?", "¿Es de una novela o cuento?", "¿Lo conoces por algún libro?"], category: .origin),
+        .init(key: "isFromTV", questionTemplates: ["¿Tu personaje aparece en televisión?", "¿Lo has visto en la tele?", "¿Es de alguna serie o programa de TV?"], category: .origin),
+        .init(key: "isFromVideoGame", questionTemplates: ["¿Tu personaje es de un videojuego?", "¿Aparece en algún videojuego?", "¿Es un personaje de videojuegos?"], category: .origin),
+        .init(key: "isFromComic", questionTemplates: ["¿Tu personaje es de un cómic?", "¿Aparece en historietas?", "¿Sale en cómics o mangas?"], category: .origin),
+        .init(key: "isFromMythology", questionTemplates: ["¿Tu personaje es de la mitología?", "¿Pertenece a leyendas antiguas?", "¿Es parte de algún mito o leyenda?"], category: .origin),
+        .init(key: "isFromAnime", questionTemplates: ["¿Tu personaje es de un anime?", "¿Es de una serie animada japonesa?", "¿Aparece en algún anime?"], category: .origin),
+        .init(key: "isFromPeru", questionTemplates: ["¿Tu personaje es peruano?", "¿Nació en Perú?", "¿Es originario del Perú?"], category: .origin),
+        .init(key: "isLatinAmerican", questionTemplates: ["¿Tu personaje es latinoamericano?", "¿Es de algún país de Latinoamérica?", "¿Nació en América Latina?"], category: .origin),
 
         // Franchise
-        .init(key: "isFromMarvel", questionTemplate: "¿Tu personaje es de Marvel?", category: .franchise),
-        .init(key: "isFromDC", questionTemplate: "¿Tu personaje es de DC?", category: .franchise),
-        .init(key: "isFromDisney", questionTemplate: "¿Tu personaje es de Disney?", category: .franchise),
-        .init(key: "isFromStarWars", questionTemplate: "¿Tu personaje es de Star Wars?", category: .franchise),
+        .init(key: "isFromMarvel", questionTemplates: ["¿Tu personaje es de Marvel?", "¿Pertenece al universo Marvel?", "¿Es de los cómics de Marvel?"], category: .franchise),
+        .init(key: "isFromDC", questionTemplates: ["¿Tu personaje es de DC?", "¿Es del universo DC?", "¿Pertenece a DC Comics?"], category: .franchise),
+        .init(key: "isFromDisney", questionTemplates: ["¿Tu personaje es de Disney?", "¿Pertenece al mundo Disney?", "¿Es un personaje de Disney?"], category: .franchise),
+        .init(key: "isFromStarWars", questionTemplates: ["¿Tu personaje es de Star Wars?", "¿Pertenece a la saga Star Wars?", "¿Vive en una galaxia muy lejana?"], category: .franchise),
 
         // Nature
-        .init(key: "isHuman", questionTemplate: "¿Tu personaje es humano?", category: .nature),
-        .init(key: "isAnimal", questionTemplate: "¿Tu personaje es un animal?", category: .nature),
-        .init(key: "isMagical", questionTemplate: "¿Tu personaje es mágico?", category: .nature),
-        .init(key: "isSuperhero", questionTemplate: "¿Tu personaje es un superhéroe?", category: .nature),
-        .init(key: "isVillain", questionTemplate: "¿Tu personaje es un villano?", category: .nature),
-        .init(key: "isRoyalty", questionTemplate: "¿Tu personaje es de la realeza?", category: .nature),
+        .init(key: "isHuman", questionTemplates: ["¿Tu personaje es humano?", "¿Es un ser humano?", "¿Pertenece a la raza humana?"], category: .nature),
+        .init(key: "isAnimal", questionTemplates: ["¿Tu personaje es un animal?", "¿No es humano, sino animal?", "¿Es una criatura no humana?"], category: .nature),
+        .init(key: "isMagical", questionTemplates: ["¿Tu personaje es mágico?", "¿Tiene habilidades mágicas?", "¿Usa magia o hechizos?"], category: .nature),
+        .init(key: "isSuperhero", questionTemplates: ["¿Tu personaje es un superhéroe?", "¿Tiene identidad secreta?", "¿Se dedica a salvar personas?"], category: .nature),
+        .init(key: "isVillain", questionTemplates: ["¿Tu personaje es un villano?", "¿Es uno de los malos?", "¿Es un antagonista?"], category: .nature),
+        .init(key: "isRoyalty", questionTemplates: ["¿Tu personaje es de la realeza?", "¿Es rey, reina o princesa?", "¿Pertenece a una familia real?"], category: .nature),
 
         // Appearance
-        .init(key: "hasHair", questionTemplate: "¿Tu personaje tiene cabello?", category: .appearance),
-        .init(key: "wearsGlasses", questionTemplate: "¿Tu personaje usa gafas?", category: .appearance),
-        .init(key: "hasBeard", questionTemplate: "¿Tu personaje tiene barba?", category: .appearance),
-        .init(key: "isFemale", questionTemplate: "¿Tu personaje es mujer?", category: .appearance),
-        .init(key: "isChild", questionTemplate: "¿Tu personaje es un niño?", category: .appearance),
-        .init(key: "isElderly", questionTemplate: "¿Tu personaje es anciano?", category: .appearance),
+        .init(key: "hasHair", questionTemplates: ["¿Tu personaje tiene cabello?", "¿Tiene pelo visible?", "¿Se le ve cabello?"], category: .appearance),
+        .init(key: "wearsGlasses", questionTemplates: ["¿Tu personaje usa gafas?", "¿Lleva anteojos?", "¿Usa lentes?"], category: .appearance),
+        .init(key: "hasBeard", questionTemplates: ["¿Tu personaje tiene barba?", "¿Lleva barba o bigote?", "¿Tiene vello facial?"], category: .appearance),
+        .init(key: "isFemale", questionTemplates: ["¿Tu personaje es mujer?", "¿Es del género femenino?", "¿Estamos hablando de una mujer?"], category: .appearance),
+        .init(key: "isChild", questionTemplates: ["¿Tu personaje es un niño?", "¿Es menor de edad?", "¿Es un personaje infantil?"], category: .appearance),
+        .init(key: "isElderly", questionTemplates: ["¿Tu personaje es anciano?", "¿Es una persona mayor?", "¿Tiene avanzada edad?"], category: .appearance),
 
         // Abilities
-        .init(key: "usesMagic", questionTemplate: "¿Tu personaje usa magia?", category: .abilities),
-        .init(key: "usesTechnology", questionTemplate: "¿Tu personaje usa tecnología avanzada?", category: .abilities),
-        .init(key: "hasSuperpowers", questionTemplate: "¿Tu personaje tiene superpoderes?", category: .abilities),
-        .init(key: "isStrong", questionTemplate: "¿Tu personaje es físicamente fuerte?", category: .abilities),
-        .init(key: "isSmart", questionTemplate: "¿Tu personaje es muy inteligente?", category: .abilities),
+        .init(key: "usesMagic", questionTemplates: ["¿Tu personaje usa magia?", "¿Lanza hechizos?", "¿Practica la brujería o hechicería?"], category: .abilities),
+        .init(key: "usesTechnology", questionTemplates: ["¿Tu personaje usa tecnología avanzada?", "¿Maneja dispositivos tecnológicos?", "¿Usa aparatos de alta tecnología?"], category: .abilities),
+        .init(key: "hasSuperpowers", questionTemplates: ["¿Tu personaje tiene superpoderes?", "¿Posee habilidades sobrehumanas?", "¿Tiene poderes especiales?"], category: .abilities),
+        .init(key: "isStrong", questionTemplates: ["¿Tu personaje es físicamente fuerte?", "¿Tiene una fuerza fuera de lo común?", "¿Es conocido por su fortaleza?"], category: .abilities),
+        .init(key: "isSmart", questionTemplates: ["¿Tu personaje es muy inteligente?", "¿Se caracteriza por su intelecto?", "¿Es un genio o muy astuto?"], category: .abilities),
 
         // Items
-        .init(key: "hasWeapon", questionTemplate: "¿Tu personaje usa un arma?", category: .items),
-        .init(key: "drivesVehicle", questionTemplate: "¿Tu personaje conduce un vehículo?", category: .items),
-        .init(key: "wearsCape", questionTemplate: "¿Tu personaje usa capa?", category: .items),
-        .init(key: "wearsHat", questionTemplate: "¿Tu personaje usa sombrero?", category: .items),
+        .init(key: "hasWeapon", questionTemplates: ["¿Tu personaje usa un arma?", "¿Porta algún tipo de arma?", "¿Utiliza armas para pelear?"], category: .items),
+        .init(key: "drivesVehicle", questionTemplates: ["¿Tu personaje conduce un vehículo?", "¿Maneja algún medio de transporte?", "¿Tiene un vehículo característico?"], category: .items),
+        .init(key: "wearsCape", questionTemplates: ["¿Tu personaje usa capa?", "¿Lleva una capa puesta?", "¿Usa capa o manto?"], category: .items),
+        .init(key: "wearsHat", questionTemplates: ["¿Tu personaje usa sombrero?", "¿Lleva algún tipo de gorro?", "¿Usa un sombrero distintivo?"], category: .items),
     ]
 }

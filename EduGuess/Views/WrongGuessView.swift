@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct WrongGuessView: View {
 
@@ -15,6 +16,9 @@ struct WrongGuessView: View {
     @State private var toastMessage = "Personaje aprendido"
     @State private var toastIcon = "book.fill"
     @State private var showToast = false
+    @State private var savedName = ""
+    @State private var savedAttributes: [String: Bool] = [:]
+    @State private var showCompletionForm = false
 
     var body: some View {
 
@@ -70,11 +74,26 @@ struct WrongGuessView: View {
                         .padding(.horizontal, 30)
                     }
                 } else {
-                    Text("¡Gracias! Lo recordaré para la próxima 🧠")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+                    VStack(spacing: 12) {
+                        Text("¡Gracias! Lo recordaré para la próxima 🧠")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+
+                        Button {
+                            showCompletionForm = true
+                        } label: {
+                            Text("Completar perfil del personaje")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white.opacity(0.25))
+                                .cornerRadius(18)
+                        }
+                        .padding(.horizontal, 30)
+                    }
                 }
 
                 Spacer()
@@ -128,6 +147,18 @@ struct WrongGuessView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toast(message: toastMessage, icon: toastIcon, isShowing: $showToast)
+        .sheet(isPresented: $showCompletionForm) {
+            NavigationStack {
+                CharacterFormView(
+                    initialName: savedName,
+                    initialAttributes: savedAttributes,
+                    onSave: { name, attrs in
+                        updateCharacterAttributes(name: name, attributes: attrs)
+                        showCompletionForm = false
+                    }
+                )
+            }
+        }
     }
 
     private func saveLearnedCharacter() {
@@ -149,6 +180,8 @@ struct WrongGuessView: View {
             context: modelContext
         )
 
+        savedName = name
+        savedAttributes = profile
         toastMessage = "Personaje aprendido"
         toastIcon = "book.fill"
 
@@ -175,6 +208,17 @@ struct WrongGuessView: View {
                 withAnimation { didSave = true; showToast = true }
             }
         }
+    }
+
+    private func updateCharacterAttributes(name: String, attributes: [String: Bool]) {
+        let service = DataService()
+        let descriptor = FetchDescriptor<SDCharacter>(
+            predicate: #Predicate { $0.name == name }
+        )
+        guard let existing = try? modelContext.fetch(descriptor),
+              let sdCharacter = existing.first else { return }
+        sdCharacter.attributes = attributes
+        try? modelContext.save()
     }
 }
 

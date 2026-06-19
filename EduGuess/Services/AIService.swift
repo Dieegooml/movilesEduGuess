@@ -52,8 +52,8 @@ class AIService {
     // MARK: - Generate Question Text
 
     func generateQuestion(for attributeKey: String) -> String {
-        pool.first(where: { $0.key == attributeKey })?.questionTemplate
-            ?? "¿Tu personaje tiene el atributo '\(attributeKey)'?"
+        pool.first(where: { $0.key == attributeKey })?.generateQuestion()
+            ?? "¿\(attributeKey)?"
     }
 
     // MARK: - Information Gain (entropy-based)

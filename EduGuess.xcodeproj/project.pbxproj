@@ -160,7 +160,6 @@
 			children = (
 				5C41F77E2FB76306002814AC /* Services */,
 				5C41F7802FB7631A002814AC /* Components */,
-				5C41F77F2FB76310002814AC /* Assets */,
 				5C41F77D2FB762FA002814AC /* ViewModels */,
 				5C41F77C2FB762ED002814AC /* Views */,
 				5C41F77A2FB762D6002814AC /* Models */,
@@ -168,8 +167,8 @@
 				5C41F76C2FB762AD002814AC /* EduGuessApp.swift */,
 				5C41F7702FB762AF002814AC /* Assets.xcassets */,
 				5C41F7722FB762AF002814AC /* Preview Content */,
-			8419A9122FE24C4D00F1F187 /* characters_seed.json */,
-			B4E8A41674B5A8D454E09481 /* GoogleService-Info.plist */,
+				8419A9122FE24C4D00F1F187 /* characters_seed.json */,
+				B4E8A41674B5A8D454E09481 /* GoogleService-Info.plist */,
 			849f1b2a9c3d4e5f6a7b8c9d /* Info.plist */,
 		);
 			path = EduGuess;
@@ -215,11 +214,11 @@
 				BDA2CEB9F95A45AFA67762E7 /* CategorySelectView.swift */,
 				0A87B4F200274C708E1E9615 /* HowToPlayView.swift */,
 				50B5A02971A848A5B8612E68 /* SettingsView.swift */,
-		C2D3E4F5A6B7C8D9 /* DailyChallengeView.swift */,
-		B7C8D9E0F1A2B3C4 /* PublicProfileView.swift */,
-		B4C5D6E7F8A1B2C3 /* AchievementListView.swift */,
-		D6E7F8A1B2C3D4E5 /* CommentsView.swift */,
-		C7D8E9F1A2B3C4D5 /* StatisticsView.swift */,
+				C2D3E4F5A6B7C8D9 /* DailyChallengeView.swift */,
+				B7C8D9E0F1A2B3C4 /* PublicProfileView.swift */,
+				B4C5D6E7F8A1B2C3 /* AchievementListView.swift */,
+				D6E7F8A1B2C3D4E5 /* CommentsView.swift */,
+				C7D8E9F1A2B3C4D5 /* StatisticsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -241,22 +240,15 @@
 				8419A9142FE2511300F1F187 /* FirestoreService.swift */,
 				5C41F7932FB7674F002814AC /* AIService.swift */,
 				5C41F7952FB76760002814AC /* DataService.swift */,
-		2ED9F57B001B4063966C482B /* WikiService.swift */,
-		49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */,
-		B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */,
-		F5A6B7C8D9E0F1A2 /* ThemeManager.swift */,
-		D9E0F1A2B3C4D5E6 /* CharacterImportService.swift */,
-		A1B2C3D4E5F6A7B8 /* NotificationService.swift */,
-		F2A3B4C5D6E7F8A2 /* AchievementService.swift */,
+				2ED9F57B001B4063966C482B /* WikiService.swift */,
+				49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */,
+				B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */,
+				F5A6B7C8D9E0F1A2 /* ThemeManager.swift */,
+				D9E0F1A2B3C4D5E6 /* CharacterImportService.swift */,
+				A1B2C3D4E5F6A7B8 /* NotificationService.swift */,
+				F2A3B4C5D6E7F8A2 /* AchievementService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		5C41F77F2FB76310002814AC /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Assets;
 			sourceTree = "<group>";
 		};
 		5C41F7802FB7631A002814AC /* Components */ = {
@@ -268,7 +260,7 @@
 				5C41F79D2FB768E6002814AC /* RobotAvatar.swift */,
 				BBF76C0802FA48A8A33CAF73 /* ToastView.swift */,
 				A4B5C6D7E8F9A0B1 /* AvatarView.swift */,
-		);
+			);
 			path = Components;
 			sourceTree = "<group>";
 		};
@@ -390,14 +382,14 @@
 				D3E4F5A6B7C8D9E0 /* DailyChallengeService.swift in Sources */,
 				E4F5A6B7C8D9E0F1 /* DailyChallengeView.swift in Sources */,
 				A6B7C8D9E0F1A2B3 /* ThemeManager.swift in Sources */,
-			C8D9E0F1A2B3C4D5 /* PublicProfileView.swift in Sources */,
-			E0F1A2B3C4D5E6F7 /* CharacterImportService.swift in Sources */,
-			F1A2B3C4D5E6F7A1 /* NotificationService.swift in Sources */,
-			A3B4C5D6E7F8A1B2 /* AchievementService.swift in Sources */,
-			C5D6E7F8A1B2C3D4 /* AchievementListView.swift in Sources */,
-			E7F8A1B2C3D4E5F6 /* CommentsView.swift in Sources */,
-			A4B5C6D7E8F9A0B2 /* AvatarView.swift in Sources */,
-		B6C7D8E9F1A2B3C4 /* StatisticsView.swift in Sources */,
+				C8D9E0F1A2B3C4D5 /* PublicProfileView.swift in Sources */,
+				E0F1A2B3C4D5E6F7 /* CharacterImportService.swift in Sources */,
+				F1A2B3C4D5E6F7A1 /* NotificationService.swift in Sources */,
+				A3B4C5D6E7F8A1B2 /* AchievementService.swift in Sources */,
+				C5D6E7F8A1B2C3D4 /* AchievementListView.swift in Sources */,
+				E7F8A1B2C3D4E5F6 /* CommentsView.swift in Sources */,
+				A4B5C6D7E8F9A0B2 /* AvatarView.swift in Sources */,
+				B6C7D8E9F1A2B3C4 /* StatisticsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

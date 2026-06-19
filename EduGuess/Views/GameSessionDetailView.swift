@@ -70,7 +70,7 @@ struct GameSessionDetailView: View {
                 let (key, answer) = pairedQA[index]
                 let questionText = AttributeDefinition.pool
                     .first(where: { $0.key == key })?
-                    .questionTemplate ?? key
+                    .questionTemplates.first ?? key
 
                 HStack(alignment: .top) {
                     Text("\(index + 1).")

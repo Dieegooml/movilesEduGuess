@@ -21,6 +21,16 @@ struct CharacterFormView: View {
         _attributes = State(initialValue: character?.attributes ?? [:])
     }
 
+    init(initialName: String,
+         initialAttributes: [String: Bool],
+         onSave: @escaping (String, [String: Bool]) -> Void = { _, _ in }) {
+        self.initialName = initialName
+        self.initialAttributes = initialAttributes
+        self.onSave = onSave
+        _name = State(initialValue: initialName)
+        _attributes = State(initialValue: initialAttributes)
+    }
+
     private var categoriesWithAttributes: [(AttributeCategory, [AttributeDefinition])] {
         let pool = AttributeDefinition.pool
         let grouped = Dictionary(grouping: pool, by: { $0.category })
@@ -39,7 +49,7 @@ struct CharacterFormView: View {
             ForEach(categoriesWithAttributes, id: \.0.rawValue) { category, defs in
                 Section(category.rawValue) {
                     ForEach(defs, id: \.key) { def in
-                        Toggle(def.questionTemplate, isOn: Binding(
+                        Toggle(def.questionTemplates.first ?? def.key, isOn: Binding(
                             get: { attributes[def.key] ?? false },
                             set: { attributes[def.key] = $0 }
                         ))

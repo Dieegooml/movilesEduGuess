@@ -165,7 +165,7 @@ struct CharacterDetailView: View {
         let isTrue = value == true
 
         return HStack {
-            Text(definition.questionTemplate)
+            Text(definition.questionTemplates.first ?? definition.key)
                 .font(.subheadline)
                 .foregroundColor(.primary)
 
