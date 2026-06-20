@@ -84,28 +84,17 @@ struct QuestionView: View {
     }
 
     private var gameContent: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 20) {
             if isDailyChallenge {
-                HStack {
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
-                    Text("Desafío Diario: \(dailyCharacterName ?? "")")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(Color.yellow.opacity(0.2))
-                .cornerRadius(20)
-                .transition(.slide.combined(with: .opacity))
+                dailyChallengeBadge
             }
 
             Spacer()
 
             RobotAvatar()
 
-            ProgressBar(progress: progressValue)
-                .frame(height: 40)
+            ProgressBar(progress: progressValue, questionsAsked: viewModel.questionsAskedCount)
+                .frame(height: 50)
 
             if viewModel.isRevealing {
                 revealContent
@@ -116,9 +105,35 @@ struct QuestionView: View {
             }
 
             Spacer()
-
         }
         .padding()
+    }
+
+    private var dailyChallengeBadge: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "star.fill")
+                .font(.caption)
+                .foregroundColor(.yellow)
+                .symbolEffect(.bounce, options: .repeat(2))
+            Text("Desafío Diario")
+                .font(.caption)
+                .fontWeight(.bold)
+                .foregroundColor(.yellow)
+            Text("• \(dailyCharacterName ?? "")")
+                .font(.caption)
+                .foregroundColor(.yellow.opacity(0.8))
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 6)
+        .background(
+            Capsule()
+                .fill(Color.yellow.opacity(0.15))
+                .overlay(
+                    Capsule()
+                        .stroke(Color.yellow.opacity(0.4), lineWidth: 1)
+                )
+        )
+        .transition(.move(edge: .top).combined(with: .opacity))
     }
 
     // MARK: - Reveal Animation (before showing correct guess)
@@ -180,40 +195,55 @@ struct QuestionView: View {
                         .id(viewModel.currentQuestion)
 
                     VStack(spacing: 10) {
-                        fuzzyAnswerButton(
+                        AnswerButton(
                             title: "Sí",
                             icon: "checkmark.circle.fill",
-                            color: .green,
-                            answer: .yes
-                        )
+                            color: .green
+                        ) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                viewModel.answerQuestion(answer: .yes)
+                            }
+                        }
 
-                        fuzzyAnswerButton(
+                        AnswerButton(
                             title: "Probablemente sí",
                             icon: "hand.thumbsup.fill",
-                            color: Color.green.opacity(0.7),
-                            answer: .probablyYes
-                        )
+                            color: Color(red: 0.3, green: 0.75, blue: 0.4)
+                        ) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                viewModel.answerQuestion(answer: .probablyYes)
+                            }
+                        }
 
-                        fuzzyAnswerButton(
+                        AnswerButton(
                             title: "No sé",
                             icon: "questionmark.circle.fill",
-                            color: .gray,
-                            answer: .unknown
-                        )
+                            color: Color.gray
+                        ) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                viewModel.answerQuestion(answer: .unknown)
+                            }
+                        }
 
-                        fuzzyAnswerButton(
+                        AnswerButton(
                             title: "Probablemente no",
                             icon: "hand.thumbsdown.fill",
-                            color: Color.orange,
-                            answer: .probablyNo
-                        )
+                            color: Color.orange
+                        ) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                viewModel.answerQuestion(answer: .probablyNo)
+                            }
+                        }
 
-                        fuzzyAnswerButton(
+                        AnswerButton(
                             title: "No",
                             icon: "xmark.circle.fill",
-                            color: .red,
-                            answer: .no
-                        )
+                            color: .red
+                        ) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                viewModel.answerQuestion(answer: .no)
+                            }
+                        }
                     }
                     .padding(.horizontal)
                 }
@@ -222,16 +252,6 @@ struct QuestionView: View {
                 insertion: .move(edge: .trailing).combined(with: .opacity),
                 removal: .move(edge: .leading).combined(with: .opacity)
             ))
-
-            if viewModel.questionsAskedCount < 15 {
-                Text("Pregunta \(viewModel.questionsAskedCount + 1) de mínimo 15")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            } else {
-                Text("Pregunta \(viewModel.questionsAskedCount + 1)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
         }
         .animation(.easeInOut(duration: 0.4), value: viewModel.isGenerating)
         .animation(.easeInOut(duration: 0.3), value: viewModel.questionsAskedCount)
@@ -282,30 +302,58 @@ struct QuestionView: View {
     // MARK: - Guess Attempt Mode
 
     private var guessContent: some View {
-        VStack(spacing: 16) {
-            QuestionCard(question: "¿Es \(viewModel.guessCandidate?.name ?? "...")?")
-                .transition(.scale.combined(with: .opacity))
-                .id("guess-\(viewModel.guessCandidate?.name ?? "")")
+        VStack(spacing: 20) {
+            // Animated guess badge
+            VStack(spacing: 12) {
+                Text("¿Es este tu personaje?")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+
+                Text(viewModel.guessCandidate?.name ?? "...")
+                    .font(.system(size: 32, weight: .heavy))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.orange, .red],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .scaleEffect(1.0)
+                    .transition(.scale.combined(with: .opacity))
+            }
+            .padding(24)
+            .background(
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(Color(.systemGray6))
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+            )
+            .padding(.horizontal)
 
             VStack(spacing: 12) {
-                AnswerButton(title: "Sí, es correcto", color: .green) {
+                AnswerButton(
+                    title: "¡Sí, es correcto!",
+                    icon: "checkmark.seal.fill",
+                    color: .green
+                ) {
                     HapticManager.shared.notification(.success)
                     viewModel.respondToGuess(correct: true)
                 }
 
-                AnswerButton(title: "No, no es", color: .red) {
+                AnswerButton(
+                    title: "No, no es",
+                    icon: "xmark.octagon.fill",
+                    color: .red
+                ) {
                     HapticManager.shared.notification(.error)
                     viewModel.respondToGuess(correct: false)
                 }
             }
             .padding(.horizontal)
-
-            Text("Intento de adivinanza")
-                .font(.caption)
-                .foregroundColor(.secondary)
         }
         .transition(.asymmetric(
-            insertion: .scale(scale: 0.9).combined(with: .opacity),
+            insertion: .scale(scale: 0.8).combined(with: .opacity),
             removal: .opacity
         ))
     }
@@ -345,29 +393,6 @@ struct QuestionView: View {
         }
     }
 
-    private func fuzzyAnswerButton(title: String, icon: String, color: Color, answer: AnswerType) -> some View {
-        Button {
-            HapticManager.shared.impact(.light)
-            withAnimation(.easeInOut(duration: 0.2)) {
-                viewModel.answerQuestion(answer: answer)
-            }
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: icon)
-                    .font(.title3)
-                Text(title)
-                    .font(.subheadline.weight(.semibold))
-                Spacer()
-            }
-            .foregroundColor(.white)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(color)
-            )
-        }
-        .pressEffect()
-    }
 }
 
 struct QuestionView_Previews: PreviewProvider {
