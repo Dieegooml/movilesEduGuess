@@ -3,8 +3,19 @@ import SwiftUI
 struct GameSessionDetailView: View {
     let session: SDGameSession
 
-    private var pairedQA: [(String, Bool)] {
+    private var pairedQA: [(String, String)] {
         Array(zip(session.questionsAsked, session.answers))
+    }
+
+    private func answerIconAndColor(for rawValue: String) -> (String, Color) {
+        switch rawValue {
+        case "yes": return ("checkmark.circle.fill", .green)
+        case "probably_yes": return ("hand.thumbsup.fill", Color.green.opacity(0.7))
+        case "unknown": return ("questionmark.circle.fill", .gray)
+        case "probably_no": return ("hand.thumbsdown.fill", .orange)
+        case "no": return ("xmark.circle.fill", .red)
+        default: return ("questionmark.circle", .gray)
+        }
     }
 
     var body: some View {
@@ -67,10 +78,11 @@ struct GameSessionDetailView: View {
                 .padding(.bottom, 4)
 
             ForEach(pairedQA.indices, id: \.self) { index in
-                let (key, answer) = pairedQA[index]
+                let (key, answerRaw) = pairedQA[index]
                 let questionText = AttributeDefinition.pool
                     .first(where: { $0.key == key })?
                     .questionTemplates.first ?? key
+                let (icon, color) = answerIconAndColor(for: answerRaw)
 
                 HStack(alignment: .top) {
                     Text("\(index + 1).")
@@ -81,8 +93,8 @@ struct GameSessionDetailView: View {
                         .font(.subheadline)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Image(systemName: answer ? "hand.thumbsup.fill" : "hand.thumbsdown.fill")
-                        .foregroundColor(answer ? .green : .red)
+                    Image(systemName: icon)
+                        .foregroundColor(color)
                 }
                 .padding(.vertical, 6)
                 .padding(.horizontal, 12)

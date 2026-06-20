@@ -30,7 +30,7 @@ struct FirebaseGameSession: Codable {
     var won: Bool
     var score: Int
     var questionsAsked: [String]
-    var answers: [Bool]
+    var answers: [String]
     var timestamp: Date
 }
 

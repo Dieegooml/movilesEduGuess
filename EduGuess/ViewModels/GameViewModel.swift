@@ -2,10 +2,12 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-enum AnswerType {
-    case yes
-    case no
-    case unknown
+enum AnswerType: String {
+    case yes = "yes"
+    case probablyYes = "probably_yes"
+    case unknown = "unknown"
+    case probablyNo = "probably_no"
+    case no = "no"
 }
 
 class GameViewModel: ObservableObject {
@@ -19,6 +21,7 @@ class GameViewModel: ObservableObject {
     @Published var guessedCharacter: Character?
     @Published var finalProfile: [String: Bool] = [:]
     @Published var isAttemptingGuess: Bool = false
+    @Published var isRevealing: Bool = false
     @Published var guessCandidate: Character?
     @Published var generationError: Bool = false
     @Published var isGenerating: Bool = false
@@ -33,15 +36,17 @@ class GameViewModel: ObservableObject {
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
     private var sessionQuestions: [String] = []
-    private var sessionAnswers: [Bool] = []
+    private var sessionAnswers: [AnswerType] = []
     private var allCharacters: [Character] = []
     private var possibleCharacters: [Character] = []
+    private var characterScores: [UUID: Int] = [:]
+    private let eliminationThreshold = -6
     private var generationTask: Task<Void, Never>?
 
     // MARK: - Read-Only Exports
 
     var askedAttributeKeys: [String] { sessionQuestions }
-    var givenAnswers: [Bool] { sessionAnswers }
+    var givenAnswers: [AnswerType] { sessionAnswers }
     var hasValidData: Bool { true }
     var remainingAttributes: Int { totalAttributes - askedAttributes.count }
     var progressRatio: Double {
@@ -64,42 +69,48 @@ class GameViewModel: ObservableObject {
         sessionAnswers = []
         allCharacters = characters
         possibleCharacters = allCharacters
+        characterScores = Dictionary(uniqueKeysWithValues: characters.map { ($0.id, 0) })
         questionsAskedCount = 0
         guessedCharacter = nil
         finalProfile = [:]
         isAttemptingGuess = false
+        isRevealing = false
         guessCandidate = nil
         gameState = .playing
 
         Task { await generateNextQuestion() }
     }
 
-    // MARK: - Answer Question (Sí / No / No sé)
+    // MARK: - Answer Question (5-level fuzzy scoring)
 
     func answerQuestion(answer: AnswerType) {
-        switch answer {
-        case .yes:
-            characterProfile[currentAttributeKey] = true
-            possibleCharacters = possibleCharacters.filter {
-                $0.attributes[currentAttributeKey] == true
-            }
-            sessionQuestions.append(currentAttributeKey)
-            sessionAnswers.append(true)
+        let key = currentAttributeKey
+        characterProfile[key] = answerValue(for: answer)
+        sessionQuestions.append(key)
+        sessionAnswers.append(answer)
+        askedAttributes.append(key)
+        questionsAskedCount += 1
 
-        case .no:
-            characterProfile[currentAttributeKey] = false
-            possibleCharacters = possibleCharacters.filter {
-                $0.attributes[currentAttributeKey] == false
-            }
-            sessionQuestions.append(currentAttributeKey)
-            sessionAnswers.append(false)
-
-        case .unknown:
-            break
+        // Apply fuzzy scoring to all possible characters
+        for character in possibleCharacters {
+            let value = character.attributes[key]
+            let delta = scoreDelta(answer: answer, attributeValue: value)
+            characterScores[character.id, default: 0] += delta
         }
 
-        askedAttributes.append(currentAttributeKey)
-        questionsAskedCount += 1
+        // Sort by score descending and eliminate very low scores
+        possibleCharacters.sort { (a, b) in
+            (characterScores[a.id] ?? 0) > (characterScores[b.id] ?? 0)
+        }
+        possibleCharacters.removeAll { (characterScores[$0.id] ?? 0) <= eliminationThreshold }
+
+        // Fallback: if everyone got eliminated, restore all characters and keep going
+        if possibleCharacters.isEmpty {
+            possibleCharacters = allCharacters
+            for c in possibleCharacters {
+                characterScores[c.id] = 0
+            }
+        }
 
         evaluateGameState()
 
@@ -109,6 +120,45 @@ class GameViewModel: ObservableObject {
             } else {
                 Task { await generateNextQuestion() }
             }
+        }
+    }
+
+    private func answerValue(for answer: AnswerType) -> Bool? {
+        switch answer {
+        case .yes: return true
+        case .probablyYes: return true
+        case .unknown: return nil
+        case .probablyNo: return false
+        case .no: return false
+        }
+    }
+
+    /// Fuzzy scoring: nil (unknown attribute) is neutral for definitive answers,
+    /// and slightly positive for probabilistic answers (keeps characters alive).
+    private func scoreDelta(answer: AnswerType, attributeValue: Bool?) -> Int {
+        switch answer {
+        case .yes:
+            // Definitive yes: +3 if true, -3 if false, 0 if unknown
+            if attributeValue == true { return 3 }
+            if attributeValue == false { return -3 }
+            return 0
+        case .probablyYes:
+            // Probably yes: +2 if true, -1 if false (soft penalty), +1 if unknown (keep alive)
+            if attributeValue == true { return 2 }
+            if attributeValue == false { return -1 }
+            return 1
+        case .unknown:
+            return 0
+        case .probablyNo:
+            // Probably no: -1 if true (soft penalty), +2 if false, +1 if unknown (keep alive)
+            if attributeValue == true { return -1 }
+            if attributeValue == false { return 2 }
+            return 1
+        case .no:
+            // Definitive no: -3 if true, +3 if false, 0 if unknown
+            if attributeValue == true { return -3 }
+            if attributeValue == false { return 3 }
+            return 0
         }
     }
 
@@ -125,10 +175,23 @@ class GameViewModel: ObservableObject {
             return
         }
 
+        // User said "No, it's not this character" — heavy penalty but not instant elimination
         if let character = guessCandidate {
-            possibleCharacters.removeAll { $0.id == character.id }
+            characterScores[character.id, default: 0] -= 5
+            possibleCharacters.sort { (a, b) in
+                (characterScores[a.id] ?? 0) > (characterScores[b.id] ?? 0)
+            }
+            possibleCharacters.removeAll { (characterScores[$0.id] ?? 0) <= eliminationThreshold }
         }
         guessCandidate = nil
+
+        // Fallback if everyone eliminated
+        if possibleCharacters.isEmpty {
+            possibleCharacters = allCharacters
+            for c in possibleCharacters {
+                characterScores[c.id] = 0
+            }
+        }
 
         evaluateGameState()
 
@@ -137,35 +200,71 @@ class GameViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Guess Logic (Akinator-style)
+    // MARK: - Guess Logic (score-gap based)
 
     private func shouldAttemptGuess() -> Bool {
         guard questionsAskedCount >= minimumQuestionsBeforeGuess, !possibleCharacters.isEmpty else {
             return false
         }
-        let ratio = Double(possibleCharacters.count) / Double(max(allCharacters.count, 1))
-        if ratio <= 0.05 {
-            return true
-        }
-        let guessInterval = max(4, totalAttributes / 6)
-        return possibleCharacters.count <= 2 || questionsAskedCount % guessInterval == 0
+
+        // Always reveal if only 1 character remains
+        if possibleCharacters.count == 1 { return true }
+
+        // Calculate score gap between #1 and #2
+        let sorted = possibleCharacters
+        guard sorted.count >= 2 else { return true }
+        let topScore = characterScores[sorted[0].id] ?? 0
+        let secondScore = characterScores[sorted[1].id] ?? 0
+        let gap = topScore - secondScore
+
+        // High confidence: big gap after many questions
+        if questionsAskedCount >= 20 && gap >= 6 { return true }
+        if questionsAskedCount >= 25 && gap >= 4 { return true }
+
+        // Very high confidence regardless of question count
+        if gap >= 10 { return true }
+
+        // If we are down to just 2 characters, ask the user
+        if possibleCharacters.count == 2 && questionsAskedCount >= 18 { return true }
+
+        return false
     }
 
     private func attemptGuess() {
-        guessCandidate = possibleCharacters.first
-        isAttemptingGuess = true
+        guard let candidate = possibleCharacters.first else { return }
+        guessCandidate = candidate
+        if possibleCharacters.count == 1 {
+            isRevealing = true
+        } else {
+            isAttemptingGuess = true
+        }
+    }
+
+    func confirmGuess() {
+        guard let character = guessCandidate else { return }
+        guessedCharacter = character
+        finalProfile = characterProfile
+        isRevealing = false
+        gameState = .guessed
     }
 
     // MARK: - Evaluation
 
     private func evaluateGameState() {
-        if possibleCharacters.count == 1, questionsAskedCount >= minimumQuestionsBeforeGuess {
-            guessedCharacter = possibleCharacters.first
-            finalProfile = characterProfile
-            gameState = .guessed
-        } else if possibleCharacters.isEmpty {
-            finalProfile = characterProfile
-            gameState = .failed
+        // Only fail if we have exhausted all attributes and still can't decide
+        if possibleCharacters.isEmpty {
+            possibleCharacters = allCharacters
+            for c in possibleCharacters {
+                characterScores[c.id] = 0
+            }
+        }
+        if askedAttributes.count >= totalAttributes && possibleCharacters.count > 1 {
+            // If we used all attributes and still have multiple, pick the top scorer
+            if let best = possibleCharacters.first {
+                guessedCharacter = best
+                finalProfile = characterProfile
+                gameState = .guessed
+            }
         }
     }
 
@@ -296,12 +395,14 @@ class GameViewModel: ObservableObject {
         sessionAnswers = []
         allCharacters = []
         possibleCharacters = []
+        characterScores = [:]
         questionsAskedCount = 0
         currentQuestion = ""
         currentAttributeKey = ""
         guessedCharacter = nil
         finalProfile = [:]
         isAttemptingGuess = false
+        isRevealing = false
         guessCandidate = nil
         gameState = .playing
     }
