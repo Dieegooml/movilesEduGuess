@@ -66,6 +66,10 @@
 		C8D9E0F2A3B4C5D6 /* GenerativeAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0F2A3B4C5D6E7 /* GenerativeAIService.swift */; };
 		A2B3C4D5E6F7A8B1 /* GenerativeAIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A3B4C5D6E7F8A1 /* GenerativeAIConfig.swift */; };
 		B3C4D5E6F7A8B1C2 /* SDGeneratedQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D5E6F7A8B1C2D3 /* SDGeneratedQuestion.swift */; };
+		6B4F32B6E06F4C1F969D3A34AD4105CA /* TrackingTransparencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B2F3E140B443FA1F5DA8305260B98 /* TrackingTransparencyManager.swift */; };
+		B02D0EEA7C7041C78C346733023D37A6 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF4A7219DA24E449C91DC798C88A7DF /* OnboardingView.swift */; };
+		DF1F2BD5E8754602A34E360CA1AFB9FD /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62E4F87D3B249EC9D616716FB53F2B3 /* EmptyStateView.swift */; };
+		A1643857024D47AD9FA70F0763D0CEF9 /* OfflineBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801679DB753640C582389E77253F2814 /* OfflineBanner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +130,10 @@
 		D9E0F2A3B4C5D6E7 /* GenerativeAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerativeAIService.swift; sourceTree = "<group>"; };
 		F2A3B4C5D6E7F8A1 /* GenerativeAIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerativeAIConfig.swift; sourceTree = "<group>"; };
 		C4D5E6F7A8B1C2D3 /* SDGeneratedQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDGeneratedQuestion.swift; sourceTree = "<group>"; };
+		3B7B2F3E140B443FA1F5DA8305260B98 /* TrackingTransparencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingTransparencyManager.swift; sourceTree = "<group>"; };
+		9BF4A7219DA24E449C91DC798C88A7DF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		B62E4F87D3B249EC9D616716FB53F2B3 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		801679DB753640C582389E77253F2814 /* OfflineBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +240,7 @@
 				B4C5D6E7F8A1B2C3 /* AchievementListView.swift */,
 				D6E7F8A1B2C3D4E5 /* CommentsView.swift */,
 				C7D8E9F1A2B3C4D5 /* StatisticsView.swift */,
+				9BF4A7219DA24E449C91DC798C88A7DF /* OnboardingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -261,6 +270,7 @@
 				A1B2C3D4E5F6A7B8 /* NotificationService.swift */,
 				F2A3B4C5D6E7F8A2 /* AchievementService.swift */,
 				D9E0F2A3B4C5D6E7 /* GenerativeAIService.swift */,
+				3B7B2F3E140B443FA1F5DA8305260B98 /* TrackingTransparencyManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -274,6 +284,8 @@
 				5C41F79D2FB768E6002814AC /* RobotAvatar.swift */,
 				BBF76C0802FA48A8A33CAF73 /* ToastView.swift */,
 				A4B5C6D7E8F9A0B1 /* AvatarView.swift */,
+				B62E4F87D3B249EC9D616716FB53F2B3 /* EmptyStateView.swift */,
+				801679DB753640C582389E77253F2814 /* OfflineBanner.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -406,6 +418,10 @@
 				C8D9E0F2A3B4C5D6 /* GenerativeAIService.swift in Sources */,
 				A2B3C4D5E6F7A8B1 /* GenerativeAIConfig.swift in Sources */,
 				B3C4D5E6F7A8B1C2 /* SDGeneratedQuestion.swift in Sources */,
+				6B4F32B6E06F4C1F969D3A34AD4105CA /* TrackingTransparencyManager.swift in Sources */,
+				B02D0EEA7C7041C78C346733023D37A6 /* OnboardingView.swift in Sources */,
+				DF1F2BD5E8754602A34E360CA1AFB9FD /* EmptyStateView.swift in Sources */,
+				A1643857024D47AD9FA70F0763D0CEF9 /* OfflineBanner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -66,6 +66,7 @@ struct EduGuessApp: App {
                         await NotificationService.shared.requestPermission()
                         await NotificationService.shared.scheduleDailyChallengeReminder()
                     }
+                    TrackingTransparencyManager.requestTrackingAuthorization()
                 }
             } else {
                 loadingView

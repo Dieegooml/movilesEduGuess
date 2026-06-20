@@ -187,4 +187,63 @@ final class AuthViewModel {
         FirebaseAuthService.shared.signOut()
         isAuthenticated = false
     }
+
+    // MARK: - Account Deletion
+
+    enum DeletionStep {
+        case notStarted
+        case deletingFirestore
+        case deletingAuth
+        case clearingLocal
+        case completed
+    }
+
+    func deleteAccount(email: String? = nil, password: String? = nil) async -> Result<Void, Error> {
+        guard let uid = userUID else {
+            return .failure(AuthError.noCredential)
+        }
+
+        await MainActor.run {
+            isLoading = true
+            errorMessage = nil
+        }
+
+        do {
+            // Step 1: Re-authenticate if credentials provided (for email/password users)
+            if let email = email, let password = password, !email.isEmpty, !password.isEmpty {
+                try await FirebaseAuthService.shared.reauthenticate(email: email, password: password)
+            }
+
+            // Step 2: Delete all Firestore data
+            try await FirestoreService.shared.deleteAllUserData(uid: uid)
+
+            // Step 3: Delete Firebase Auth account
+            try await FirebaseAuthService.shared.deleteAccount()
+
+            // Step 4: Clear local data
+            clearLocalData()
+
+            await MainActor.run {
+                isAuthenticated = false
+                isLoading = false
+            }
+            return .success(())
+        } catch {
+            await MainActor.run {
+                errorMessage = error.localizedDescription
+                isLoading = false
+            }
+            return .failure(error)
+        }
+    }
+
+    private func clearLocalData() {
+        // Clear UserDefaults
+        UserDefaults.standard.removeObject(forKey: "displayName")
+        UserDefaults.standard.removeObject(forKey: "avatarName")
+        UserDefaults.standard.removeObject(forKey: AuthKeys.isLoggedIn)
+        UserDefaults.standard.removeObject(forKey: AuthKeys.userUID)
+        UserDefaults.standard.removeObject(forKey: AuthKeys.userName)
+        UserDefaults.standard.removeObject(forKey: AuthKeys.userEmail)
+    }
 }

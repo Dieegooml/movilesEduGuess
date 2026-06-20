@@ -1,6 +1,7 @@
 import SwiftUI
 import PhotosUI
 import SwiftData
+import FirebaseAuth
 
 let avatarOptions = [
     "person.circle.fill",
@@ -44,136 +45,38 @@ struct SettingsView: View {
     @State private var showPhotoPicker = false
     @State private var selectedPhotoItem: PhotosPickerItem?
     @State private var showDeleteAlert = false
+    @State private var showDeleteAccountSheet = false
+    @State private var showDeleteAccountAlert = false
+    @State private var deleteAccountPassword = ""
+    @State private var deleteAccountError = ""
+    @State private var isDeletingAccount = false
 
     private let authVM = AuthViewModel.shared
 
     var body: some View {
         Form {
-            Section("Perfil") {
-                HStack {
-                    AvatarView(avatar: avatarName, size: 44)
-                    if avatarName.hasPrefix("data:image/") {
-                        Button("Quitar foto") {
-                            avatarName = "person.circle.fill"
-                            saveProfile()
-                        }
-                        .font(.caption)
-                    }
-                }
-
-                HStack {
-                    PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
-                        HStack {
-                            Image(systemName: "camera.fill")
-                            Text("Elegir foto")
-                        }
-                    }
-                    .onChange(of: selectedPhotoItem) { _, item in
-                        Task {
-                            await loadPhoto(from: item)
-                        }
-                    }
-
-                    Button("Avatar SF") {
-                        showAvatarPicker = true
-                    }
-                }
-
-                HStack {
-                    TextField("Nombre visible", text: $displayName)
-                    Button {
-                        saveProfile()
-                    } label: {
-                        Image(systemName: "arrow.clockwise.circle.fill")
-                            .foregroundColor(.accentColor)
-                            .font(.title3)
-                    }
-                }
-                if showNameSaved {
-                    Text("¡Guardado!")
-                        .font(.caption)
-                        .foregroundColor(.green)
-                        .transition(.opacity)
-                }
+            profileSection
+            avatarSection
+            appearanceSection
+            languageSection
+            preferencesSection
+            infoSection
+            localDataSection
+            dangerZoneSection
+        }
+        .alert("Eliminar cuenta", isPresented: $showDeleteAccountAlert) {
+            Button("Cancelar", role: .cancel) {}
+            Button("Eliminar", role: .destructive) {
+                showDeleteAccountSheet = true
             }
-
-            Section("Avatar") {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(avatarOptions, id: \.self) { icon in
-                            Button {
-                                avatarName = icon
-                                saveProfile()
-                            } label: {
-                                Image(systemName: icon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 36, height: 36)
-                                    .padding(8)
-                                    .background(avatarName == icon ? Color.accentColor.opacity(0.2) : Color.clear)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(avatarName == icon ? Color.accentColor : Color.clear, lineWidth: 2)
-                                    )
-                            }
-                            .foregroundColor(avatarName == icon ? .accentColor : .primary)
-                        }
-                    }
-                    .padding(.vertical, 4)
-                }
-            }
-
-            Section("Apariencia") {
-                Picker("Tema", selection: $appTheme) {
-                    ForEach(Theme.allCases) { theme in
-                        Text(theme.displayName).tag(theme)
-                    }
-                }
-                .pickerStyle(.menu)
-            }
-
-            Section("Idioma") {
-                Picker("Idioma", selection: $appLanguage) {
-                    Text("Español").tag("es")
-                    Text("English").tag("en")
-                }
-                .pickerStyle(.menu)
-            }
-
-            Section("Preferencias") {
-                Toggle("Sonidos", isOn: $soundEnabled)
-                Toggle("Vibración (Haptic)", isOn: $hapticEnabled)
-            }
-
-            Section("Información") {
-                HStack {
-                    Text("Versión")
-                    Spacer()
-                    Text("1.0.0")
-                        .foregroundColor(.secondary)
-                }
-                .contentShape(Rectangle())
-                .onLongPressGesture(minimumDuration: 2) {
-                    showAdmin = true
-                }
-            }
-
-            Section {
-                Button(role: .destructive) {
-                    showDeleteAlert = true
-                } label: {
-                    Text("Borrar datos locales")
-                }
-            } footer: {
-                Text("Esto eliminará todo el progreso local, incluyendo el historial de partidas. Esta acción no se puede deshacer.")
-            }
-            .alert("Borrar datos locales", isPresented: $showDeleteAlert) {
-                Button("Cancelar", role: .cancel) {}
-                Button("Borrar", role: .destructive) { clearAllData() }
-            } message: {
-                Text("Se eliminará todo el progreso local. Esta acción no se puede deshacer.")
-            }
+        } message: {
+            Text("Esta acción eliminará permanentemente tu cuenta y todos tus datos. ¿Deseas continuar?")
+        }
+        .sheet(isPresented: $showDeleteAccountSheet) {
+            DeleteAccountSheet(
+                isPresented: $showDeleteAccountSheet,
+                authVM: authVM
+            )
         }
         .navigationTitle("Ajustes")
         .toolbar {
@@ -183,6 +86,160 @@ struct SettingsView: View {
         }
         .navigationDestination(isPresented: $showAdmin) {
             AdminListView()
+        }
+    }
+
+    private var profileSection: some View {
+        Section("Perfil") {
+            HStack {
+                AvatarView(avatar: avatarName, size: 44)
+                if avatarName.hasPrefix("data:image/") {
+                    Button("Quitar foto") {
+                        avatarName = "person.circle.fill"
+                        saveProfile()
+                    }
+                    .font(.caption)
+                }
+            }
+
+            HStack {
+                PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
+                    HStack {
+                        Image(systemName: "camera.fill")
+                        Text("Elegir foto")
+                    }
+                }
+                .onChange(of: selectedPhotoItem) { _, item in
+                    Task {
+                        await loadPhoto(from: item)
+                    }
+                }
+
+                Button("Avatar SF") {
+                    showAvatarPicker = true
+                }
+            }
+
+            HStack {
+                TextField("Nombre visible", text: $displayName)
+                Button {
+                    saveProfile()
+                } label: {
+                    Image(systemName: "arrow.clockwise.circle.fill")
+                        .foregroundColor(.accentColor)
+                        .font(.title3)
+                }
+            }
+            if showNameSaved {
+                Text("¡Guardado!")
+                    .font(.caption)
+                    .foregroundColor(.green)
+                    .transition(.opacity)
+            }
+        }
+    }
+
+    private var avatarSection: some View {
+        Section("Avatar") {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(avatarOptions, id: \.self) { icon in
+                        Button {
+                            avatarName = icon
+                            saveProfile()
+                        } label: {
+                            Image(systemName: icon)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 36, height: 36)
+                                .padding(8)
+                                .background(avatarName == icon ? Color.accentColor.opacity(0.2) : Color.clear)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(avatarName == icon ? Color.accentColor : Color.clear, lineWidth: 2)
+                                )
+                        }
+                        .foregroundColor(avatarName == icon ? .accentColor : .primary)
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+        }
+    }
+
+    private var appearanceSection: some View {
+        Section("Apariencia") {
+            Picker("Tema", selection: $appTheme) {
+                ForEach(Theme.allCases) { theme in
+                    Text(theme.displayName).tag(theme)
+                }
+            }
+            .pickerStyle(.menu)
+        }
+    }
+
+    private var languageSection: some View {
+        Section("Idioma") {
+            Picker("Idioma", selection: $appLanguage) {
+                Text("Español").tag("es")
+                Text("English").tag("en")
+            }
+            .pickerStyle(.menu)
+        }
+    }
+
+    private var preferencesSection: some View {
+        Section("Preferencias") {
+            Toggle("Sonidos", isOn: $soundEnabled)
+            Toggle("Vibración (Haptic)", isOn: $hapticEnabled)
+        }
+    }
+
+    private var infoSection: some View {
+        Section("Información") {
+            HStack {
+                Text("Versión")
+                Spacer()
+                Text("1.0.0")
+                    .foregroundColor(.secondary)
+            }
+            .contentShape(Rectangle())
+            .onLongPressGesture(minimumDuration: 2) {
+                showAdmin = true
+            }
+        }
+    }
+
+    private var localDataSection: some View {
+        Section {
+            Button(role: .destructive) {
+                showDeleteAlert = true
+            } label: {
+                Text("Borrar datos locales")
+            }
+        } footer: {
+            Text("Esto eliminará todo el progreso local, incluyendo el historial de partidas. Esta acción no se puede deshacer.")
+        }
+        .alert("Borrar datos locales", isPresented: $showDeleteAlert) {
+            Button("Cancelar", role: .cancel) {}
+            Button("Borrar", role: .destructive) { clearAllData() }
+        } message: {
+            Text("Se eliminará todo el progreso local. Esta acción no se puede deshacer.")
+        }
+    }
+
+    private var dangerZoneSection: some View {
+        Section {
+            Button(role: .destructive) {
+                showDeleteAccountAlert = true
+            } label: {
+                Label("Eliminar cuenta", systemImage: "person.fill.xmark")
+            }
+        } header: {
+            Text("Zona de peligro")
+        } footer: {
+            Text("Eliminará tu cuenta permanentemente, incluyendo todos tus datos en la nube y locales. Esta acción no se puede deshacer.")
         }
     }
 
@@ -239,6 +296,119 @@ struct SettingsView: View {
             print("Error clearing local data: \(error)")
         }
         dismiss()
+    }
+}
+
+// MARK: - Delete Account Sheet
+
+struct DeleteAccountSheet: View {
+    @Binding var isPresented: Bool
+    let authVM: AuthViewModel
+
+    @State private var password = ""
+    @State private var isDeleting = false
+    @State private var errorMessage: String?
+    @State private var showSuccess = false
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(.red)
+
+                Text("Eliminar cuenta")
+                    .font(.title)
+                    .fontWeight(.bold)
+
+                Text("Para confirmar, ingresa tu contraseña actual. Si iniciaste sesión con Google, Facebook o Apple, deja el campo vacío y toca 'Eliminar'.")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+
+                SecureField("Contraseña (opcional para redes sociales)", text: $password)
+                    .textContentType(.password)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+
+                if let error = errorMessage {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .padding(.horizontal)
+                }
+
+                Button {
+                    deleteAccount()
+                } label: {
+                    HStack {
+                        if isDeleting {
+                            ProgressView()
+                                .tint(.white)
+                        }
+                        Text("Eliminar permanentemente")
+                    }
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.red)
+                    .cornerRadius(14)
+                }
+                .disabled(isDeleting)
+                .padding(.horizontal)
+
+                Spacer()
+            }
+            .padding(.top, 40)
+            .navigationTitle("Confirmar eliminación")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancelar") {
+                        isPresented = false
+                    }
+                }
+            }
+            .alert("Cuenta eliminada", isPresented: $showSuccess) {
+                Button("OK", role: .cancel) {
+                    isPresented = false
+                }
+            } message: {
+                Text("Tu cuenta y todos tus datos han sido eliminados permanentemente.")
+            }
+        }
+    }
+
+    private func deleteAccount() {
+        isDeleting = true
+        errorMessage = nil
+
+        Task {
+            let result = await authVM.deleteAccount(
+                email: authVM.userEmail,
+                password: password.isEmpty ? nil : password
+            )
+
+            await MainActor.run {
+                isDeleting = false
+                switch result {
+                case .success:
+                    showSuccess = true
+                case .failure(let error):
+                    if let authError = error as? NSError,
+                       authError.code == AuthErrorCode.requiresRecentLogin.rawValue {
+                        errorMessage = "Por seguridad, cierra sesión y vuelve a iniciar antes de eliminar tu cuenta."
+                    } else {
+                        errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        }
     }
 }
 

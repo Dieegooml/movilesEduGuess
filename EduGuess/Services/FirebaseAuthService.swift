@@ -230,6 +230,29 @@ final class FirebaseAuthService {
         cacheSession(authResult.user)
     }
 
+    // MARK: - Account Deletion
+
+    /// Attempts to delete the current Firebase Auth user.
+    /// Note: For social providers, this may fail if the session is too old.
+    /// Callers should handle the error and prompt for re-authentication if needed.
+    func deleteAccount() async throws {
+        guard let currentUser = Auth.auth().currentUser else {
+            throw AuthError.noCredential
+        }
+        try await currentUser.delete()
+        user = nil
+        clearCache()
+    }
+
+    /// Re-authenticates an email/password user before sensitive operations.
+    func reauthenticate(email: String, password: String) async throws {
+        guard let currentUser = Auth.auth().currentUser else {
+            throw AuthError.noCredential
+        }
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+        try await currentUser.reauthenticate(with: credential)
+    }
+
     // MARK: - Sign Out
 
     func signOut() {

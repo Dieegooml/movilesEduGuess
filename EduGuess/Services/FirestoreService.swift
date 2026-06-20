@@ -143,6 +143,39 @@ final class FirestoreService {
         return snapshot.documents.compactMap { try? $0.data(as: FirebaseGameSession.self) }
     }
 
+    // MARK: - Account Deletion
+
+    /// Deletes all user data from Firestore. Should be called before deleting Firebase Auth account.
+    func deleteAllUserData(uid: String) async throws {
+        // 1. Delete user document
+        try await db.collection(usersCollection).document(uid).delete()
+
+        // 2. Delete all game sessions
+        let sessionsSnapshot = try await db.collection(sessionsCollection)
+            .whereField("userId", isEqualTo: uid)
+            .getDocuments()
+        for doc in sessionsSnapshot.documents {
+            try await doc.reference.delete()
+        }
+
+        // 3. Delete all achievements
+        let achievementsSnapshot = try await db.collection(usersCollection).document(uid).collection("achievements").getDocuments()
+        for doc in achievementsSnapshot.documents {
+            try await doc.reference.delete()
+        }
+
+        // 4. Delete daily challenge scores
+        let dailySnapshot = try await db.collection("daily_challenges").getDocuments()
+        for challengeDoc in dailySnapshot.documents {
+            let scoresSnapshot = try await challengeDoc.reference.collection("scores")
+                .whereField("userId", isEqualTo: uid)
+                .getDocuments()
+            for scoreDoc in scoresSnapshot.documents {
+                try await scoreDoc.reference.delete()
+            }
+        }
+    }
+
     // MARK: - Leaderboard
 
     func fetchLeaderboard(limit: Int = 50) async throws -> [LeaderboardEntry] {
