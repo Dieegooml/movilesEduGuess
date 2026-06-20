@@ -51,7 +51,7 @@ actor WikiService {
             .trimmingCharacters(in: .whitespaces)
             .replacingOccurrences(of: " ", with: "_")
 
-        var components = URLComponents(string: "https://en.wikipedia.org/api/rest_v1/page/summary/\(encoded)")
+        let components = URLComponents(string: "https://en.wikipedia.org/api/rest_v1/page/summary/\(encoded)")
         guard let url = components?.url else {
             throw WikiError.invalidResponse
         }

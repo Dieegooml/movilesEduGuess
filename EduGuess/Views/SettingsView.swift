@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import SwiftData
 
 let avatarOptions = [
     "person.circle.fill",
@@ -30,6 +31,7 @@ let avatarOptions = [
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @AppStorage("displayName") private var displayName = ""
     @AppStorage("avatarName") private var avatarName = "person.circle.fill"
     @AppStorage("appTheme") private var appTheme: Theme = .system
@@ -221,19 +223,17 @@ struct SettingsView: View {
     }
 
     private func clearAllData() {
-        guard let context = modelContext else {
-            dismiss()
-            return
-        }
+        let context = modelContext
         do {
             let characters = try context.fetch(FetchDescriptor<SDCharacter>())
             let sessions = try context.fetch(FetchDescriptor<SDGameSession>())
             let questions = try context.fetch(FetchDescriptor<SDQuestion>())
             let generated = try context.fetch(FetchDescriptor<SDGeneratedQuestion>())
 
-            for obj in characters + sessions + questions + generated {
-                context.delete(obj)
-            }
+            for obj in characters { context.delete(obj) }
+            for obj in sessions { context.delete(obj) }
+            for obj in questions { context.delete(obj) }
+            for obj in generated { context.delete(obj) }
             try context.save()
         } catch {
             print("Error clearing local data: \(error)")

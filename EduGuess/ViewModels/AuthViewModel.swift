@@ -65,9 +65,6 @@ final class AuthViewModel {
         isLoading = true
         errorMessage = nil
         Task {
-            defer {
-                await MainActor.run { isLoading = false }
-            }
             do {
                 try await FirebaseAuthService.shared.signUp(email: email, password: password, name: name)
                 guard let uid = FirebaseAuthService.shared.user?.uid else {
@@ -84,6 +81,7 @@ final class AuthViewModel {
                     errorMessage = error.localizedDescription
                 }
             }
+            await MainActor.run { isLoading = false }
         }
     }
 
@@ -91,9 +89,6 @@ final class AuthViewModel {
         isLoading = true
         errorMessage = nil
         Task {
-            defer {
-                await MainActor.run { isLoading = false }
-            }
             do {
                 try await FirebaseAuthService.shared.signInWithGoogle()
                 guard let uid = FirebaseAuthService.shared.user?.uid else {
@@ -112,6 +107,7 @@ final class AuthViewModel {
                     errorMessage = error.localizedDescription
                 }
             }
+            await MainActor.run { isLoading = false }
         }
     }
 
@@ -119,9 +115,6 @@ final class AuthViewModel {
         isLoading = true
         errorMessage = nil
         Task {
-            defer {
-                await MainActor.run { isLoading = false }
-            }
             do {
                 try await FirebaseAuthService.shared.signInWithFacebook()
                 guard let uid = FirebaseAuthService.shared.user?.uid else {
@@ -140,6 +133,7 @@ final class AuthViewModel {
                     errorMessage = error.localizedDescription
                 }
             }
+            await MainActor.run { isLoading = false }
         }
     }
 
