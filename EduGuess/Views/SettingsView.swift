@@ -179,14 +179,9 @@ struct SettingsView: View {
                 Button("Listo") { dismiss() }
             }
         }
-        .background(
-            NavigationLink(
-                destination: AdminListView(),
-                isActive: $showAdmin,
-                label: { EmptyView() }
-            )
-            .hidden()
-        )
+        .navigationDestination(isPresented: $showAdmin) {
+            AdminListView()
+        }
     }
 
     private func saveProfile() {

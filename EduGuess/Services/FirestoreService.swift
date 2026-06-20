@@ -146,7 +146,7 @@ final class FirestoreService {
     // MARK: - Leaderboard
 
     func fetchLeaderboard(limit: Int = 50) async throws -> [LeaderboardEntry] {
-        let snapshot = try await db.collection(usersCollection).getDocuments()
+        let snapshot = try await db.collection(usersCollection).limit(to: limit).getDocuments()
 
         let entries = snapshot.documents.compactMap { doc -> LeaderboardEntry? in
             guard let fbUser = try? doc.data(as: FirebaseUser.self) else { return nil }
@@ -167,6 +167,7 @@ final class FirestoreService {
         let snapshot = try await db.collection(sessionsCollection)
             .whereField("timestamp", isGreaterThan: weekAgo)
             .whereField("won", isEqualTo: true)
+            .limit(to: limit * 10)
             .getDocuments()
 
         var scores: [String: (name: String, score: Int, wins: Int, games: Int)] = [:]

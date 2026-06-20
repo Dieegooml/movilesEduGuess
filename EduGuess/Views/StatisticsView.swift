@@ -21,29 +21,11 @@ struct WinLossData: Identifiable {
 struct StatisticsView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var sessions: [SDGameSession] = []
+    @State private var dataPoints: [GameDataPoint] = []
+    @State private var winLoss: [WinLossData] = []
+    @State private var cumulativeScores: [(index: Int, total: Int)] = []
 
-    private var dataPoints: [GameDataPoint] {
-        sessions.enumerated().map { index, session in
-            GameDataPoint(index: index, score: session.score, won: session.won, questions: session.questionsAsked.count, date: session.timestamp)
-        }
-    }
 
-    private var winLoss: [WinLossData] {
-        let wins = sessions.filter { $0.won }.count
-        let losses = sessions.filter { !$0.won }.count
-        return [
-            WinLossData(label: "Victorias", count: wins, color: .green),
-            WinLossData(label: "Derrotas", count: losses, color: .red),
-        ]
-    }
-
-    private var cumulativeScores: [(index: Int, total: Int)] {
-        var total = 0
-        return sessions.enumerated().map { i, s in
-            total += s.score
-            return (i, total)
-        }
-    }
 
     var body: some View {
         ScrollView {
@@ -200,5 +182,22 @@ struct StatisticsView: View {
             sortBy: [SortDescriptor(\.timestamp, order: .forward)]
         )
         sessions = (try? modelContext.fetch(descriptor)) ?? []
+
+        dataPoints = sessions.enumerated().map { index, session in
+            GameDataPoint(index: index, score: session.score, won: session.won, questions: session.questionsAsked.count, date: session.timestamp)
+        }
+
+        let wins = sessions.filter { $0.won }.count
+        let losses = sessions.filter { !$0.won }.count
+        winLoss = [
+            WinLossData(label: "Victorias", count: wins, color: .green),
+            WinLossData(label: "Derrotas", count: losses, color: .red),
+        ]
+
+        var total = 0
+        cumulativeScores = sessions.enumerated().map { i, s in
+            total += s.score
+            return (i, total)
+        }
     }
 }

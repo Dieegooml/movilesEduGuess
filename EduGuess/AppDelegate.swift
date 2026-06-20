@@ -12,7 +12,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         let settings = Firestore.firestore().settings
         settings.isPersistenceEnabled = true
-        settings.cacheSizeBytes = FirestoreCacheSizeUnlimited
+        settings.cacheSizeBytes = 100 * 1024 * 1024 // 100 MB limit
         Firestore.firestore().settings = settings
 
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)

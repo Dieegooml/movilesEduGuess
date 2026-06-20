@@ -33,6 +33,7 @@ actor WikiService {
     private let decoder = JSONDecoder()
 
     private var cache: [String: WikiResponse] = [:]
+    private let maxCacheSize = 100
 
     private init() {
         let config = URLSessionConfiguration.default
@@ -49,9 +50,9 @@ actor WikiService {
         let encoded = characterName
             .trimmingCharacters(in: .whitespaces)
             .replacingOccurrences(of: " ", with: "_")
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? characterName
 
-        guard let url = URL(string: "https://en.wikipedia.org/api/rest_v1/page/summary/\(encoded)") else {
+        var components = URLComponents(string: "https://en.wikipedia.org/api/rest_v1/page/summary/\(encoded)")
+        guard let url = components?.url else {
             throw WikiError.invalidResponse
         }
 
@@ -72,6 +73,9 @@ actor WikiService {
         switch httpResponse.statusCode {
         case 200:
             let wikiResponse = try decoder.decode(WikiResponse.self, from: data)
+            if cache.count >= maxCacheSize, let firstKey = cache.keys.first {
+                cache.removeValue(forKey: firstKey)
+            }
             cache[characterName] = wikiResponse
             return wikiResponse
         case 404:

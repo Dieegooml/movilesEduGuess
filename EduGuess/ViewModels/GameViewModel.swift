@@ -36,6 +36,7 @@ class GameViewModel: ObservableObject {
     private var sessionAnswers: [Bool] = []
     private var allCharacters: [Character] = []
     private var possibleCharacters: [Character] = []
+    private var generationTask: Task<Void, Never>?
 
     // MARK: - Read-Only Exports
 
@@ -55,6 +56,7 @@ class GameViewModel: ObservableObject {
     // MARK: - Start Game
 
     func startNewGame(characters: [Character], context: ModelContext) {
+        generationTask?.cancel()
         modelContext = context
         characterProfile = [:]
         askedAttributes = []
@@ -228,7 +230,8 @@ class GameViewModel: ObservableObject {
     private func generateAndCacheQuestions(for attributeKeys: [String]) {
         guard let context = modelContext else { return }
 
-        Task(priority: .background) { [weak self] in
+        generationTask?.cancel()
+        generationTask = Task(priority: .background) { [weak self] in
             guard let self = self else { return }
             let savedKeys = Set(
                 self.dataService.fetchGeneratedQuestions(for: attributeKeys, context: context)
@@ -284,6 +287,7 @@ class GameViewModel: ObservableObject {
     // MARK: - Reset
 
     func resetGame() {
+        generationTask?.cancel()
         characterProfile = [:]
         askedAttributes = []
         sessionQuestions = []
