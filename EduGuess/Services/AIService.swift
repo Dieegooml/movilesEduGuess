@@ -10,8 +10,8 @@ class AIService {
     /// parent attribute, we boost the related attributes so the next questions
     /// stay on-topic and narrow the candidate pool faster.
     private let relatedAttributes: [String: [String]] = [
-        "isFootballer": ["isAthlete", "isLatinAmerican", "isFromEurope", "isStrong", "drivesVehicle", "isFamous", "isControversial"],
-        "isSinger": ["isMusician", "isFamous", "isFromMovie", "isActor", "isDancer", "isControversial", "isLatinAmerican"],
+        "isFootballer": ["isAthlete", "isLatinAmerican", "isFromEurope", "isFromAfrica", "isFromAsia", "isStrong", "drivesVehicle", "isFamous", "isControversial", "isGoalkeeper", "isForward", "isMidfielder", "isDefender", "isCaptain", "isTall", "hasTattoos", "isBald", "isLeftFooted"],
+        "isSinger": ["isMusician", "isFamous", "isFromMovie", "isActor", "isDancer", "isControversial", "isLatinAmerican", "isFromEurope", "isFromNorthAmerica"],
         "isActor": ["isFromMovie", "isFromTV", "isFamous", "isControversial", "isSinger", "isDancer"],
         "isFromMarvel": ["isSuperhero", "isFromMovie", "isFromComic", "hasSuperpowers", "isStrong", "isVillain"],
         "isFromDC": ["isSuperhero", "isFromMovie", "isFromComic", "hasSuperpowers", "isStrong", "isVillain"],
@@ -20,7 +20,7 @@ class AIService {
         "isMagical": ["usesMagic", "hasSuperpowers", "isFromMythology", "isFromMovie"],
         "isFromDisney": ["isFromMovie", "isFromTV", "isMagical", "hasSuperpowers"],
         "isFromStarWars": ["isFromMovie", "usesTechnology", "hasSuperpowers", "isVillain"],
-        "isScientist": ["isSmart", "usesTechnology", "isFromBook", "isWriter"],
+        "isScientist": ["isSmart", "usesTechnology", "isFromBook", "isWriter", "isDoctor", "isEngineer"],
         "isPolitician": ["isFamous", "isControversial", "isReligious", "isWriter"],
         "isReal": ["isHistorical", "isAlive", "isPolitician", "isScientist", "isAthlete"],
         "isFictional": ["isFromMovie", "isFromTV", "isFromBook", "isFromVideoGame", "isFromComic", "isMagical", "hasSuperpowers"],
@@ -34,7 +34,7 @@ class AIService {
         "isFromVideoGame": ["isFromMovie", "isFromTV", "hasSuperpowers", "isStrong"],
         "isLatinAmerican": ["isFootballer", "isSinger", "isPolitician"],
         "isFromPeru": ["isLatinAmerican", "isPolitician", "isMusician", "isAthlete"],
-        "isAthlete": ["isFootballer", "isStrong", "isFamous", "drivesVehicle"],
+        "isAthlete": ["isFootballer", "isStrong", "isFamous", "drivesVehicle", "isOlympian", "isBoxer", "isTennisPlayer", "isBasketballPlayer", "isSwimmer", "isTall"],
         "isWriter": ["isFromBook", "isSmart", "isScientist", "isPolitician"],
         "isReligious": ["isHistorical", "isRoyalty", "isPolitician"],
         "hasSuperpowers": ["isSuperhero", "isFromComic", "isFromMovie", "isStrong", "isMagical"],
@@ -52,6 +52,50 @@ class AIService {
         "isMusician": ["isSinger", "isFamous", "isFromTV"],
         "isFamous": ["isActor", "isSinger", "isAthlete", "isControversial"],
         "isControversial": ["isFamous", "isPolitician", "isActor", "isSinger"],
+        "isOlympian": ["isAthlete", "isFamous", "isStrong"],
+        "isBoxer": ["isAthlete", "isStrong", "hasTattoos", "isFamous"],
+        "isTennisPlayer": ["isAthlete", "isFamous", "isFromEurope", "isFromNorthAmerica"],
+        "isBasketballPlayer": ["isAthlete", "isTall", "isStrong", "isFamous"],
+        "isSwimmer": ["isAthlete", "isOlympian", "isFamous"],
+        "isFromEurope": ["isFootballer", "isActor", "isSinger"],
+        "isFromAfrica": ["isFootballer", "isAthlete"],
+        "isFromAsia": ["isFootballer", "isFromVideoGame", "isFromAnime"],
+        "isFromNorthAmerica": ["isActor", "isSinger", "isBasketballPlayer"],
+    ]
+
+    /// Theme groups define a strong contextual "topic". Once the user has
+    /// answered yes to enough attributes that clearly point to a theme,
+    /// attributes outside that theme are heavily penalized so the game focuses
+    /// on narrowing the candidate pool within the topic.
+    ///
+    /// Format: [triggering attribute] -> [attributes considered in-theme]
+    /// Attributes NOT in any active theme group (except safe general ones)
+    /// receive a heavy penalty.
+    private let themeGroups: [String: [String]] = [
+        "isFootballer": ["isAthlete", "isFootballer", "isOlympian", "isFamous", "isControversial", "isStrong", "isTall", "drivesVehicle", "hasTattoos", "isBald", "isLeftFooted", "isCaptain", "isGoalkeeper", "isForward", "isMidfielder", "isDefender", "isFromEurope", "isFromAfrica", "isFromAsia", "isFromNorthAmerica", "isLatinAmerican", "isFromPeru", "isYoung", "isAlive", "isReal"],
+        "isAthlete": ["isAthlete", "isFootballer", "isBoxer", "isTennisPlayer", "isBasketballPlayer", "isSwimmer", "isOlympian", "isStrong", "isTall", "isFamous", "isControversial", "drivesVehicle", "hasTattoos", "isBald", "isFromEurope", "isFromAfrica", "isFromAsia", "isFromNorthAmerica", "isLatinAmerican", "isYoung", "isAlive", "isReal"],
+        "isSinger": ["isMusician", "isSinger", "isActor", "isDancer", "isFamous", "isControversial", "isFromMovie", "isFromTV", "isFromDisney", "isFromEurope", "isFromNorthAmerica", "isLatinAmerican", "isYoung", "isAlive", "isReal"],
+        "isActor": ["isActor", "isFromMovie", "isFromTV", "isFromNetflix", "isFromDisney", "isSinger", "isDancer", "isFamous", "isControversial", "isFromEurope", "isFromNorthAmerica", "isLatinAmerican", "isYoung", "isAlive", "isReal"],
+        "isFromMarvel": ["isFromMarvel", "isFromDC", "isSuperhero", "isFromMovie", "isFromComic", "hasSuperpowers", "isStrong", "isVillain", "wearsCape", "wearsHat", "isFamous"],
+        "isFromDC": ["isFromMarvel", "isFromDC", "isSuperhero", "isFromMovie", "isFromComic", "hasSuperpowers", "isStrong", "isVillain", "wearsCape", "wearsHat", "isFamous"],
+        "isSuperhero": ["isSuperhero", "isFromMarvel", "isFromDC", "isFromMovie", "isFromComic", "hasSuperpowers", "isStrong", "isVillain", "wearsCape", "isFamous"],
+        "isFromAnime": ["isFromAnime", "isFromTV", "isFromVideoGame", "isFromComic", "isFromManga", "hasSuperpowers", "isMagical", "isHuman", "isChild", "isYoung"],
+        "isFromMythology": ["isFromMythology", "isMagical", "hasSuperpowers", "isRoyalty", "isReligious", "isFromMovie", "isFromBook", "isFromComic", "isStrong", "isFamous"],
+        "isScientist": ["isScientist", "isDoctor", "isEngineer", "isSmart", "usesTechnology", "isFromBook", "isWriter", "isHistorical", "isElderly", "isAlive", "isReal", "isFamous"],
+        "isFromVideoGame": ["isFromVideoGame", "isFromMovie", "isFromTV", "isFromAnime", "hasSuperpowers", "isStrong", "isHuman", "isAnimal", "isRobot", "isMagical"],
+        "isFromDisney": ["isFromDisney", "isFromMovie", "isFromTV", "isFromCartoon", "isMagical", "hasSuperpowers", "isHuman", "isAnimal", "isChild", "isRoyalty"],
+        "isFromStarWars": ["isFromStarWars", "isFromMovie", "isFromTV", "isFromComic", "usesTechnology", "hasSuperpowers", "isVillain", "isAlien", "isHuman"],
+        "isMagical": ["isMagical", "usesMagic", "hasSuperpowers", "isFromMythology", "isFromMovie", "isFromTV", "isFromDisney", "isFromAnime", "isWizard", "isWitch"],
+        "isAnimal": ["isAnimal", "isFromCartoon", "isFromDisney", "isFromMovie", "isFromTV", "isMagical", "hasSuperpowers", "isChild"],
+        "isRobot": ["isRobot", "usesTechnology", "isFromMovie", "isFromTV", "isFromVideoGame", "isFromAnime", "hasSuperpowers", "isStrong"],
+        "isAlien": ["isAlien", "isFromMovie", "isFromTV", "isFromVideoGame", "hasSuperpowers", "isStrong"],
+        "isPolitician": ["isPolitician", "isFamous", "isControversial", "isReligious", "isWriter", "isHistorical", "isElderly", "isAlive", "isReal"],
+    ]
+
+    /// General attributes that are always safe to ask regardless of theme.
+    private let safeGeneralAttributes: Set<String> = [
+        "isReal", "isFictional", "isHuman", "isAlive", "isHistorical",
+        "isFemale", "isChild", "isElderly", "isFamous"
     ]
 
     // MARK: - Available Attributes (not yet asked)
@@ -85,6 +129,10 @@ class AIService {
         let positiveSet = Set(positiveAttributes)
         let relatedBoostTargets = relatedBoostTargets(for: positiveSet, availableKeys: Set(available.map(\.key)))
 
+        // Determine active theme(s) based on positive answers
+        let activeThemeAttributes = activeThemeAttributes(for: positiveSet)
+        let hasStrongTheme = positiveSet.count >= 2 && !activeThemeAttributes.isEmpty
+
         var bestAttribute: AttributeDefinition?
         var bestScore: Double = -1
 
@@ -97,16 +145,28 @@ class AIService {
             // Boost attributes related to previously positive answers
             let relatedBoost = relatedBoostTargets[attribute.key] ?? 0
 
+            // Theme enforcement: heavy penalties for off-theme attributes once a
+            // strong theme is established. Safe general attributes are exempt.
+            var themePenalty: Double = 0
+            if hasStrongTheme && !safeGeneralAttributes.contains(attribute.key) {
+                if !activeThemeAttributes.contains(attribute.key) {
+                    themePenalty = -0.7
+                } else {
+                    // Slightly boost in-theme attributes beyond relatedness
+                    themePenalty = 0.15
+                }
+            }
+
             // Slightly penalize attributes that are unrelated to any positive answer
             // once we have established a clear theme (only after 3+ positive answers)
             let unrelatedPenalty: Double
-            if positiveSet.count >= 3 && relatedBoost == 0 && !positiveSet.isEmpty {
+            if positiveSet.count >= 3 && relatedBoost == 0 && !positiveSet.isEmpty && !activeThemeAttributes.contains(attribute.key) && !safeGeneralAttributes.contains(attribute.key) {
                 unrelatedPenalty = -0.08
             } else {
                 unrelatedPenalty = 0
             }
 
-            let score = gain + relatedBoost + unrelatedPenalty
+            let score = gain + relatedBoost + themePenalty + unrelatedPenalty
 
             if score > bestScore {
                 bestScore = score
@@ -130,6 +190,20 @@ class AIService {
         }
 
         return boosts
+    }
+
+    // MARK: - Theme Enforcement
+
+    private func activeThemeAttributes(for positiveAttributes: Set<String>) -> Set<String> {
+        var active: Set<String> = []
+
+        for positiveKey in positiveAttributes {
+            if let themeAttributes = themeGroups[positiveKey] {
+                active.formUnion(themeAttributes)
+            }
+        }
+
+        return active
     }
 
     // MARK: - Generate Question Text
