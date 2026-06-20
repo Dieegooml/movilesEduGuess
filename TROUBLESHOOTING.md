@@ -193,7 +193,7 @@ Estado: ✅ TODOS ARREGLADOS Y COMPILANDO
 ### 7. ❌ GOOGLE SIGN-IN CRASH: URL Scheme Faltante
 **Problema:**
 - `GIDSignIn.sharedInstance.signIn(withPresenting:)` crasheaba porque no encontraba el URL scheme
-- El scheme `com.googleusercontent.apps.TU_FIREBASE_SENDER_ID-...` no estaba registrado
+- El scheme `com.googleusercontent.apps.TU_GOOGLE_CLIENT_ID` no estaba registrado
 - `INFOPLIST_KEY_CFBundleURLTypes` no soporta arrays/dicts complejos en build settings
 
 **Impacto:**

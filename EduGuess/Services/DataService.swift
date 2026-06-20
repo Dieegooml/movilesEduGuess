@@ -234,4 +234,33 @@ class DataService {
         let descriptor = FetchDescriptor<SDCharacter>()
         return (try? context.fetch(descriptor).count) ?? 0
     }
+
+    // MARK: - Generated Questions
+
+    func fetchGeneratedQuestion(for attributeKey: String, context: ModelContext) -> SDGeneratedQuestion? {
+        var descriptor = FetchDescriptor<SDGeneratedQuestion>(
+            predicate: #Predicate { $0.attributeKey == attributeKey }
+        )
+        descriptor.sortBy = [SortDescriptor(\.timesUsed, order: .forward)]
+        return try? context.fetch(descriptor).first
+    }
+
+    func fetchGeneratedQuestions(for attributeKeys: [String], context: ModelContext) -> [SDGeneratedQuestion] {
+        var descriptor = FetchDescriptor<SDGeneratedQuestion>(
+            predicate: #Predicate { attributeKeys.contains($0.attributeKey) }
+        )
+        descriptor.sortBy = [SortDescriptor(\.timesUsed, order: .forward)]
+        return (try? context.fetch(descriptor)) ?? []
+    }
+
+    func saveGeneratedQuestion(attributeKey: String, questionText: String, context: ModelContext) {
+        let q = SDGeneratedQuestion(attributeKey: attributeKey, questionText: questionText)
+        context.insert(q)
+        try? context.save()
+    }
+
+    func markGeneratedQuestionUsed(_ question: SDGeneratedQuestion, context: ModelContext) {
+        question.timesUsed += 1
+        try? context.save()
+    }
 }

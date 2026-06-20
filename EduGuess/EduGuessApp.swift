@@ -22,7 +22,7 @@ struct EduGuessApp: App {
     @State private var isRetrying = false
 
     init() {
-        let schema = Schema([SDCharacter.self, SDQuestion.self, SDGameSession.self])
+        let schema = Schema([SDCharacter.self, SDQuestion.self, SDGameSession.self, SDGeneratedQuestion.self])
         let config = ModelConfiguration("EduGuess", schema: schema)
         do {
             let c = try ModelContainer(for: schema, configurations: [config])
@@ -148,7 +148,7 @@ struct EduGuessApp: App {
         // Also remove -wal and -shm files
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: storeURL.path + "-wal"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: storeURL.path + "-shm"))
-        let schema = Schema([SDCharacter.self, SDQuestion.self, SDGameSession.self])
+        let schema = Schema([SDCharacter.self, SDQuestion.self, SDGameSession.self, SDGeneratedQuestion.self])
         let config = ModelConfiguration("EduGuess", schema: schema)
         do {
             let c = try ModelContainer(for: schema, configurations: [config])

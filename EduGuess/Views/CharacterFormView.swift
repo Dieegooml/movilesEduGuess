@@ -31,29 +31,18 @@ struct CharacterFormView: View {
         _attributes = State(initialValue: initialAttributes)
     }
 
-    private var categoriesWithAttributes: [(AttributeCategory, [AttributeDefinition])] {
-        let pool = AttributeDefinition.pool
-        let grouped = Dictionary(grouping: pool, by: { $0.category })
-        return AttributeCategory.allCases.compactMap { category in
-            guard let attrs = grouped[category], !attrs.isEmpty else { return nil }
-            return (category, attrs)
-        }
-    }
-
     var body: some View {
         Form {
             Section("Nombre") {
                 TextField("Nombre del personaje", text: $name)
             }
 
-            ForEach(categoriesWithAttributes, id: \.0.rawValue) { category, defs in
-                Section(category.rawValue) {
-                    ForEach(defs, id: \.key) { def in
-                        Toggle(def.questionTemplates.first ?? def.key, isOn: Binding(
-                            get: { attributes[def.key] ?? false },
-                            set: { attributes[def.key] = $0 }
-                        ))
-                    }
+            Section("Atributos") {
+                ForEach(AttributeDefinition.pool, id: \.key) { def in
+                    Toggle(def.questionTemplates.first ?? def.key, isOn: Binding(
+                        get: { attributes[def.key] ?? false },
+                        set: { attributes[def.key] = $0 }
+                    ))
                 }
             }
         }

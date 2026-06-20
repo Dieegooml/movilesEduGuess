@@ -9,13 +9,8 @@ struct CharacterDetailView: View {
         case idle, loading, loaded, error(String)
     }
 
-    private var attributesByCategory: [(AttributeCategory, [AttributeDefinition])] {
-        let pool = AttributeDefinition.pool
-        let grouped = Dictionary(grouping: pool, by: { $0.category })
-        return AttributeCategory.allCases.compactMap { category in
-            guard let attrs = grouped[category], !attrs.isEmpty else { return nil }
-            return (category, attrs)
-        }
+    private var allAttributes: [AttributeDefinition] {
+        AttributeDefinition.pool
     }
 
     var body: some View {
@@ -139,24 +134,17 @@ struct CharacterDetailView: View {
     }
 
     private var attributesSection: some View {
-        ForEach(attributesByCategory, id: \.0.rawValue) { category, definitions in
-            VStack(alignment: .leading, spacing: 8) {
-                Text(category.rawValue)
-                    .font(.headline)
-                    .foregroundColor(.orange)
-                    .padding(.bottom, 4)
-
-                ForEach(definitions, id: \.key) { def in
-                    attributeRow(definition: def)
-                }
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(allAttributes, id: \.key) { def in
+                attributeRow(definition: def)
             }
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.systemGray6))
-            )
-            .padding(.horizontal, 4)
         }
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(.systemGray6))
+        )
+        .padding(.horizontal, 4)
     }
 
     private func attributeRow(definition: AttributeDefinition) -> some View {

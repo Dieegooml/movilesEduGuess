@@ -81,7 +81,7 @@ struct HomeView: View {
                     .opacity(buttonsAppeared ? 1 : 0)
 
                     NavigationLink {
-                        CategorySelectView()
+                        QuestionView()
                     } label: {
                         HStack {
                             ZStack {
@@ -96,7 +96,7 @@ struct HomeView: View {
                                 Text("Comenzar")
                                     .font(.headline)
                                     .fontWeight(.bold)
-                                Text("Elige una categoría y juega")
+                                Text("La IA intentará adivinar tu personaje")
                                     .font(.caption)
                                     .opacity(0.8)
                             }
@@ -159,9 +159,6 @@ struct HomeView: View {
 
                 Spacer()
 
-                Text("Powered by AI")
-                    .foregroundColor(.white.opacity(0.8))
-                    .padding(.bottom, 25)
             }
         }
         .navigationBarBackButtonHidden(true)
