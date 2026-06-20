@@ -12,11 +12,14 @@ struct QuestionCard: View {
 
     var body: some View {
         Text(question)
-            .font(.title2.weight(.bold))
+            .font(.title3.weight(.bold))
             .multilineTextAlignment(.center)
             .foregroundColor(.white)
-            .minimumScaleFactor(0.6)
-            .padding(28)
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
+            .minimumScaleFactor(0.7)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 20)
             .frame(maxWidth: .infinity)
             .background(
                 ZStack {
@@ -33,20 +36,24 @@ struct QuestionCard: View {
                             )
                         )
 
-                    // Shimmer effect
-                    RoundedRectangle(cornerRadius: 28)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.white.opacity(0),
-                                    Color.white.opacity(0.15),
-                                    Color.white.opacity(0)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
+                    // Shimmer effect – clipped so it never spills outside
+                    GeometryReader { geo in
+                        RoundedRectangle(cornerRadius: 28)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0),
+                                        Color.white.opacity(0.2),
+                                        Color.white.opacity(0)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
                             )
-                        )
-                        .offset(x: shimmerOffset * 400)
+                            .frame(width: geo.size.width * 0.6)
+                            .offset(x: shimmerOffset * geo.size.width)
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 28))
                 }
             )
             .overlay(
@@ -82,6 +89,9 @@ struct QuestionCard: View {
 }
 
 #Preview {
-    QuestionCard(question: "¿Tu personaje utiliza magia o poderes sobrenaturales?")
-        .padding()
+    VStack(spacing: 16) {
+        QuestionCard(question: "¿Tu personaje utiliza magia o poderes sobrenaturales?")
+        QuestionCard(question: "¿Tu personaje es una figura histórica que vivió durante el siglo XX y es conocido por sus contribuciones a la física teórica?")
+    }
+    .padding()
 }
