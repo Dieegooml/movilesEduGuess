@@ -226,9 +226,23 @@ struct SettingsView: View {
     }
 
     private func clearAllData() {
-        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        let storeURL = documentsPath.appendingPathComponent("default.store")
-        try? FileManager.default.removeItem(at: storeURL)
+        guard let context = modelContext else {
+            dismiss()
+            return
+        }
+        do {
+            let characters = try context.fetch(FetchDescriptor<SDCharacter>())
+            let sessions = try context.fetch(FetchDescriptor<SDGameSession>())
+            let questions = try context.fetch(FetchDescriptor<SDQuestion>())
+            let generated = try context.fetch(FetchDescriptor<SDGeneratedQuestion>())
+
+            for obj in characters + sessions + questions + generated {
+                context.delete(obj)
+            }
+            try context.save()
+        } catch {
+            print("Error clearing local data: \(error)")
+        }
         dismiss()
     }
 }

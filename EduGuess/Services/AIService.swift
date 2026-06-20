@@ -8,7 +8,7 @@ class AIService {
 
     // MARK: - Available Attributes (not yet asked)
 
-    private func availableAttributes(askedAttributes: [String]) -> [AttributeDefinition] {
+    private func availableAttributes(askedAttributes: Set<String>) -> [AttributeDefinition] {
         pool.filter { !askedAttributes.contains($0.key) }
     }
 
@@ -19,7 +19,8 @@ class AIService {
         possibleCharacters: [Character],
         allCharacters: [Character]
     ) -> AttributeDefinition? {
-        let available = availableAttributes(askedAttributes: askedAttributes)
+        let askedSet = Set(askedAttributes)
+        let available = availableAttributes(askedAttributes: askedSet)
         guard !available.isEmpty else { return nil }
 
         // No conocidos aún → orden por defecto (categorías generales primero)
@@ -70,10 +71,11 @@ class AIService {
 
         guard trueCount > 0 && falseCount > 0 else { return 0 }
 
-        // H(S) = log2(|S|)
+        // Entropy of a uniformly distributed set of N items: H(S) = log2(N)
         let entropyBefore = log2(Double(total))
 
-        // H(S|A) = P(v) * log2(|S_v|) + P(¬v) * log2(|S_¬v|)
+        // Conditional entropy: weighted average of subgroup entropies
+        // H(S|A) = P(true) * log2(|S_true|) + P(false) * log2(|S_false|)
         let pTrue = Double(trueCount) / Double(total)
         let pFalse = Double(falseCount) / Double(total)
         let entropyAfter = pTrue * log2(Double(trueCount)) + pFalse * log2(Double(falseCount))

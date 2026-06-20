@@ -90,21 +90,33 @@ final class FirestoreService {
 
     func updateStats(uid: String, won: Bool, score: Int) async throws {
         let ref = db.collection(usersCollection).document(uid)
-        let doc = try await ref.getDocument()
-        var fbUser: FirebaseUser
+        try await db.runTransaction { transaction, errorPointer in
+            let snapshot: DocumentSnapshot
+            do {
+                snapshot = try transaction.getDocument(ref)
+            } catch {
+                errorPointer?.pointee = error as NSError
+                return nil
+            }
 
-        if let existing = try? doc.data(as: FirebaseUser.self) {
-            fbUser = existing
-        } else {
-            let name = try await fetchUserName(uid: uid)
-            fbUser = FirebaseUser(name: name, email: "", avatar: "person.circle.fill", createdAt: Date(), stats: UserStats())
+            var data = snapshot.data() ?? [:]
+            var stats = data["stats"] as? [String: Any] ?? [:]
+
+            stats["totalGames"] = (stats["totalGames"] as? Int ?? 0) + 1
+            if won {
+                stats["wins"] = (stats["wins"] as? Int ?? 0) + 1
+            } else {
+                stats["losses"] = (stats["losses"] as? Int ?? 0) + 1
+            }
+            stats["totalScore"] = (stats["totalScore"] as? Int ?? 0) + score
+            let currentBest = stats["bestScore"] as? Int ?? 0
+            if score > currentBest {
+                stats["bestScore"] = score
+            }
+
+            transaction.updateData(["stats": stats], forDocument: ref)
+            return nil
         }
-
-        fbUser.stats.totalGames += 1
-        if won { fbUser.stats.wins += 1 } else { fbUser.stats.losses += 1 }
-        fbUser.stats.totalScore += score
-        if score > fbUser.stats.bestScore { fbUser.stats.bestScore = score }
-        try ref.setData(from: fbUser)
     }
 
     private func fetchUserName(uid: String) async throws -> String {

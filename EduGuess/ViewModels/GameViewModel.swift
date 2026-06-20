@@ -228,7 +228,8 @@ class GameViewModel: ObservableObject {
     private func generateAndCacheQuestions(for attributeKeys: [String]) {
         guard let context = modelContext else { return }
 
-        Task.detached(priority: .background) {
+        Task(priority: .background) { [weak self] in
+            guard let self = self else { return }
             let savedKeys = Set(
                 self.dataService.fetchGeneratedQuestions(for: attributeKeys, context: context)
                     .map(\.attributeKey)

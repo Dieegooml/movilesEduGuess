@@ -128,10 +128,8 @@ struct DailyLeaderboardView: View {
                                 .foregroundColor(rankColor(index))
                                 .frame(width: 50)
 
-                            Image(systemName: score.userAvatar.isEmpty ? "person.circle.fill" : score.userAvatar)
+                            AvatarView(avatar: score.userAvatar, size: 30)
                                 .foregroundColor(rankColor(index))
-                                .font(.title3)
-                                .frame(width: 30)
 
                             VStack(alignment: .leading) {
                                 Text(score.userName)

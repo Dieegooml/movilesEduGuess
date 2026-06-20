@@ -50,19 +50,23 @@ final class AuthViewModel {
         isLoading = true
         errorMessage = nil
         Task {
+            defer {
+                await MainActor.run { isLoading = false }
+            }
             do {
                 try await FirebaseAuthService.shared.signUp(email: email, password: password, name: name)
-                guard let uid = FirebaseAuthService.shared.user?.uid else { return }
+                guard let uid = FirebaseAuthService.shared.user?.uid else {
+                    await MainActor.run { errorMessage = "No se pudo obtener el UID del usuario." }
+                    return
+                }
                 try await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
                 await MainActor.run {
                     isAuthenticated = true
                     isNewSession = true
-                    isLoading = false
                 }
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
-                    isLoading = false
                 }
             }
         }
@@ -72,21 +76,25 @@ final class AuthViewModel {
         isLoading = true
         errorMessage = nil
         Task {
+            defer {
+                await MainActor.run { isLoading = false }
+            }
             do {
                 try await FirebaseAuthService.shared.signInWithGoogle()
-                guard let uid = FirebaseAuthService.shared.user?.uid else { return }
+                guard let uid = FirebaseAuthService.shared.user?.uid else {
+                    await MainActor.run { errorMessage = "No se pudo obtener el UID del usuario." }
+                    return
+                }
                 let name = FirebaseAuthService.shared.user?.displayName ?? "Usuario"
                 let email = FirebaseAuthService.shared.user?.email ?? ""
                 try? await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
                 await MainActor.run {
                     isAuthenticated = true
                     isNewSession = true
-                    isLoading = false
                 }
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
-                    isLoading = false
                 }
             }
         }
@@ -96,21 +104,25 @@ final class AuthViewModel {
         isLoading = true
         errorMessage = nil
         Task {
+            defer {
+                await MainActor.run { isLoading = false }
+            }
             do {
                 try await FirebaseAuthService.shared.signInWithFacebook()
-                guard let uid = FirebaseAuthService.shared.user?.uid else { return }
+                guard let uid = FirebaseAuthService.shared.user?.uid else {
+                    await MainActor.run { errorMessage = "No se pudo obtener el UID del usuario." }
+                    return
+                }
                 let name = FirebaseAuthService.shared.user?.displayName ?? "Usuario"
                 let email = FirebaseAuthService.shared.user?.email ?? ""
                 try? await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
                 await MainActor.run {
                     isAuthenticated = true
                     isNewSession = true
-                    isLoading = false
                 }
             } catch {
                 await MainActor.run {
                     errorMessage = error.localizedDescription
-                    isLoading = false
                 }
             }
         }

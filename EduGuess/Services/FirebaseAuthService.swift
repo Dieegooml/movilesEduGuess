@@ -112,14 +112,16 @@ final class FirebaseAuthService {
     // MARK: - Facebook Limited Login
 
     /// Generates a cryptographically random nonce string (original, unhashed).
-    private func randomNonceString() -> String {
+    private func randomNonceString() throws -> String {
         let charset = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remaining = 32
         while remaining > 0 {
             var randomBytes = [UInt8](repeating: 0, count: 16)
             let status = SecRandomCopyBytes(kSecRandomDefault, 16, &randomBytes)
-            guard status == errSecSuccess else { break }
+            guard status == errSecSuccess else {
+                throw AuthError.noAuthenticationToken
+            }
             for byte in randomBytes {
                 guard remaining > 0 else { break }
                 let index = Int(byte) % charset.count
@@ -139,7 +141,7 @@ final class FirebaseAuthService {
     @MainActor
     func signInWithFacebook() async throws {
         let loginManager = LoginManager()
-        let rawNonce = randomNonceString()
+        let rawNonce = try randomNonceString()
         let hashedNonce = sha256(rawNonce)
 
         guard let config = LoginConfiguration(

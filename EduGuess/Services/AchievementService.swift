@@ -100,35 +100,53 @@ actor AchievementService {
 
     func updateStreak(uid: String) async -> StreakData {
         let ref = db.collection("users").document(uid)
-        let doc = try? await ref.getDocument()
-        var streak = (try? doc?.data(as: FirebaseUser.self))?.streak ?? StreakData()
+        do {
+            try await db.runTransaction { transaction, errorPointer in
+                let snapshot: DocumentSnapshot
+                do {
+                    snapshot = try transaction.getDocument(ref)
+                } catch {
+                    errorPointer?.pointee = error as NSError
+                    return nil
+                }
 
-        let today = dailyKey()
-        let yesterday = dailyKey(offset: -1)
+                var data = snapshot.data() ?? [:]
+                var streak = data["streak"] as? [String: Any] ?? [:]
+                let currentStreak = streak["currentStreak"] as? Int ?? 0
+                let longestStreak = streak["longestStreak"] as? Int ?? 0
+                let lastPlayedDate = streak["lastPlayedDate"] as? String ?? ""
 
-        if streak.lastPlayedDate == today {
-            return streak
+                let today = self.dailyKey()
+                let yesterday = self.dailyKey(offset: -1)
+
+                var newStreak = currentStreak
+                if lastPlayedDate == today {
+                    // Already played today, no change needed
+                    return nil
+                } else if lastPlayedDate == yesterday {
+                    newStreak = currentStreak + 1
+                } else {
+                    newStreak = 1
+                }
+
+                var newLongest = max(longestStreak, newStreak)
+
+                transaction.updateData([
+                    "streak.currentStreak": newStreak,
+                    "streak.longestStreak": newLongest,
+                    "streak.lastPlayedDate": today,
+                ], forDocument: ref)
+                return nil
+            }
+        } catch {
+            print("Transaction failed updating streak: \(error)")
         }
 
-        if streak.lastPlayedDate == yesterday {
-            streak.currentStreak += 1
-        } else if streak.lastPlayedDate != today {
-            streak.currentStreak = 1
-        }
-
-        streak.lastPlayedDate = today
-        if streak.currentStreak > streak.longestStreak {
-            streak.longestStreak = streak.currentStreak
-        }
-
-        try? await ref.updateData([
-            "streak.currentStreak": streak.currentStreak,
-            "streak.longestStreak": streak.longestStreak,
-            "streak.lastPlayedDate": streak.lastPlayedDate,
-        ])
-
+        // Fetch and return updated streak
+        let updatedDoc = try? await ref.getDocument()
+        let result = (try? updatedDoc?.data(as: FirebaseUser.self))?.streak ?? StreakData()
         cachedStreak = nil
-        return streak
+        return result
     }
 
     func fetchStreak(uid: String) async -> StreakData {

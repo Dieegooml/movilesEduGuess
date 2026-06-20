@@ -19,6 +19,7 @@ struct WrongGuessView: View {
     @State private var savedName = ""
     @State private var savedAttributes: [String: Bool] = [:]
     @State private var showCompletionForm = false
+    @State private var isSaving = false
 
     var body: some View {
 
@@ -62,7 +63,7 @@ struct WrongGuessView: View {
                         Button {
                             saveLearnedCharacter()
                         } label: {
-                            Text("Guardar y aprender")
+                            Text(isSaving ? "Guardando..." : "Guardar y aprender")
                                 .font(.headline)
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity)
@@ -70,7 +71,7 @@ struct WrongGuessView: View {
                                 .background(Color.white)
                                 .cornerRadius(18)
                         }
-                        .disabled(characterName.trimmingCharacters(in: .whitespaces).isEmpty)
+                        .disabled(characterName.trimmingCharacters(in: .whitespaces).isEmpty || isSaving)
                         .padding(.horizontal, 30)
                     }
                 } else {
@@ -162,9 +163,11 @@ struct WrongGuessView: View {
     }
 
     private func saveLearnedCharacter() {
+        guard !isSaving else { return }
         let name = characterName.trimmingCharacters(in: .whitespaces)
         guard !name.isEmpty else { return }
 
+        isSaving = true
         let service = DataService()
         service.saveLearnedCharacter(name: name, attributes: profile, context: modelContext)
 
@@ -187,6 +190,7 @@ struct WrongGuessView: View {
 
         guard let uid = authVM.userUID else {
             withAnimation { didSave = true; showToast = true }
+            isSaving = false
             return
         }
         Task {
@@ -206,6 +210,7 @@ struct WrongGuessView: View {
                     toastIcon = "exclamationmark.circle.fill"
                 }
                 withAnimation { didSave = true; showToast = true }
+                isSaving = false
             }
         }
     }
