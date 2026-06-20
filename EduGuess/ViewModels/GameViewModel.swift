@@ -306,8 +306,10 @@ class GameViewModel: ObservableObject {
         }
 
         // 2 — fallback to template question
+        let positiveAttributes = characterProfile.compactMap { $0.value ? $0.key : nil }
         guard let attribute = AIService.shared.selectNextAttribute(
             askedAttributes: askedAttributes,
+            positiveAttributes: positiveAttributes,
             possibleCharacters: possibleCharacters,
             allCharacters: allCharacters
         ) else {
