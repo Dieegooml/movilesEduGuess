@@ -57,7 +57,7 @@ class AIService {
             ?? "¿\(attributeKey)?"
     }
 
-    // MARK: - Information Gain (entropy-based)
+    // MARK: - Information Gain (entropy-based, supports true/false/nil)
 
     private func informationGain(
         attributeKey: String,
@@ -67,19 +67,28 @@ class AIService {
         guard total > 1 else { return 0 }
 
         let trueCount = characters.filter { $0.attributes[attributeKey] == true }.count
-        let falseCount = total - trueCount
+        let falseCount = characters.filter { $0.attributes[attributeKey] == false }.count
+        let nilCount = total - trueCount - falseCount
 
-        guard trueCount > 0 && falseCount > 0 else { return 0 }
+        // Attributes that are uniform or nearly uniform give low gain
+        let nonZeroGroups = [trueCount, falseCount, nilCount].filter { $0 > 0 }
+        guard nonZeroGroups.count >= 2 else { return 0 }
 
         // Entropy of a uniformly distributed set of N items: H(S) = log2(N)
         let entropyBefore = log2(Double(total))
 
         // Conditional entropy: weighted average of subgroup entropies
-        // H(S|A) = P(true) * log2(|S_true|) + P(false) * log2(|S_false|)
-        let pTrue = Double(trueCount) / Double(total)
-        let pFalse = Double(falseCount) / Double(total)
-        let entropyAfter = pTrue * log2(Double(trueCount)) + pFalse * log2(Double(falseCount))
+        // H(S|A) = Σ P(group) * log2(|S_group|)
+        let counts = [trueCount, falseCount, nilCount]
+        var entropyAfter: Double = 0
+        for count in counts where count > 0 {
+            let p = Double(count) / Double(total)
+            entropyAfter += p * log2(Double(count))
+        }
 
-        return entropyBefore - entropyAfter
+        // Bonus for attributes that split into 3 groups (more informative)
+        let splitBonus = nonZeroGroups.count == 3 ? 0.05 : 0.0
+
+        return (entropyBefore - entropyAfter) + splitBonus
     }
 }

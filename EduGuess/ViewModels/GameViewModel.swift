@@ -31,7 +31,7 @@ class GameViewModel: ObservableObject {
     private let dataService = DataService()
     private var modelContext: ModelContext?
     private let totalAttributes = AttributeDefinition.pool.count
-    private let minimumQuestionsBeforeGuess = 15
+    private let minimumQuestionsBeforeGuess = 18
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
@@ -40,7 +40,7 @@ class GameViewModel: ObservableObject {
     private var allCharacters: [Character] = []
     private var possibleCharacters: [Character] = []
     private var characterScores: [UUID: Int] = [:]
-    private let eliminationThreshold = -6
+    private let eliminationThreshold = -10
     private var generationTask: Task<Void, Never>?
 
     // MARK: - Read-Only Exports
@@ -133,32 +133,36 @@ class GameViewModel: ObservableObject {
         }
     }
 
-    /// Fuzzy scoring: nil (unknown attribute) is neutral for definitive answers,
-    /// and slightly positive for probabilistic answers (keeps characters alive).
+    /// Fuzzy scoring with higher precision.
+    /// Definitive answers are more strongly weighted to separate candidates faster.
+    /// Probabilistic answers use softer deltas to avoid eliminating the real character
+    /// when the user is unsure. Unknown/nil attributes are slightly penalized on
+    /// definitive answers (the profile should ideally know) and rewarded on
+    /// probabilistic answers (keeps incompletely-known characters alive).
     private func scoreDelta(answer: AnswerType, attributeValue: Bool?) -> Int {
         switch answer {
         case .yes:
-            // Definitive yes: +3 if true, -3 if false, 0 if unknown
-            if attributeValue == true { return 3 }
-            if attributeValue == false { return -3 }
-            return 0
+            // Definitive yes: +4 if true, -4 if false, -1 if unknown
+            if attributeValue == true { return 4 }
+            if attributeValue == false { return -4 }
+            return -1
         case .probablyYes:
-            // Probably yes: +2 if true, -1 if false (soft penalty), +1 if unknown (keep alive)
+            // Probably yes: +2 if true, -2 if false, +1 if unknown
             if attributeValue == true { return 2 }
-            if attributeValue == false { return -1 }
+            if attributeValue == false { return -2 }
             return 1
         case .unknown:
             return 0
         case .probablyNo:
-            // Probably no: -1 if true (soft penalty), +2 if false, +1 if unknown (keep alive)
-            if attributeValue == true { return -1 }
+            // Probably no: -2 if true, +2 if false, +1 if unknown
+            if attributeValue == true { return -2 }
             if attributeValue == false { return 2 }
             return 1
         case .no:
-            // Definitive no: -3 if true, +3 if false, 0 if unknown
-            if attributeValue == true { return -3 }
-            if attributeValue == false { return 3 }
-            return 0
+            // Definitive no: -4 if true, +4 if false, -1 if unknown
+            if attributeValue == true { return -4 }
+            if attributeValue == false { return 4 }
+            return -1
         }
     }
 
@@ -177,7 +181,7 @@ class GameViewModel: ObservableObject {
 
         // User said "No, it's not this character" — heavy penalty but not instant elimination
         if let character = guessCandidate {
-            characterScores[character.id, default: 0] -= 5
+            characterScores[character.id, default: 0] -= 8
             possibleCharacters.sort { (a, b) in
                 (characterScores[a.id] ?? 0) > (characterScores[b.id] ?? 0)
             }
@@ -218,14 +222,15 @@ class GameViewModel: ObservableObject {
         let gap = topScore - secondScore
 
         // High confidence: big gap after many questions
-        if questionsAskedCount >= 20 && gap >= 6 { return true }
-        if questionsAskedCount >= 25 && gap >= 4 { return true }
+        if questionsAskedCount >= 20 && gap >= 8 { return true }
+        if questionsAskedCount >= 25 && gap >= 6 { return true }
+        if questionsAskedCount >= 30 && gap >= 4 { return true }
 
         // Very high confidence regardless of question count
-        if gap >= 10 { return true }
+        if gap >= 12 { return true }
 
-        // If we are down to just 2 characters, ask the user
-        if possibleCharacters.count == 2 && questionsAskedCount >= 18 { return true }
+        // If we are down to just 2 characters, ask the user only after thorough filtering
+        if possibleCharacters.count == 2 && questionsAskedCount >= 22 { return true }
 
         return false
     }

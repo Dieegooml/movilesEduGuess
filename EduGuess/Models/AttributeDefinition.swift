@@ -427,6 +427,20 @@ extension AttributeDefinition {
             "¿Ha ganado premios de actuación?",
             "¿Es famoso por su trabajo en cine o TV?",
         ]),
+        .init(key: "isFootballer", questionTemplates: [
+            "¿Tu personaje es futbolista?",
+            "¿Juega fútbol profesionalmente?",
+            "¿Es conocido por jugar al fútbol?",
+            "¿Patea un balón por trabajo?",
+            "¿Ha jugado en un equipo de fútbol?",
+        ]),
+        .init(key: "isSinger", questionTemplates: [
+            "¿Tu personaje es cantante?",
+            "¿Canta profesionalmente?",
+            "¿Es conocido por su voz o música?",
+            "¿Ha lanzado canciones o álbumes?",
+            "¿Es un artista musical?",
+        ]),
         .init(key: "isFamous", questionTemplates: [
             "¿Tu personaje es muy famoso?",
             "¿Es conocido mundialmente?",
