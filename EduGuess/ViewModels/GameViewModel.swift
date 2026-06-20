@@ -230,18 +230,20 @@ class GameViewModel: ObservableObject {
     private func generateAndCacheQuestions(for attributeKeys: [String]) {
         guard let context = modelContext else { return }
 
+        // Fetch saved questions on main actor first (SwiftData context is main-thread bound)
+        let savedKeys = Set(
+            dataService.fetchGeneratedQuestions(for: attributeKeys, context: context)
+                .map(\.attributeKey)
+        )
+        let needsGeneration = attributeKeys.filter { !savedKeys.contains($0) }.prefix(2)
+        guard !needsGeneration.isEmpty else { return }
+
         generationTask?.cancel()
         generationTask = Task(priority: .background) { [weak self] in
             guard let self = self else { return }
-            let savedKeys = Set(
-                self.dataService.fetchGeneratedQuestions(for: attributeKeys, context: context)
-                    .map(\.attributeKey)
-            )
-            // pick up to 2 attributes that have NO saved question yet
-            let needsGeneration = attributeKeys.filter { !savedKeys.contains($0) }.prefix(2)
-            guard !needsGeneration.isEmpty else { return }
 
             for key in needsGeneration {
+                guard !Task.isCancelled else { return }
                 guard let attribute = AttributeDefinition.pool.first(where: { $0.key == key }) else { continue }
                 // call Gemini to generate a question for this specific attribute
                 let prompt = """

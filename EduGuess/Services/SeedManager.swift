@@ -18,10 +18,7 @@ struct SeedManager {
             return
         }
 
-        // Perform import in a background task to avoid blocking the main thread
-        Task(priority: .background) {
-            importCharacters(from: data, context: context)
-        }
+        importCharacters(from: data, context: context)
     }
 
     // MARK: - Import
