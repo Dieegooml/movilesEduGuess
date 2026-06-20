@@ -59,7 +59,7 @@ actor AchievementService {
             ("win_10", { stats.wins >= 10 }),
             ("win_50", { stats.wins >= 50 }),
             ("quick_guess", { questionsCount > 0 && questionsCount <= 5 }),
-            ("daily_7", { stats.wins >= 7 }),
+            ("daily_7", { streak.currentStreak >= 7 }),
             ("score_500", { stats.totalScore >= 500 }),
         ]
 

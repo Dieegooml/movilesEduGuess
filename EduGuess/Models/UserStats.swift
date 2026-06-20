@@ -49,7 +49,7 @@ struct LeaderboardEntry: Codable, Identifiable {
 enum GameScoring {
     static func calculateScore(questionsAsked: Int, won: Bool) -> Int {
         guard won else { return 0 }
-        let totalAttributes = 38
+        let totalAttributes = AttributeDefinition.pool.count
         return max(10, (totalAttributes - questionsAsked) * 10)
     }
 }

@@ -18,6 +18,21 @@ final class AuthViewModel {
     }
     var userEmail: String { FirebaseAuthService.shared.user?.email ?? "" }
 
+    /// Returns a stable anonymous user ID for guests who haven't logged in.
+    var effectiveUserId: String {
+        userUID ?? guestUserId
+    }
+
+    private var guestUserId: String {
+        let key = "guest_user_id"
+        if let existing = UserDefaults.standard.string(forKey: key) {
+            return existing
+        }
+        let newId = UUID().uuidString
+        UserDefaults.standard.set(newId, forKey: key)
+        return newId
+    }
+
     private init() {}
 
     func configure() {

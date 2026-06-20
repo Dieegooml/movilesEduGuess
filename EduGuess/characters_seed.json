@@ -1268,7 +1268,7 @@
       "isLatinAmerican": true,
       "isFromMarvel": false,
       "isFromDC": false,
-      "isFromDisney": true,
+      "isFromDisney": false,
       "isFromStarWars": false,
       "isHuman": true,
       "isAnimal": false,

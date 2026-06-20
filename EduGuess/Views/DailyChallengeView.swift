@@ -94,7 +94,7 @@ struct DailyChallengeView: View {
 
         if let c = character {
             Task {
-                let uid = AuthViewModel.shared.userUID ?? ""
+                let uid = AuthViewModel.shared.effectiveUserId
                 alreadyPlayed = await DailyChallengeService.shared.hasPlayedToday(userId: uid)
             }
         }

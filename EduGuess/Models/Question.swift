@@ -80,5 +80,6 @@ final class SDGameSession {
         self.questionsAsked = questionsAsked
         self.answers = answers
         self.won = won
+        assert(questionsAsked.count == answers.count, "questionsAsked and answers must have the same count")
     }
 }

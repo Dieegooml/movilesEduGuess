@@ -41,6 +41,8 @@ ALL_ATTRIBUTES = [
     "usesMagic", "usesTechnology", "hasSuperpowers", "isStrong", "isSmart",
     # Items
     "hasWeapon", "drivesVehicle", "wearsCape", "wearsHat",
+    # Role / Occupation
+    "isAthlete", "isMusician", "isPolitician", "isWriter", "isScientist", "isReligious",
 ]
 
 # ---------------------------------------------------------------------------

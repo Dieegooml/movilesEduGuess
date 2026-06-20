@@ -227,7 +227,7 @@ private struct HistoryPreviewView: View {
     }
 
     private func loadSessions() {
-        let uid = AuthViewModel.shared.userUID ?? ""
+        let uid = AuthViewModel.shared.effectiveUserId
         let predicate = #Predicate<SDGameSession> { session in
             session.userId == uid
         }

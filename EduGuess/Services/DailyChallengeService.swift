@@ -36,9 +36,12 @@ actor DailyChallengeService {
         let all = service.fetchCharacters(context: context)
         guard !all.isEmpty else { return nil }
 
-        let dayNumber = Calendar.current.ordinality(of: .day, in: .era, for: Date()) ?? 0
-        let index = dayNumber % all.count
-        return all[index]
+        // Deterministic selection based on date hash to remain stable across app launches
+        let sorted = all.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        let dayString = DailyChallengeService.dateFormatter.string(from: Date())
+        let seed = dayString.utf8.reduce(0) { $0 + Int($1) }
+        let index = seed % sorted.count
+        return sorted[index]
     }
 
     func saveScore(userId: String, userName: String, avatar: String, characterName: String, questionsAsked: Int, score: Int) async {

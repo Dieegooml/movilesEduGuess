@@ -258,7 +258,7 @@ struct QuestionView: View {
         guard isDailyChallenge, let name = dailyCharacterName else { return }
         let won = viewModel.gameState == .guessed
         let score = GameScoring.calculateScore(questionsAsked: viewModel.questionsAskedCount, won: won)
-        let uid = AuthViewModel.shared.userUID ?? ""
+        let uid = AuthViewModel.shared.effectiveUserId
         let userName = AuthViewModel.shared.userName
         let questions = viewModel.questionsAskedCount
 
