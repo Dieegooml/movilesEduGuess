@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import AuthenticationServices
 
 @Observable
 final class AuthViewModel {
@@ -117,6 +118,32 @@ final class AuthViewModel {
         Task {
             do {
                 try await FirebaseAuthService.shared.signInWithFacebook()
+                guard let uid = FirebaseAuthService.shared.user?.uid else {
+                    await MainActor.run { errorMessage = "No se pudo obtener el UID del usuario." }
+                    return
+                }
+                let name = FirebaseAuthService.shared.user?.displayName ?? "Usuario"
+                let email = FirebaseAuthService.shared.user?.email ?? ""
+                try? await FirestoreService.shared.createUser(uid: uid, name: name, email: email)
+                await MainActor.run {
+                    isAuthenticated = true
+                    isNewSession = true
+                }
+            } catch {
+                await MainActor.run {
+                    errorMessage = error.localizedDescription
+                }
+            }
+            await MainActor.run { isLoading = false }
+        }
+    }
+
+    func signInWithApple(authorization: AuthenticationServices.ASAuthorization) {
+        isLoading = true
+        errorMessage = nil
+        Task {
+            do {
+                try await FirebaseAuthService.shared.signInWithApple(authorization: authorization)
                 guard let uid = FirebaseAuthService.shared.user?.uid else {
                     await MainActor.run { errorMessage = "No se pudo obtener el UID del usuario." }
                     return
