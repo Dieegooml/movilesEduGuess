@@ -385,6 +385,46 @@ class GameViewModel: ObservableObject {
         Task { await generateNextQuestion() }
     }
 
+    // MARK: - Save Guessed Character as New
+
+    /// Saves the current guess candidate as a new character using the built profile.
+    /// Returns true if saved, false if a character with this name already exists.
+    func saveGuessedCharacterAsNew() -> Bool {
+        guard let candidate = guessCandidate else { return false }
+        guard let context = modelContext else { return false }
+
+        // Build full attributes from profile (fill missing with false)
+        let allKeys = AttributeDefinition.pool.map(\.key)
+        var fullAttributes: [String: Bool] = Dictionary(uniqueKeysWithValues: allKeys.map { ($0, false) })
+        for (key, value) in characterProfile {
+            fullAttributes[key] = value
+        }
+
+        // Check for duplicate by name (case-insensitive)
+        let allExisting = dataService.fetchCharacters(context: context)
+        let lowerName = candidate.name.lowercased()
+        if allExisting.contains(where: { $0.name.lowercased() == lowerName }) {
+            return false
+        }
+
+        dataService.addCharacter(
+            name: candidate.name,
+            image: "",
+            attributes: fullAttributes,
+            context: context
+        )
+
+        // Also add to in-memory lists so it can be guessed in future games
+        let newChar = dataService.fetchCharacters(context: context).first { $0.name.lowercased() == lowerName }
+        if let newChar = newChar {
+            allCharacters.append(newChar)
+            possibleCharacters.append(newChar)
+            characterScores[newChar.id] = 0
+        }
+
+        return true
+    }
+
     // MARK: - Reset
 
     func resetGame() {

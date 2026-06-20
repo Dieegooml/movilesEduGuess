@@ -9,6 +9,9 @@ struct QuestionView: View {
     @State private var correctDestinationActive = false
     @State private var wrongDestinationActive = false
     @State private var isLoading = true
+    @State private var addCharacterAlertTitle = ""
+    @State private var addCharacterAlertMessage = ""
+    @State private var showAddCharacterAlert = false
 
     let preloadedCharacters: [Character]?
     let isDailyChallenge: Bool
@@ -69,6 +72,22 @@ struct QuestionView: View {
                 break
             }
         }
+        .alert(addCharacterAlertTitle, isPresented: $showAddCharacterAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(addCharacterAlertMessage)
+        }
+    }
+
+    private func showAddCharacterResult(saved: Bool) {
+        if saved {
+            addCharacterAlertTitle = "Personaje agregado"
+            addCharacterAlertMessage = "¡El personaje ha sido guardado exitosamente y ahora forma parte del juego!"
+        } else {
+            addCharacterAlertTitle = "Ya existe"
+            addCharacterAlertMessage = "Este personaje ya está en la base de datos. No se ha creado un duplicado."
+        }
+        showAddCharacterAlert = true
     }
 
     private var loadingContent: some View {
@@ -349,6 +368,29 @@ struct QuestionView: View {
                     HapticManager.shared.notification(.error)
                     viewModel.respondToGuess(correct: false)
                 }
+
+                // Add character button — saves the guessed profile as a new character
+                Button {
+                    HapticManager.shared.impact(.medium)
+                    let saved = viewModel.saveGuessedCharacterAsNew()
+                    showAddCharacterResult(saved: saved)
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: "person.badge.plus")
+                        Text("Agregar como nuevo personaje")
+                            .font(.subheadline.weight(.medium))
+                    }
+                    .foregroundColor(.blue)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 20)
+                    .background(
+                        Capsule()
+                            .stroke(Color.blue.opacity(0.4), lineWidth: 1.5)
+                            .background(Capsule().fill(Color.blue.opacity(0.08)))
+                    )
+                }
+                .pressEffect()
+                .padding(.top, 4)
             }
             .padding(.horizontal)
         }
