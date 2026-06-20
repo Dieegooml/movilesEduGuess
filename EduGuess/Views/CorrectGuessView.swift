@@ -5,7 +5,7 @@ struct CorrectGuessView: View {
     let characterName: String
     let profile: [String: Bool]
     let askedAttributes: [String]
-    let answers: [Bool]
+    let answers: [AnswerType]
     var isDailyChallenge: Bool = false
     var dailyCharacterName: String? = nil
 
@@ -132,6 +132,7 @@ struct CorrectGuessView: View {
         .navigationBarBackButtonHidden(true)
         .toast(message: toastMessage, icon: toastIcon, isShowing: $showToast)
         .onAppear {
+            HapticManager.shared.notification(.success)
             withAnimation(.interpolatingSpring(stiffness: 150, damping: 10)) {
                 showContent = true
             }
@@ -155,7 +156,7 @@ struct CorrectGuessView: View {
             characterName: characterName,
             characterAttributes: profile,
             questionsAsked: askedAttributes,
-            answers: answers,
+            answers: answers.map { $0.rawValue },
             won: true,
             userId: authVM.userUID ?? "",
             userName: authVM.userName,
@@ -173,7 +174,7 @@ struct CorrectGuessView: View {
                 characterName: characterName,
                 characterAttributes: profile,
                 questionsAsked: askedAttributes,
-                answers: answers,
+                answers: answers.map { $0.rawValue },
                 won: true,
                 userId: uid,
                 userName: authVM.userName,
@@ -196,7 +197,7 @@ struct CorrectGuessView_Previews: PreviewProvider {
             characterName: "Harry Potter",
             profile: ["usesMagic": true],
             askedAttributes: ["usesMagic"],
-            answers: [true]
+            answers: [.yes]
         )
     }
 }

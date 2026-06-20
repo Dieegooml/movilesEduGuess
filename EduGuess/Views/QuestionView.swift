@@ -22,6 +22,13 @@ struct QuestionView: View {
 
     var body: some View {
         ZStack {
+            LinearGradient(
+                colors: [Color.orange.opacity(0.05), Color.red.opacity(0.05)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
             if isLoading {
                 loadingContent
             } else {
@@ -100,7 +107,9 @@ struct QuestionView: View {
             ProgressBar(progress: progressValue)
                 .frame(height: 40)
 
-            if viewModel.isAttemptingGuess {
+            if viewModel.isRevealing {
+                revealContent
+            } else if viewModel.isAttemptingGuess {
                 guessContent
             } else {
                 questionContent
@@ -110,6 +119,51 @@ struct QuestionView: View {
 
         }
         .padding()
+    }
+
+    // MARK: - Reveal Animation (before showing correct guess)
+
+    private var revealContent: some View {
+        VStack(spacing: 28) {
+            Spacer()
+
+            ZStack {
+                Circle()
+                    .fill(Color.green.opacity(0.15))
+                    .frame(width: 140, height: 140)
+                    .scaleEffect(1 + 0.1 * sin(Date().timeIntervalSince1970 * 3))
+
+                Circle()
+                    .stroke(Color.green.opacity(0.3), lineWidth: 2)
+                    .frame(width: 120, height: 120)
+
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 55))
+                    .foregroundColor(.green)
+            }
+            .frame(height: 150)
+
+            Text("Estoy pensando en el personaje...")
+                .font(.title3.weight(.semibold))
+                .foregroundColor(.primary)
+                .multilineTextAlignment(.center)
+
+            Text("Analizando todas tus respuestas")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            ThinkingDots()
+                .padding(.top, 8)
+
+            Spacer()
+        }
+        .padding()
+        .onAppear {
+            HapticManager.shared.impact(.medium)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                viewModel.confirmGuess()
+            }
+        }
     }
 
     // MARK: - Normal Question Mode
@@ -125,37 +179,41 @@ struct QuestionView: View {
                     QuestionCard(question: viewModel.currentQuestion)
                         .id(viewModel.currentQuestion)
 
-                    VStack(spacing: 12) {
-                        AnswerButton(title: "Sí", color: .green) {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                viewModel.answerQuestion(answer: .yes)
-                            }
-                        }
+                    VStack(spacing: 10) {
+                        fuzzyAnswerButton(
+                            title: "Sí",
+                            icon: "checkmark.circle.fill",
+                            color: .green,
+                            answer: .yes
+                        )
 
-                        AnswerButton(title: "No", color: .red) {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                viewModel.answerQuestion(answer: .no)
-                            }
-                        }
+                        fuzzyAnswerButton(
+                            title: "Probablemente sí",
+                            icon: "hand.thumbsup.fill",
+                            color: Color.green.opacity(0.7),
+                            answer: .probablyYes
+                        )
 
-                        Button {
-                            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                viewModel.answerQuestion(answer: .unknown)
-                            }
-                        } label: {
-                            Text("No sé")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 18)
-                                        .stroke(Color.secondary.opacity(0.5), lineWidth: 1.5)
-                                )
-                        }
+                        fuzzyAnswerButton(
+                            title: "No sé",
+                            icon: "questionmark.circle.fill",
+                            color: .gray,
+                            answer: .unknown
+                        )
+
+                        fuzzyAnswerButton(
+                            title: "Probablemente no",
+                            icon: "hand.thumbsdown.fill",
+                            color: Color.orange,
+                            answer: .probablyNo
+                        )
+
+                        fuzzyAnswerButton(
+                            title: "No",
+                            icon: "xmark.circle.fill",
+                            color: .red,
+                            answer: .no
+                        )
                     }
                     .padding(.horizontal)
                 }
@@ -165,9 +223,15 @@ struct QuestionView: View {
                 removal: .move(edge: .leading).combined(with: .opacity)
             ))
 
-            Text("Pregunta \(viewModel.questionsAskedCount + 1)")
-                .font(.caption)
-                .foregroundColor(.secondary)
+            if viewModel.questionsAskedCount < 15 {
+                Text("Pregunta \(viewModel.questionsAskedCount + 1) de mínimo 15")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            } else {
+                Text("Pregunta \(viewModel.questionsAskedCount + 1)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
         }
         .animation(.easeInOut(duration: 0.4), value: viewModel.isGenerating)
         .animation(.easeInOut(duration: 0.3), value: viewModel.questionsAskedCount)
@@ -175,19 +239,23 @@ struct QuestionView: View {
 
     private var errorContent: some View {
         VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.triangle")
+            Image(systemName: NetworkMonitor.shared.isConnected ? "exclamationmark.triangle" : "wifi.slash")
                 .font(.system(size: 48))
-                .foregroundColor(.orange)
+                .foregroundColor(NetworkMonitor.shared.isConnected ? .orange : .red)
+                .symbolEffect(.bounce, options: .nonRepeating)
 
-            Text("No se pudo generar la pregunta")
+            Text(NetworkMonitor.shared.isConnected ? "No se pudo generar la pregunta" : "Sin conexión")
                 .font(.headline)
 
-            Text("Revisa tu conexión a internet y vuelve a intentarlo")
+            Text(NetworkMonitor.shared.isConnected
+                 ? "Hubo un problema al generar la pregunta. Inténtalo de nuevo."
+                 : "Necesitas conexión a internet para generar preguntas con IA.")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
 
             Button {
+                HapticManager.shared.impact(.light)
                 viewModel.retryQuestion()
             } label: {
                 Label("Reintentar", systemImage: "arrow.clockwise")
@@ -221,10 +289,12 @@ struct QuestionView: View {
 
             VStack(spacing: 12) {
                 AnswerButton(title: "Sí, es correcto", color: .green) {
+                    HapticManager.shared.notification(.success)
                     viewModel.respondToGuess(correct: true)
                 }
 
                 AnswerButton(title: "No, no es", color: .red) {
+                    HapticManager.shared.notification(.error)
                     viewModel.respondToGuess(correct: false)
                 }
             }
@@ -273,6 +343,30 @@ struct QuestionView: View {
                 score: score
             )
         }
+    }
+
+    private func fuzzyAnswerButton(title: String, icon: String, color: Color, answer: AnswerType) -> some View {
+        Button {
+            HapticManager.shared.impact(.light)
+            withAnimation(.easeInOut(duration: 0.2)) {
+                viewModel.answerQuestion(answer: answer)
+            }
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.title3)
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+            }
+            .foregroundColor(.white)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(color)
+            )
+        }
+        .pressEffect()
     }
 }
 
@@ -375,6 +469,33 @@ struct ThinkingAnimation: View {
         .onDisappear {
             messageTimer?.invalidate()
             messageTimer = nil
+        }
+    }
+}
+
+// MARK: - Thinking Dots (for reveal animation)
+
+private struct ThinkingDots: View {
+    @State private var animating = false
+
+    var body: some View {
+        HStack(spacing: 8) {
+            ForEach(0..<3) { i in
+                Circle()
+                    .fill(Color.green)
+                    .frame(width: 10, height: 10)
+                    .scaleEffect(animating ? 1.0 : 0.5)
+                    .opacity(animating ? 1.0 : 0.4)
+                    .animation(
+                        .easeInOut(duration: 0.5)
+                        .repeatForever(autoreverses: true)
+                        .delay(Double(i) * 0.2),
+                        value: animating
+                    )
+            }
+        }
+        .onAppear {
+            animating = true
         }
     }
 }

@@ -5,7 +5,7 @@ struct WrongGuessView: View {
 
     let profile: [String: Bool]
     let askedAttributes: [String]
-    let answers: [Bool]
+    let answers: [AnswerType]
     var isDailyChallenge: Bool = false
     var dailyCharacterName: String? = nil
 
@@ -20,6 +20,8 @@ struct WrongGuessView: View {
     @State private var savedAttributes: [String: Bool] = [:]
     @State private var showCompletionForm = false
     @State private var isSaving = false
+
+    @State private var showContent = false
 
     var body: some View {
 
@@ -42,17 +44,35 @@ struct WrongGuessView: View {
                     .scaledToFit()
                     .frame(width: 130, height: 130)
                     .foregroundColor(.white)
+                    .scaleEffect(showContent ? 1 : 0.5)
+                    .opacity(showContent ? 1 : 0)
+                    .symbolEffect(.bounce, options: .nonRepeating, value: showContent)
 
                 Text("No pude adivinar")
                     .font(.system(size: 34, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
+                    .offset(y: showContent ? 0 : 20)
+                    .opacity(showContent ? 1 : 0)
 
                 Text("Ayúdame a aprender")
                     .font(.title3)
                     .foregroundColor(.white.opacity(0.9))
+                    .offset(y: showContent ? 0 : 20)
+                    .opacity(showContent ? 1 : 0)
 
-                if !didSave {
+                if isDailyChallenge, let name = dailyCharacterName {
+                    VStack(spacing: 12) {
+                        Text("El personaje era:")
+                            .font(.subheadline)
+                            .foregroundColor(.white.opacity(0.8))
+                        Text(name)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal)
+                } else if !didSave {
                     VStack(spacing: 12) {
                         TextField("¿Qué personaje era?", text: $characterName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -112,7 +132,7 @@ struct WrongGuessView: View {
                 }
                 .padding(.horizontal, 30)
 
-                if didSave {
+                if didSave && !isDailyChallenge {
                     ShareLink(
                         item: "Jugué EduGuess y la IA no adivinó mi personaje. ¿Puedes tú hacerlo mejor? 🧠\n\nDescarga la app: https://github.com/Dieegooml/movilesEduGuess",
                         subject: Text("EduGuess - ¿puedes adivinar mi personaje?"),
@@ -148,6 +168,12 @@ struct WrongGuessView: View {
         }
         .navigationBarBackButtonHidden(true)
         .toast(message: toastMessage, icon: toastIcon, isShowing: $showToast)
+        .onAppear {
+            HapticManager.shared.notification(.error)
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                showContent = true
+            }
+        }
         .sheet(isPresented: $showCompletionForm) {
             NavigationStack {
                 CharacterFormView(
@@ -175,7 +201,7 @@ struct WrongGuessView: View {
             characterName: name,
             characterAttributes: profile,
             questionsAsked: askedAttributes,
-            answers: answers,
+            answers: answers.map { $0.rawValue },
             won: false,
             userId: authVM.userUID ?? "",
             userName: authVM.userName,
@@ -198,7 +224,7 @@ struct WrongGuessView: View {
                 characterName: name,
                 characterAttributes: profile,
                 questionsAsked: askedAttributes,
-                answers: answers,
+                answers: answers.map { $0.rawValue },
                 won: false,
                 userId: uid,
                 userName: authVM.userName,
@@ -232,7 +258,7 @@ struct WrongGuessView_Previews: PreviewProvider {
         WrongGuessView(
             profile: ["isReal": false, "usesMagic": true],
             askedAttributes: ["isReal", "usesMagic"],
-            answers: [false, true]
+            answers: [.no, .yes]
         )
     }
 }

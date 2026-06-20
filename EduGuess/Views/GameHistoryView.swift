@@ -21,30 +21,47 @@ struct GameHistoryView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            Picker("Filtro", selection: $filter) {
-                ForEach(SessionFilter.allCases, id: \.self) { f in
-                    Text(f.rawValue).tag(f)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding()
+        ZStack {
+            LinearGradient(
+                colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
-            if filteredSessions.isEmpty {
-                ContentUnavailableView(
-                    "Sin partidas",
-                    systemImage: "clock.arrow.circlepath",
-                    description: Text(filter == .all ? "Aún no has jugado ninguna partida" : "No hay \(filter == .wins ? "victorias" : "derrotas") registradas")
-                )
-            } else {
-                List {
-                    ForEach(filteredSessions) { session in
-                        NavigationLink {
-                            GameSessionDetailView(session: session)
-                        } label: {
-                            sessionRow(session)
+            VStack(spacing: 0) {
+                Picker("Filtro", selection: $filter) {
+                    ForEach(SessionFilter.allCases, id: \.self) { f in
+                        Text(f.rawValue).tag(f)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding()
+                .colorMultiply(.white)
+
+                if filteredSessions.isEmpty {
+                    EmptyStateView(
+                        icon: "clock.arrow.circlepath",
+                        title: "Sin partidas",
+                        description: filter == .all
+                            ? "Aún no has jugado ninguna partida. ¡Comienza ahora!"
+                            : "No hay \(filter == .wins ? "victorias" : "derrotas") registradas.",
+                        buttonTitle: filter == .all ? "Jugar ahora" : nil,
+                        buttonAction: filter == .all ? { /* Navigation handled by parent */ } : nil
+                    )
+                } else {
+                    List {
+                        ForEach(filteredSessions) { session in
+                            NavigationLink {
+                                GameSessionDetailView(session: session)
+                            } label: {
+                                sessionRow(session)
+                            }
+                            .listRowBackground(Color.clear)
                         }
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                 }
             }
         }

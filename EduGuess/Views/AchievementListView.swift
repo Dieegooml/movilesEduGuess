@@ -22,8 +22,15 @@ struct AchievementListView: View {
                 .foregroundColor(.white)
 
             if isLoading {
-                ProgressView()
-                    .tint(.white)
+                VStack(spacing: 12) {
+                    ProgressView()
+                        .tint(.white)
+                        .scaleEffect(1.2)
+                    Text("Cargando logros...")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+                .frame(maxWidth: .infinity, minHeight: 200)
             } else {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 12) {
                     ForEach(allAchievements) { achievement in

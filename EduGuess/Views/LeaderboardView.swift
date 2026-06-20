@@ -32,23 +32,25 @@ struct LeaderboardView: View {
                         .tint(.white)
                     Spacer()
                 } else if !NetworkMonitor.shared.isConnected {
-                    Spacer()
-                    VStack(spacing: 12) {
-                        Image(systemName: "wifi.slash")
-                            .font(.largeTitle)
-                            .foregroundColor(.white.opacity(0.7))
-                        Text("Sin conexión")
-                            .foregroundColor(.white.opacity(0.7))
-                        Text("Conéctate a internet para ver el ranking")
-                            .font(.caption)
-                            .foregroundColor(.white.opacity(0.5))
-                    }
-                    Spacer()
+                    EmptyStateView(
+                        icon: "wifi.slash",
+                        title: "Sin conexión",
+                        description: "Conéctate a internet para ver el ranking global.",
+                        buttonTitle: "Reintentar",
+                        buttonAction: {
+                            Task { await loadLeaderboard() }
+                        }
+                    )
                 } else if entries.isEmpty {
-                    Spacer()
-                    Text("Aún no hay datos")
-                        .foregroundColor(.white.opacity(0.7))
-                    Spacer()
+                    EmptyStateView(
+                        icon: "trophy.fill",
+                        title: "Aún no hay datos",
+                        description: "Sé el primero en jugar y aparecer en la tabla de líderes.",
+                        buttonTitle: "Jugar ahora",
+                        buttonAction: {
+                            // Navigate back - handled by presentation
+                        }
+                    )
                 } else {
                     List {
                         ForEach(Array(entries.prefix(pageSize).enumerated()), id: \.element.id) { index, entry in
