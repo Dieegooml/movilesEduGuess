@@ -31,11 +31,11 @@ class GameViewModel: ObservableObject {
     private let dataService = DataService()
     private var modelContext: ModelContext?
     private let totalAttributes = AttributeDefinition.pool.count
-    private let minimumQuestionsBeforeGuess = 18
-    private let maximumQuestionsBeforeFail = 65
+    private let minimumQuestionsBeforeGuess = 12
+    private let maximumQuestionsBeforeFail = 55
     private let minimumScoreToGuess = 8
     /// Question counts at which the AI must attempt a guess, even if confidence is low.
-    private let forcedGuessMilestones: [Int] = [25, 50, 60]
+    private let forcedGuessMilestones: [Int] = [20, 30, 40, 50, 60]
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: Set<String> = []
@@ -97,6 +97,8 @@ class GameViewModel: ObservableObject {
         askedAttributes.insert(key)
         questionsAskedCount += 1
 
+        let poolBefore = possibleCharacters.count
+
         // Apply fuzzy scoring to all possible characters
         for character in possibleCharacters {
             let value = character.attributes[key]
@@ -117,6 +119,15 @@ class GameViewModel: ObservableObject {
                 characterScores[c.id] = 0
             }
         }
+
+        // Learn from this attribute's usefulness (async, non-blocking)
+        AttributeLearningService.shared.recordUse(
+            attributeKey: key,
+            poolBefore: poolBefore,
+            poolAfter: possibleCharacters.count,
+            ledToGuess: false,
+            guessCorrect: false
+        )
 
         evaluateGameState()
 
@@ -148,26 +159,26 @@ class GameViewModel: ObservableObject {
     private func scoreDelta(answer: AnswerType, attributeValue: Bool?) -> Int {
         switch answer {
         case .yes:
-            // Definitive yes: +4 if true, -4 if false, -1 if unknown
-            if attributeValue == true { return 4 }
-            if attributeValue == false { return -4 }
+            // Definitive yes: strong reward for true, strong penalty for false
+            if attributeValue == true { return 5 }
+            if attributeValue == false { return -5 }
             return -1
         case .probablyYes:
-            // Probably yes: +2 if true, -2 if false, +1 if unknown
+            // Probably yes: moderate reward/penalty, small boost for unknown
             if attributeValue == true { return 2 }
             if attributeValue == false { return -2 }
             return 1
         case .unknown:
             return 0
         case .probablyNo:
-            // Probably no: -2 if true, +2 if false, +1 if unknown
+            // Probably no: moderate penalty/reward, small boost for unknown
             if attributeValue == true { return -2 }
             if attributeValue == false { return 2 }
             return 1
         case .no:
-            // Definitive no: -4 if true, +4 if false, -1 if unknown
-            if attributeValue == true { return -4 }
-            if attributeValue == false { return 4 }
+            // Definitive no: strong penalty for true, strong reward for false
+            if attributeValue == true { return -5 }
+            if attributeValue == false { return 5 }
             return -1
         }
     }
@@ -176,6 +187,17 @@ class GameViewModel: ObservableObject {
 
     func respondToGuess(correct: Bool) {
         isAttemptingGuess = false
+
+        // Record learning for the attribute that triggered this guess
+        if let lastAttribute = sessionQuestions.last {
+            AttributeLearningService.shared.recordUse(
+                attributeKey: lastAttribute,
+                poolBefore: possibleCharacters.count,
+                poolAfter: possibleCharacters.count,
+                ledToGuess: true,
+                guessCorrect: correct
+            )
+        }
 
         if correct, let character = guessCandidate {
             guessedCharacter = character
@@ -217,7 +239,7 @@ class GameViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Guess Logic (score-gap based)
+    // MARK: - Guess Logic (score-gap and dominance based)
 
     private func shouldAttemptGuess() -> Bool {
         guard questionsAskedCount >= minimumQuestionsBeforeGuess, !possibleCharacters.isEmpty else {
@@ -227,7 +249,40 @@ class GameViewModel: ObservableObject {
         // Always reveal if only 1 character remains
         if possibleCharacters.count == 1 { return true }
 
-        // Force a guess at configured milestones (25, 50, 60) if we haven't already.
+        let sorted = possibleCharacters.sorted {
+            (characterScores[$0.id] ?? 0) > (characterScores[$1.id] ?? 0)
+        }
+        let topScore = characterScores[sorted[0].id] ?? 0
+        let secondScore = sorted.count > 1 ? (characterScores[sorted[1].id] ?? 0) : Int.min
+        let gap = topScore - secondScore
+
+        // Dominance ratio: how much of the top-N score mass belongs to #1
+        let topN = Array(sorted.prefix(min(5, sorted.count)))
+        let totalTopScore = topN.reduce(0) { $0 + (characterScores[$1.id] ?? 0) }
+        let dominanceRatio = totalTopScore > 0 ? Double(topScore) / Double(totalTopScore) : 0
+
+        // Unique attributes of top candidate not shared by #2
+        let topUniqueAttributes = uniqueTrueAttributes(candidate: sorted[0], comparedTo: Array(sorted.dropFirst()))
+
+        // Early guess when the top candidate is clearly dominant
+        if dominanceRatio >= 0.65 && topScore >= 10 { return true }
+        if dominanceRatio >= 0.70 && topScore >= 6 { return true }
+
+        // Big absolute gap thresholds
+        if gap >= 10 { return true }
+        if questionsAskedCount >= 15 && gap >= 7 { return true }
+        if questionsAskedCount >= 20 && gap >= 5 { return true }
+
+        // Top candidate has unique identifying attributes and a decent lead
+        if !topUniqueAttributes.isEmpty && gap >= 4 && questionsAskedCount >= 14 {
+            return true
+        }
+
+        // Very small pool: guess sooner
+        if possibleCharacters.count == 2 && questionsAskedCount >= 16 { return true }
+        if possibleCharacters.count == 3 && questionsAskedCount >= 18 && gap >= 4 { return true }
+
+        // Force a guess at configured milestones if we haven't already.
         // If the user rejects it, the game continues until the next milestone.
         for milestone in forcedGuessMilestones {
             if questionsAskedCount >= milestone && !completedForcedGuesses.contains(milestone) {
@@ -236,24 +291,16 @@ class GameViewModel: ObservableObject {
             }
         }
 
-        // Calculate score gap between #1 and #2
-        let sorted = possibleCharacters
-        guard sorted.count >= 2 else { return true }
-        let topScore = characterScores[sorted[0].id] ?? 0
-        let secondScore = characterScores[sorted[1].id] ?? 0
-        let gap = topScore - secondScore
-
-        // High confidence: big gap after many questions
-        if questionsAskedCount >= 20 && gap >= 8 { return true }
-        if questionsAskedCount >= 25 && gap >= 6 { return true }
-
-        // Very high confidence regardless of question count
-        if gap >= 12 { return true }
-
-        // If we are down to just 2 characters, ask the user only after thorough filtering
-        if possibleCharacters.count == 2 && questionsAskedCount >= 22 { return true }
-
         return false
+    }
+
+    /// Attributes that the candidate has true and none of the compared characters have true.
+    private func uniqueTrueAttributes(candidate: Character, comparedTo others: [Character]) -> [String] {
+        candidate.attributes.compactMap { key, value -> String? in
+            guard value == true else { return nil }
+            let unique = others.allSatisfy { $0.attributes[key] != true }
+            return unique ? key : nil
+        }
     }
 
     private func attemptGuess() {
@@ -289,16 +336,23 @@ class GameViewModel: ObservableObject {
         // This improves precision by avoiding wild guesses when the user's answers
         // no longer match any known character well.
         if questionsAskedCount >= maximumQuestionsBeforeFail && gameState == .playing {
-            let bestScore = possibleCharacters.first.flatMap { characterScores[$0.id] } ?? 0
-            let secondScore = possibleCharacters.dropFirst().first.flatMap { characterScores[$0.id] } ?? 0
+            let sorted = possibleCharacters.sorted {
+                (characterScores[$0.id] ?? 0) > (characterScores[$1.id] ?? 0)
+            }
+            let bestScore = sorted.first.flatMap { characterScores[$0.id] } ?? 0
+            let secondScore = sorted.dropFirst().first.flatMap { characterScores[$0.id] } ?? 0
             let gap = bestScore - secondScore
 
-            // Fail if the best candidate is weak or not clearly ahead of the rest.
-            if bestScore < minimumScoreToGuess || gap < 6 {
-                gameState = .failed
-                finalProfile = characterProfile
+            // If there is a clear leader, attempt a guess instead of failing
+            if bestScore >= minimumScoreToGuess && gap >= 4 {
+                attemptGuess()
                 return
             }
+
+            // Otherwise fail
+            gameState = .failed
+            finalProfile = characterProfile
+            return
         }
 
         if askedAttributes.count >= totalAttributes && possibleCharacters.count > 1 {
@@ -349,7 +403,8 @@ class GameViewModel: ObservableObject {
             askedAttributes: askedAttributes,
             positiveAttributes: positiveAttributes,
             possibleCharacters: possibleCharacters,
-            allCharacters: allCharacters
+            allCharacters: allCharacters,
+            characterScores: characterScores
         ) else {
             await MainActor.run {
                 finalProfile = characterProfile

@@ -5,6 +5,7 @@ class AIService {
     static let shared = AIService()
 
     private let pool = AttributeDefinition.pool
+    private let learningService = AttributeLearningService.shared
 
     /// Attributes that are semantically related. When a user answers "yes" to a
     /// parent attribute, we boost the related attributes so the next questions
@@ -126,6 +127,65 @@ class AIService {
         "isFemale", "isChild", "isElderly", "isFamous"
     ]
 
+    /// Attributes that are logically implied by other attributes. If the parent
+    /// attribute has been answered positively, asking the implied attribute is
+    /// usually redundant and should be penalized.
+    private let impliedAttributes: [String: [String]] = [
+        "isFootballer": ["isAthlete", "isFamous"],
+        "isAthlete": ["isReal", "isAlive"],
+        "isSinger": ["isMusician", "isFamous"],
+        "isActor": ["isFamous"],
+        "isSuperhero": ["isFictional", "hasSuperpowers"],
+        "isFromMarvel": ["isSuperhero", "isFictional", "isFromComic"],
+        "isFromDC": ["isSuperhero", "isFictional", "isFromComic"],
+        "isFromDisney": ["isFictional"],
+        "isFromAnime": ["isFictional", "isFromTV"],
+        "isFromVideoGame": ["isFictional"],
+        "isFromMythology": ["isFictional", "isMagical"],
+        "isMagical": ["hasSuperpowers"],
+        "isWizard": ["isMagical", "usesMagic"],
+        "isWitch": ["isMagical", "usesMagic"],
+        "isRoyalty": ["isFamous"],
+        "isPolitician": ["isReal", "isFamous"],
+        "isScientist": ["isReal", "isSmart"],
+        "isWriter": ["isReal", "isSmart"],
+        "isFromBrazil": ["isLatinAmerican"],
+        "isFromArgentina": ["isLatinAmerican"],
+        "isFromMexico": ["isLatinAmerican"],
+        "isFromColombia": ["isLatinAmerican"],
+        "isFromChile": ["isLatinAmerican"],
+        "isFromUruguay": ["isLatinAmerican"],
+        "isFromPeru": ["isLatinAmerican"],
+        "isFromPuertoRico": ["isLatinAmerican"],
+        "isFromSpain": ["isFromEurope"],
+        "isFromEngland": ["isFromEurope"],
+        "isFromFrance": ["isFromEurope"],
+        "isFromGermany": ["isFromEurope"],
+        "isFromItaly": ["isFromEurope"],
+        "isFromPortugal": ["isFromEurope"],
+        "isFromNetherlands": ["isFromEurope"],
+        "isFromBelgium": ["isFromEurope"],
+        "isFromCroatia": ["isFromEurope"],
+        "isFromNorway": ["isFromEurope"],
+        "isFromUK": ["isFromEurope"],
+        "isFromUSA": ["isFromNorthAmerica"],
+        "isFromCanada": ["isFromNorthAmerica"],
+        "isRapper": ["isSinger"],
+        "isRockSinger": ["isSinger"],
+        "isPopSinger": ["isSinger"],
+        "isCountrySinger": ["isSinger"],
+        "isOperaSinger": ["isSinger"],
+        "isReggaetonSinger": ["isSinger"],
+        "isSalsaSinger": ["isSinger"],
+        "isWinger": ["isFootballer", "isAthlete"],
+        "isStriker": ["isFootballer", "isAthlete"],
+        "isGoalkeeper": ["isFootballer", "isAthlete"],
+        "isDefender": ["isFootballer", "isAthlete"],
+        "isMidfielder": ["isFootballer", "isAthlete"],
+        "isForward": ["isFootballer", "isAthlete"],
+        "isCaptain": ["isFootballer", "isAthlete"],
+    ]
+
     // MARK: - Available Attributes (not yet asked)
 
     private func availableAttributes(askedAttributes: Set<String>) -> [AttributeDefinition] {
@@ -138,7 +198,8 @@ class AIService {
         askedAttributes: Set<String>,
         positiveAttributes: [String],
         possibleCharacters: [Character],
-        allCharacters: [Character]
+        allCharacters: [Character],
+        characterScores: [UUID: Int]
     ) -> AttributeDefinition? {
         let available = availableAttributes(askedAttributes: askedAttributes)
         guard !available.isEmpty else { return nil }
@@ -154,11 +215,21 @@ class AIService {
         }
 
         let positiveSet = Set(positiveAttributes)
-        let relatedBoostTargets = relatedBoostTargets(for: positiveSet, availableKeys: Set(available.map(\.key)))
+        let availableKeys = Set(available.map { $0.key })
+        let relatedBoostTargets = relatedBoostTargets(for: positiveSet, availableKeys: availableKeys)
 
         // Determine active theme(s) based on positive answers
         let activeThemeAttributes = activeThemeAttributes(for: positiveSet)
         let hasStrongTheme = positiveSet.count >= 2 && !activeThemeAttributes.isEmpty
+
+        // Top candidates by score
+        let sortedCandidates = possibleCharacters.sorted {
+            (characterScores[$0.id] ?? 0) > (characterScores[$1.id] ?? 0)
+        }
+        let topCandidates = Array(sortedCandidates.prefix(min(5, sortedCandidates.count)))
+
+        // Learning boost from past games
+        let learningBoosts = learningService.boosts(for: availableKeys)
 
         var bestAttribute: AttributeDefinition?
         var bestScore: Double = -1
@@ -174,26 +245,45 @@ class AIService {
 
             // Theme enforcement: heavy penalties for off-theme attributes once a
             // strong theme is established. Safe general attributes are exempt.
-            var themePenalty: Double = 0
+            var themeAdjustment: Double = 0
             if hasStrongTheme && !safeGeneralAttributes.contains(attribute.key) {
                 if !activeThemeAttributes.contains(attribute.key) {
-                    themePenalty = -0.7
+                    themeAdjustment = -1.2
                 } else {
-                    // Slightly boost in-theme attributes beyond relatedness
-                    themePenalty = 0.15
+                    // Strongly boost in-theme attributes
+                    themeAdjustment = 0.35
                 }
             }
+
+            // Discriminative boost: prefer attributes that split the top candidates
+            let discriminatorBoost = discriminatorBoost(
+                attributeKey: attribute.key,
+                topCandidates: topCandidates
+            )
+
+            // Unique-attribute boost: prefer attributes that the top candidate has true
+            // and other top candidates do not, helping confirm a clear leader.
+            let uniqueBoost = uniqueConfirmBoost(
+                attributeKey: attribute.key,
+                topCandidates: topCandidates
+            )
+
+            // Learning boost from historical success
+            let learningBoost = learningBoosts[attribute.key] ?? 0
+
+            // Penalize redundant attributes already implied by positive answers
+            let redundancyPenalty = redundancyPenalty(for: attribute.key, positiveSet: positiveSet)
 
             // Slightly penalize attributes that are unrelated to any positive answer
             // once we have established a clear theme (only after 3+ positive answers)
             let unrelatedPenalty: Double
             if positiveSet.count >= 3 && relatedBoost == 0 && !positiveSet.isEmpty && !activeThemeAttributes.contains(attribute.key) && !safeGeneralAttributes.contains(attribute.key) {
-                unrelatedPenalty = -0.08
+                unrelatedPenalty = -0.15
             } else {
                 unrelatedPenalty = 0
             }
 
-            let score = gain + relatedBoost + themePenalty + unrelatedPenalty
+            let score = gain + relatedBoost + themeAdjustment + discriminatorBoost + uniqueBoost + learningBoost + redundancyPenalty + unrelatedPenalty
 
             if score > bestScore {
                 bestScore = score
@@ -202,6 +292,49 @@ class AIService {
         }
 
         return bestAttribute ?? available.first
+    }
+
+    /// Penalizes attributes that are logically implied by already-positive answers.
+    /// Asking them is usually redundant unless needed to break ties.
+    private func redundancyPenalty(for attributeKey: String, positiveSet: Set<String>) -> Double {
+        for positiveKey in positiveSet {
+            if let implied = impliedAttributes[positiveKey], implied.contains(attributeKey) {
+                return -0.5
+            }
+        }
+        return 0
+    }
+
+    /// Returns a boost for attributes that create disagreement among the top candidates.
+    /// Such attributes are highly valuable because they can quickly eliminate runners-up.
+    private func discriminatorBoost(attributeKey: String, topCandidates: [Character]) -> Double {
+        guard topCandidates.count >= 2 else { return 0 }
+        let values = topCandidates.map { $0.attributes[attributeKey] }
+        let trueCount = values.filter { $0 == true }.count
+        let falseCount = values.filter { $0 == false }.count
+        let nilCount = values.filter { $0 == nil }.count
+
+        // Perfect split: some true, some false/nil
+        let hasSplit = (trueCount > 0 && falseCount + nilCount > 0) || (falseCount > 0 && nilCount > 0)
+        guard hasSplit else { return 0 }
+
+        // Reward balanced splits more (more informative)
+        let total = Double(topCandidates.count)
+        let trueRatio = Double(trueCount) / total
+        let balance = 1.0 - abs(trueRatio - 0.5) * 2
+        return 0.25 + balance * 0.15
+    }
+
+    /// Returns a boost for attributes that the top candidate has true and the other
+    /// top candidates do not. This helps confirm a dominant candidate faster.
+    private func uniqueConfirmBoost(attributeKey: String, topCandidates: [Character]) -> Double {
+        guard let top = topCandidates.first else { return 0 }
+        let topValue = top.attributes[attributeKey]
+        guard topValue == true else { return 0 }
+
+        let others = topCandidates.dropFirst()
+        let othersFalseOrNil = others.allSatisfy { $0.attributes[attributeKey] != true }
+        return othersFalseOrNil ? 0.4 : 0
     }
 
     // MARK: - Relatedness Boost

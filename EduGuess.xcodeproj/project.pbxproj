@@ -61,6 +61,7 @@
 		D3E4F5A6B7C8D9E0 /* DailyChallengeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */; };
 		E4F5A6B7C8D9E0F1 /* DailyChallengeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3E4F5A6B7C8D9 /* DailyChallengeView.swift */; };
 		A6B7C8D9E0F1A2B3 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A6B7C8D9E0F1A2 /* ThemeManager.swift */; };
+		AEC8F3B33B5747D2A139F7AC /* AttributeLearningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40357B687A694C618C6E82AF /* AttributeLearningService.swift */; };
 		C8D9E0F1A2B3C4D5 /* PublicProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C8D9E0F1A2B3C4 /* PublicProfileView.swift */; };
 		E0F1A2B3C4D5E6F7 /* CharacterImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0F1A2B3C4D5E6 /* CharacterImportService.swift */; };
 		F1A2B3C4D5E6F7A1 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8 /* NotificationService.swift */; };
@@ -129,8 +130,9 @@
 		49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyChallengeService.swift; sourceTree = "<group>"; };
 		C2D3E4F5A6B7C8D9 /* DailyChallengeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyChallengeView.swift; sourceTree = "<group>"; };
-		F5A6B7C8D9E0F1A2 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		B7C8D9E0F1A2B3C4 /* PublicProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicProfileView.swift; sourceTree = "<group>"; };
+		F5A6B7C8D9E0F1A2 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		40357B687A694C618C6E82AF /* AttributeLearningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeLearningService.swift; sourceTree = "<group>"; };
 		D9E0F1A2B3C4D5E6 /* CharacterImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterImportService.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		F2A3B4C5D6E7F8A2 /* AchievementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementService.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */,
 				F5A6B7C8D9E0F1A2 /* ThemeManager.swift */,
 				17BE1B15A1F6455398482870 /* AppTheme.swift */,
+				40357B687A694C618C6E82AF /* AttributeLearningService.swift */,
 				D9E0F1A2B3C4D5E6 /* CharacterImportService.swift */,
 				A1B2C3D4E5F6A7B8 /* NotificationService.swift */,
 				F2A3B4C5D6E7F8A2 /* AchievementService.swift */,
@@ -429,6 +432,7 @@
 				D3E4F5A6B7C8D9E0 /* DailyChallengeService.swift in Sources */,
 				E4F5A6B7C8D9E0F1 /* DailyChallengeView.swift in Sources */,
 				A6B7C8D9E0F1A2B3 /* ThemeManager.swift in Sources */,
+				AEC8F3B33B5747D2A139F7AC /* AttributeLearningService.swift in Sources */,
 				C8D9E0F1A2B3C4D5 /* PublicProfileView.swift in Sources */,
 				E0F1A2B3C4D5E6F7 /* CharacterImportService.swift in Sources */,
 				F1A2B3C4D5E6F7A1 /* NotificationService.swift in Sources */,
