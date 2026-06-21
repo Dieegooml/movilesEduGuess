@@ -1,34 +1,43 @@
 import SwiftUI
 
-/// App-wide color palette inspired by the pet robot mascot.
-/// The mascot is white with a black visor, yellow eyes, red headphones,
-/// and expressive blobs in green, yellow, orange, red, and blue.
+/// App-wide dark space-themed color palette inspired by the pet robot mascot.
+/// The mascot is a white astronaut robot with yellow eyes and red headphones.
+/// A dark background makes the white mascot and light text pop while keeping
+/// the mascot's accent colors (yellow, red, green, blue) readable.
 enum AppTheme {
-    // MARK: - Primary
-    static let primaryYellow = Color(hex: "FFC107")
-    static let primaryGold = Color(hex: "FFB300")
-    static let primaryOrange = Color(hex: "FF9800")
+    // MARK: - Background
+    static let backgroundTop = Color(hex: "0B1026")    // deep space blue
+    static let backgroundMid = Color(hex: "1A1F3C")    // midnight blue
+    static let backgroundBottom = Color(hex: "2D1B4E") // deep purple
 
-    // MARK: - Accent
-    static let accentRed = Color(hex: "FF3B30")
+    // MARK: - Surfaces
+    static let cardSurface = Color(hex: "FFFFFF").opacity(0.10)
+    static let cardSurfaceSolid = Color(hex: "1E2445")
+    static let cardBorder = Color(hex: "FFFFFF").opacity(0.18)
+    static let divider = Color(hex: "FFFFFF").opacity(0.12)
+
+    // MARK: - Primary / Accent
+    static let primaryYellow = Color(hex: "FFD700")    // robot eyes
+    static let primaryGold = Color(hex: "FFB800")
+    static let primaryOrange = Color(hex: "FF8C00")
+
+    // MARK: - Semantic
+    static let successGreen = Color(hex: "4ADE80")
+    static let infoBlue = Color(hex: "38BDF8")
+    static let warningOrange = Color(hex: "FB923C")
+    static let errorRed = Color(hex: "EF4444")
+    static let accentRed = Color(hex: "FF3B30")        // headphones
     static let accentCoral = Color(hex: "FF6B6B")
-    static let accentGreen = Color(hex: "8BC34A")
-    static let accentBlue = Color(hex: "4FC3F7")
-
-    // MARK: - Backgrounds
-    static let backgroundGradientStart = Color(hex: "FFF8E1")
-    static let backgroundGradientEnd = Color(hex: "FFE0B2")
-    static let cardBackground = Color.white.opacity(0.85)
-    static let cardBorder = Color.white.opacity(0.5)
 
     // MARK: - Text
-    static let primaryText = Color(hex: "1A1A1A")
-    static let secondaryText = Color(hex: "666666")
+    static let primaryText = Color.white
+    static let secondaryText = Color(hex: "CBD5E1")
+    static let mutedText = Color(hex: "94A3B8")
 
     // MARK: - Common gradients
     static var mainGradient: LinearGradient {
         LinearGradient(
-            colors: [primaryYellow, primaryOrange],
+            colors: [backgroundTop, backgroundMid, backgroundBottom],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -36,17 +45,49 @@ enum AppTheme {
 
     static var homeGradient: LinearGradient {
         LinearGradient(
-            colors: [backgroundGradientStart, backgroundGradientEnd],
+            colors: [backgroundTop, backgroundMid, backgroundBottom],
             startPoint: .top,
             endPoint: .bottom
         )
     }
 
-    static var leaderboardGradient: LinearGradient {
+    static var buttonGradient: LinearGradient {
         LinearGradient(
-            colors: [primaryGold, accentRed],
+            colors: [primaryGold, primaryOrange],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    }
+
+    static var questionCardGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "3B82F6").opacity(0.9), Color(hex: "8B5CF6").opacity(0.9)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
+        )
+    }
+
+    static var leaderboardGradient: LinearGradient {
+        LinearGradient(
+            colors: [backgroundTop, Color(hex: "4C1D95")],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    static var successGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "059669"), Color(hex: "0EA5E9")],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
+
+    static var errorGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "BE123C"), Color(hex: "EA580C")],
+            startPoint: .top,
+            endPoint: .bottom
         )
     }
 }

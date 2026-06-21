@@ -13,57 +13,71 @@ struct SplashView: View {
     @State private var animateLogo = false
     @State private var animateText = false
     @State private var showProgress = false
-    @State private var progress: CGFloat = 0
+    @State private var rotation: Double = 0
+    @State private var floatOffset: CGFloat = 20
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color.orange, Color.red],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            AppTheme.mainGradient
+                .ignoresSafeArea()
 
-            VStack(spacing: 32) {
+            // Soft ambient glow behind mascot
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            AppTheme.primaryYellow.opacity(0.20),
+                            AppTheme.primaryYellow.opacity(0.05),
+                            Color.clear
+                        ],
+                        center: .center,
+                        startRadius: 10,
+                        endRadius: 200
+                    )
+                )
+                .frame(width: 400, height: 400)
+                .offset(y: floatOffset)
+
+            VStack(spacing: 28) {
                 Spacer()
 
-                // Logo con animación de pulso
-                Image(systemName: "brain.head.profile")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(.white)
-                    .symbolEffect(.bounce, options: .repeat(1), value: animateLogo)
+                PetAvatarView(emotion: .welcome, size: 160, animate: false)
+                    .rotationEffect(.degrees(rotation))
+                    .offset(y: floatOffset)
                     .scaleEffect(animateLogo ? 1.0 : 0.5)
                     .opacity(animateLogo ? 1.0 : 0.0)
 
-                // Texto con fade-in escalonado
                 VStack(spacing: 12) {
                     Text("EduGuess")
-                        .font(.system(size: 42, weight: .bold))
-                        .foregroundColor(.white)
+                        .font(.system(size: 46, weight: .bold))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.white, AppTheme.primaryYellow],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
                         .opacity(animateText ? 1.0 : 0.0)
                         .offset(y: animateText ? 0 : 20)
 
                     Text("La IA que adivina personajes")
                         .font(.headline)
-                        .foregroundColor(.white.opacity(0.9))
+                        .foregroundColor(AppTheme.secondaryText)
                         .opacity(animateText ? 1.0 : 0.0)
                         .offset(y: animateText ? 0 : 10)
                 }
 
                 Spacer()
 
-                // Barra de progreso sutil
                 if showProgress {
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         ProgressView()
-                            .tint(.white)
-                            .scaleEffect(1.2)
+                            .tint(AppTheme.primaryYellow)
+                            .scaleEffect(1.3)
 
                         Text("Cargando...")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(AppTheme.mutedText)
                     }
                     .opacity(showProgress ? 1.0 : 0.0)
                 }
@@ -78,9 +92,16 @@ struct SplashView: View {
             HomeView()
         }
         .onAppear {
-            // Animación escalonada
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+            withAnimation(.spring(response: 0.7, dampingFraction: 0.6)) {
                 animateLogo = true
+            }
+
+            withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
+                floatOffset = -20
+            }
+
+            withAnimation(.easeInOut(duration: 6).repeatForever(autoreverses: true)) {
+                rotation = 8
             }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

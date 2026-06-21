@@ -24,12 +24,11 @@ struct CorrectGuessView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [AppTheme.accentGreen, AppTheme.accentBlue],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            AppTheme.successGradient
+                .ignoresSafeArea()
+
+            PetFloatingBackground()
+                .offset(x: -80, y: 100)
 
             if showConfetti {
                 ConfettiView(count: 40)
@@ -66,7 +65,7 @@ struct CorrectGuessView: View {
                 Text("+\(score) puntos")
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundColor(.yellow)
+                    .foregroundColor(AppTheme.primaryYellow)
                     .padding(.top, 8)
                     .scaleEffect(showContent ? 1 : 1.5)
                     .opacity(showContent ? 1 : 0)
@@ -94,11 +93,13 @@ struct CorrectGuessView: View {
                 } label: {
                     Text("Jugar otra vez")
                         .font(.headline)
-                        .foregroundColor(.green)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(hex: "047857"))
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(18)
+                        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 30)
                 .padding(.bottom, isDailyChallenge ? 8 : 40)

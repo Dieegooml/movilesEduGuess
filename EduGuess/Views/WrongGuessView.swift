@@ -27,13 +27,12 @@ struct WrongGuessView: View {
 
         ZStack {
 
-            LinearGradient(
-                colors: [AppTheme.accentCoral, AppTheme.primaryOrange],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-            .onTapGesture { UIApplication.shared.endEditing() }
+            AppTheme.errorGradient
+                .ignoresSafeArea()
+                .onTapGesture { UIApplication.shared.endEditing() }
+
+            PetFloatingBackground()
+                .offset(x: 80, y: 80)
 
             VStack(spacing: 25) {
 
@@ -80,11 +79,13 @@ struct WrongGuessView: View {
                         } label: {
                             Text(isSaving ? "Guardando..." : "Guardar y aprender")
                                 .font(.headline)
-                                .foregroundColor(.red)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(hex: "BE123C"))
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.white)
                                 .cornerRadius(18)
+                                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                         }
                         .disabled(characterName.trimmingCharacters(in: .whitespaces).isEmpty || isSaving)
                         .padding(.horizontal, 30)
@@ -119,11 +120,13 @@ struct WrongGuessView: View {
                 } label: {
                     Text("Intentar otra vez")
                         .font(.headline)
-                        .foregroundColor(.red)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(hex: "BE123C"))
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(18)
+                        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 30)
 

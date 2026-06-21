@@ -14,10 +14,10 @@ struct ProgressBar: View {
 
     private var progressColor: Color {
         switch progress {
-        case 0..<0.3: return .red
-        case 0.3..<0.6: return .orange
-        case 0.6..<0.85: return .yellow
-        default: return .green
+        case 0..<0.3: return AppTheme.errorRed
+        case 0.3..<0.6: return AppTheme.warningOrange
+        case 0.6..<0.85: return AppTheme.primaryYellow
+        default: return AppTheme.successGreen
         }
     }
 
@@ -34,18 +34,18 @@ struct ProgressBar: View {
             HStack {
                 Text("Progreso")
                     .font(.headline.weight(.bold))
-                    .foregroundColor(.primary)
+                    .foregroundColor(AppTheme.primaryText)
 
                 Spacer()
 
                 Text(progressText)
                     .font(.caption.weight(.semibold))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.primaryYellow)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 4)
                     .background(
                         Capsule()
-                            .fill(Color.orange.opacity(0.15))
+                            .fill(AppTheme.primaryYellow.opacity(0.15))
                     )
             }
 
@@ -54,7 +54,7 @@ struct ProgressBar: View {
                     // Background track
                     RoundedRectangle(cornerRadius: 12)
                         .frame(height: 18)
-                        .foregroundColor(Color(.systemGray5))
+                        .foregroundColor(Color.white.opacity(0.12))
 
                     // Animated fill
                     RoundedRectangle(cornerRadius: 12)

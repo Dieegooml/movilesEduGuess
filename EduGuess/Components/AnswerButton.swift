@@ -30,6 +30,7 @@ struct AnswerButton: View {
                 Spacer()
             }
             .foregroundColor(.white)
+            .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
             .background(
@@ -38,14 +39,14 @@ struct AnswerButton: View {
                         .fill(color)
 
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                        .stroke(Color.white.opacity(0.35), lineWidth: 2)
 
                     // Inner glow
                     RoundedRectangle(cornerRadius: 20)
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.white.opacity(0.3),
+                                    Color.white.opacity(0.25),
                                     Color.clear
                                 ],
                                 startPoint: .topLeading,

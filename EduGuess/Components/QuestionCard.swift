@@ -28,8 +28,8 @@ struct QuestionCard: View {
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.orange.opacity(0.9),
-                                    Color.red.opacity(0.8)
+                                    Color(hex: "3B82F6").opacity(0.95),
+                                    Color(hex: "7C3AED").opacity(0.95)
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
@@ -43,7 +43,7 @@ struct QuestionCard: View {
                                 LinearGradient(
                                     colors: [
                                         Color.white.opacity(0),
-                                        Color.white.opacity(0.2),
+                                        Color.white.opacity(0.25),
                                         Color.white.opacity(0)
                                     ],
                                     startPoint: .leading,
@@ -58,13 +58,13 @@ struct QuestionCard: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 28)
-                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                    .stroke(Color.white.opacity(0.25), lineWidth: 2)
             )
             .shadow(
-                color: Color.orange.opacity(0.3),
-                radius: 12,
+                color: Color(hex: "3B82F6").opacity(0.35),
+                radius: 14,
                 x: 0,
-                y: 6
+                y: 8
             )
             .padding(.horizontal)
             .scaleEffect(appear ? 1.0 : 0.85)
@@ -89,9 +89,12 @@ struct QuestionCard: View {
 }
 
 #Preview {
-    VStack(spacing: 16) {
-        QuestionCard(question: "¿Tu personaje utiliza magia o poderes sobrenaturales?")
-        QuestionCard(question: "¿Tu personaje es una figura histórica que vivió durante el siglo XX y es conocido por sus contribuciones a la física teórica?")
+    ZStack {
+        AppTheme.mainGradient.ignoresSafeArea()
+        VStack(spacing: 16) {
+            QuestionCard(question: "¿Tu personaje utiliza magia o poderes sobrenaturales?")
+            QuestionCard(question: "¿Tu personaje es una figura histórica que vivió durante el siglo XX y es conocido por sus contribuciones a la física teórica?")
+        }
+        .padding()
     }
-    .padding()
 }

@@ -26,8 +26,11 @@ struct QuestionView: View {
 
     var body: some View {
         ZStack {
-            AppTheme.homeGradient
+            AppTheme.mainGradient
                 .ignoresSafeArea()
+
+            PetFloatingBackground()
+                .offset(x: 90, y: 100)
 
             if isLoading {
                 loadingContent
@@ -88,13 +91,15 @@ struct QuestionView: View {
     }
 
     private var loadingContent: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
             Spacer()
+            PetAvatarView(emotion: .thinking, size: 120)
             ProgressView()
                 .scaleEffect(1.5)
+                .tint(AppTheme.primaryYellow)
             Text("Preparando el juego...")
                 .font(.headline)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppTheme.secondaryText)
             Spacer()
         }
     }
@@ -133,24 +138,24 @@ struct QuestionView: View {
         HStack(spacing: 6) {
             Image(systemName: "star.fill")
                 .font(.caption)
-                .foregroundColor(.yellow)
+                .foregroundColor(AppTheme.primaryYellow)
                 .symbolEffect(.bounce, options: .repeat(2))
             Text("Desafío Diario")
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundColor(.yellow)
+                .foregroundColor(AppTheme.primaryYellow)
             Text("• \(dailyCharacterName ?? "")")
                 .font(.caption)
-                .foregroundColor(.yellow.opacity(0.8))
+                .foregroundColor(AppTheme.primaryYellow.opacity(0.8))
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 6)
         .background(
             Capsule()
-                .fill(Color.yellow.opacity(0.15))
+                .fill(AppTheme.cardSurface)
                 .overlay(
                     Capsule()
-                        .stroke(Color.yellow.opacity(0.4), lineWidth: 1)
+                        .stroke(AppTheme.primaryYellow.opacity(0.4), lineWidth: 1)
                 )
         )
         .transition(.move(edge: .top).combined(with: .opacity))
@@ -172,12 +177,12 @@ struct QuestionView: View {
 
             Text("Estoy pensando en el personaje...")
                 .font(.title3.weight(.semibold))
-                .foregroundColor(.primary)
+                .foregroundColor(AppTheme.primaryText)
                 .multilineTextAlignment(.center)
 
             Text("Analizando todas tus respuestas")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppTheme.secondaryText)
 
             ThinkingDots()
                 .padding(.top, 8)
@@ -230,7 +235,7 @@ struct QuestionView: View {
                         AnswerButton(
                             title: "No sé",
                             icon: "questionmark.circle.fill",
-                            color: Color.gray
+                            color: Color(hex: "64748B")
                         ) {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 viewModel.answerQuestion(answer: .unknown)
@@ -270,20 +275,21 @@ struct QuestionView: View {
     }
 
     private var errorContent: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
             Image(systemName: NetworkMonitor.shared.isConnected ? "exclamationmark.triangle" : "wifi.slash")
-                .font(.system(size: 48))
-                .foregroundColor(NetworkMonitor.shared.isConnected ? .orange : .red)
+                .font(.system(size: 56))
+                .foregroundColor(NetworkMonitor.shared.isConnected ? AppTheme.warningOrange : AppTheme.errorRed)
                 .symbolEffect(.bounce, options: .nonRepeating)
 
             Text(NetworkMonitor.shared.isConnected ? "No se pudo generar la pregunta" : "Sin conexión")
                 .font(.headline)
+                .foregroundColor(AppTheme.primaryText)
 
             Text(NetworkMonitor.shared.isConnected
                  ? "Hubo un problema al generar la pregunta. Inténtalo de nuevo."
                  : "Necesitas conexión a internet para generar preguntas con IA.")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppTheme.secondaryText)
                 .multilineTextAlignment(.center)
 
             Button {
@@ -294,12 +300,18 @@ struct QuestionView: View {
                     .font(.headline)
                     .padding(.horizontal, 32)
                     .padding(.vertical, 12)
-                    .background(Color.blue)
+                    .background(AppTheme.infoBlue)
                     .foregroundColor(.white)
                     .cornerRadius(12)
             }
         }
         .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(AppTheme.cardSurface)
+                .overlay(RoundedRectangle(cornerRadius: 24).stroke(AppTheme.cardBorder, lineWidth: 1))
+        )
+        .padding(.horizontal)
     }
 
     private var generatingContent: some View {
@@ -319,13 +331,13 @@ struct QuestionView: View {
             VStack(spacing: 12) {
                 Text("¿Es este tu personaje?")
                     .font(.headline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.secondaryText)
 
                 Text(viewModel.guessCandidate?.name ?? "...")
                     .font(.system(size: 32, weight: .heavy))
                     .foregroundStyle(
                         LinearGradient(
-                            colors: [.orange, .red],
+                            colors: [AppTheme.primaryYellow, AppTheme.primaryOrange],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -338,8 +350,9 @@ struct QuestionView: View {
             .padding(24)
             .background(
                 RoundedRectangle(cornerRadius: 24)
-                    .fill(Color(.systemGray6))
-                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    .fill(AppTheme.cardSurface)
+                    .overlay(RoundedRectangle(cornerRadius: 24).stroke(AppTheme.cardBorder, lineWidth: 1))
+                    .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
             )
             .padding(.horizontal)
 
@@ -373,13 +386,13 @@ struct QuestionView: View {
                         Text("Agregar como nuevo personaje")
                             .font(.subheadline.weight(.medium))
                     }
-                    .foregroundColor(.blue)
+                    .foregroundColor(AppTheme.infoBlue)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 20)
                     .background(
                         Capsule()
-                            .stroke(Color.blue.opacity(0.4), lineWidth: 1.5)
-                            .background(Capsule().fill(Color.blue.opacity(0.08)))
+                            .stroke(AppTheme.infoBlue.opacity(0.5), lineWidth: 1.5)
+                            .background(Capsule().fill(AppTheme.infoBlue.opacity(0.12)))
                     )
                 }
                 .pressEffect()
@@ -444,7 +457,7 @@ private struct DotAnimation: View {
 
     var body: some View {
         Circle()
-            .fill(Color.accentColor)
+            .fill(AppTheme.primaryYellow)
             .frame(width: 8, height: 8)
             .offset(y: offset)
             .opacity(1 - offset * 0.05)
@@ -476,29 +489,14 @@ struct ThinkingAnimation: View {
 
     var body: some View {
         VStack(spacing: 28) {
-            ZStack {
-                Circle()
-                    .fill(Color.accentColor.opacity(0.15))
-                    .frame(width: 120, height: 120)
-                    .scaleEffect(iconScale)
-
-                Circle()
-                    .stroke(Color.accentColor.opacity(0.3), lineWidth: 2)
-                    .frame(width: 100, height: 100)
-                    .scaleEffect(1 + glowRadius * 0.3)
-                    .opacity(1 - glowRadius)
-
-                Image(systemName: "brain.head.profile")
-                    .font(.system(size: 50))
-                    .foregroundColor(.accentColor)
-                    .scaleEffect(iconScale)
-            }
-            .frame(height: 130)
+            PetAvatarView(emotion: .thinking, size: 130)
+                .scaleEffect(iconScale)
+                .shadow(color: AppTheme.primaryYellow.opacity(0.35), radius: 20)
 
             HStack(spacing: 12) {
                 Text(messages[messageIndex])
                     .font(.title3.weight(.medium))
-                    .foregroundColor(.primary)
+                    .foregroundColor(AppTheme.primaryText)
                     .contentTransition(.opacity)
                     .id(messageIndex)
 
@@ -511,14 +509,11 @@ struct ThinkingAnimation: View {
 
             Text("Generando la mejor pregunta")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppTheme.secondaryText)
         }
         .onAppear {
             withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
-                iconScale = 1.12
-            }
-            withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
-                glowRadius = 1
+                iconScale = 1.08
             }
             messageTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { _ in
                 withAnimation(.easeInOut(duration: 0.3)) {
@@ -542,7 +537,7 @@ private struct ThinkingDots: View {
         HStack(spacing: 8) {
             ForEach(0..<3) { i in
                 Circle()
-                    .fill(Color.green)
+                    .fill(AppTheme.successGreen)
                     .frame(width: 10, height: 10)
                     .scaleEffect(animating ? 1.0 : 0.5)
                     .opacity(animating ? 1.0 : 0.4)

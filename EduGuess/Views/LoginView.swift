@@ -11,30 +11,32 @@ struct LoginView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
-            .onTapGesture { UIApplication.shared.endEditing() }
+            AppTheme.mainGradient
+                .ignoresSafeArea()
+                .onTapGesture { UIApplication.shared.endEditing() }
+
+            PetFloatingBackground()
+                .offset(x: 90, y: -60)
 
             VStack(spacing: 24) {
                 Spacer()
 
-                Image(systemName: "brain.head.profile")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                    .foregroundColor(.white)
+                PetAvatarView(emotion: .welcome, size: 110)
+                    .shadow(color: AppTheme.primaryYellow.opacity(0.3), radius: 20)
 
                 Text("EduGuess")
                     .font(.system(size: 36, weight: .heavy))
-                    .foregroundColor(.white)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.white, AppTheme.primaryYellow],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
 
                 Text(isRegistering ? "Crear cuenta" : "Iniciar sesión")
                     .font(.title2)
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(AppTheme.secondaryText)
 
                 VStack(spacing: 12) {
                     if isRegistering {
@@ -69,16 +71,18 @@ struct LoginView: View {
                     HStack {
                         if authVM.isLoading {
                             ProgressView()
-                                .tint(.orange)
+                                .tint(AppTheme.primaryOrange)
                         }
                         Text(isRegistering ? "Registrarse" : "Entrar")
                     }
                     .font(.headline)
-                    .foregroundColor(.orange)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppTheme.primaryOrange)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.white)
                     .cornerRadius(18)
+                    .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 30)
                 .disabled(authVM.isLoading)
@@ -107,20 +111,23 @@ struct LoginView: View {
                         HStack {
                             if authVM.isLoading {
                                 ProgressView()
-                                    .tint(.orange)
+                                    .tint(AppTheme.primaryYellow)
                             } else {
                                 Image(systemName: "globe")
                             }
                             Text("Continuar con Google")
                         }
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .fontWeight(.semibold)
+                        .foregroundColor(AppTheme.primaryText)
                         .frame(maxWidth: .infinity)
                         .padding()
+                        .background(AppTheme.cardSurface)
                         .overlay(
                             RoundedRectangle(cornerRadius: 18)
-                                .stroke(Color.white, lineWidth: 2)
+                                .stroke(AppTheme.cardBorder, lineWidth: 1.5)
                         )
+                        .cornerRadius(18)
                     }
                     .padding(.horizontal, 30)
                     .disabled(authVM.isLoading)
@@ -131,17 +138,18 @@ struct LoginView: View {
                         HStack {
                             if authVM.isLoading {
                                 ProgressView()
-                                    .tint(.blue)
+                                    .tint(.white)
                             } else {
                                 Image(systemName: "f.square.fill")
                             }
                             Text("Continuar con Facebook")
                         }
                         .font(.headline)
+                        .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue.opacity(0.3))
+                        .background(Color(hex: "1877F2"))
                         .cornerRadius(18)
                     }
                     .padding(.horizontal, 30)
@@ -180,7 +188,7 @@ struct AppleSignInButton: UIViewRepresentable {
     let onCompletion: (Result<ASAuthorization, Error>) -> Void
 
     func makeUIView(context: Context) -> ASAuthorizationAppleIDButton {
-        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
+        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         button.addTarget(
             context.coordinator,
             action: #selector(Coordinator.didTapButton),

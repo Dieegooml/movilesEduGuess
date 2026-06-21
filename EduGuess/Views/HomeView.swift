@@ -12,17 +12,17 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            AppTheme.homeGradient
+            AppTheme.mainGradient
                 .ignoresSafeArea()
 
+            PetFloatingBackground()
+                .offset(x: 80, y: -80)
+
             VStack(spacing: 0) {
-                // Offline banner
                 if showOfflineBanner {
-                    OfflineBanner(onRetry: {
-                        // Retry action handled by monitor
-                    })
-                    .monitor()
-                    .transition(.move(edge: .top).combined(with: .opacity))
+                    OfflineBanner(onRetry: {})
+                        .monitor()
+                        .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
                 mainContent
@@ -31,29 +31,31 @@ struct HomeView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
+                HStack(spacing: 16) {
                     NavigationLink {
                         HowToPlayView()
                     } label: {
                         Image(systemName: "questionmark.circle")
-                            .foregroundColor(.white)
+                            .font(.title3)
+                            .foregroundColor(AppTheme.primaryYellow)
                     }
                     NavigationLink {
                         SettingsView()
                     } label: {
                         Image(systemName: "gearshape")
-                            .foregroundColor(.white)
+                            .font(.title3)
+                            .foregroundColor(AppTheme.primaryYellow)
                     }
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                HStack {
+                HStack(spacing: 16) {
                     NavigationLink {
                         ProfileView()
                     } label: {
                         Image(systemName: "person.circle")
                             .font(.title3)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppTheme.primaryYellow)
                     }
 
                     if authVM.isAuthenticated {
@@ -61,7 +63,8 @@ struct HomeView: View {
                             showSignOutAlert = true
                         } label: {
                             Text("Salir")
-                                .foregroundColor(.white)
+                                .fontWeight(.semibold)
+                                .foregroundColor(AppTheme.primaryYellow)
                         }
                     }
                 }
@@ -82,25 +85,21 @@ struct HomeView: View {
             OnboardingView()
         }
         .onAppear {
-            // Check onboarding
             if !hasCompletedOnboarding {
                 showOnboarding = true
                 hasCompletedOnboarding = true
             }
 
-            // Animate buttons
             buttonsAppeared = false
             withAnimation(.easeOut(duration: 0.1)) {
                 buttonsAppeared = true
             }
 
-            // Show tutorial for returning users who haven't seen it
             if authVM.isAuthenticated && !hasSeenTutorial && hasCompletedOnboarding {
                 showTutorial = true
                 hasSeenTutorial = true
             }
 
-            // Monitor network
             NetworkMonitor.shared.onChange { isConnected in
                 DispatchQueue.main.async {
                     withAnimation(.spring(duration: 0.3)) {
@@ -112,31 +111,37 @@ struct HomeView: View {
     }
 
     private var mainContent: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 28) {
             Spacer()
 
-            VStack(spacing: 20) {
-                PetAvatarView(emotion: .welcome, size: 140)
-                    .shadow(color: AppTheme.primaryOrange.opacity(0.3), radius: 20, x: 0, y: 10)
+            VStack(spacing: 16) {
+                PetAvatarView(emotion: .welcome, size: 150)
+                    .shadow(color: AppTheme.primaryYellow.opacity(0.35), radius: 30, x: 0, y: 15)
 
                 Text("EduGuess")
-                    .font(.system(size: 40, weight: .heavy))
-                    .foregroundColor(.white)
+                    .font(.system(size: 44, weight: .heavy))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.white, AppTheme.primaryYellow],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
 
                 Text("Piensa en un personaje y la IA intentará adivinarlo")
                     .font(.headline)
                     .multilineTextAlignment(.center)
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(AppTheme.secondaryText)
                     .padding(.horizontal)
             }
 
             if authVM.isAuthenticated {
                 Text("Bienvenido, \(authVM.userName)")
-                    .foregroundColor(.white.opacity(0.9))
-                    .font(.subheadline)
+                    .foregroundColor(AppTheme.primaryYellow)
+                    .font(.subheadline.weight(.semibold))
             }
 
-            VStack(spacing: 16) {
+            VStack(spacing: 14) {
                 menuButton(
                     icon: "star.fill",
                     title: "Desafío Diario",
@@ -167,7 +172,7 @@ struct HomeView: View {
                     LeaderboardView()
                 }
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 28)
 
             Spacer()
         }
@@ -188,25 +193,26 @@ struct HomeView: View {
         NavigationLink {
             destination()
         } label: {
-            HStack {
+            HStack(spacing: 16) {
                 ZStack {
                     switch style {
                     case .card:
                         Circle()
-                            .fill(AppTheme.primaryOrange)
-                            .frame(width: 36, height: 36)
+                            .fill(AppTheme.cardSurfaceSolid)
+                            .overlay(Circle().stroke(AppTheme.primaryYellow, lineWidth: 1.5))
+                            .frame(width: 44, height: 44)
                     case .gradient:
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 36, height: 36)
+                            .frame(width: 44, height: 44)
                     case .outline:
                         Circle()
-                            .stroke(Color.white, lineWidth: 1.5)
-                            .frame(width: 36, height: 36)
+                            .stroke(AppTheme.primaryYellow, lineWidth: 1.5)
+                            .frame(width: 44, height: 44)
                     }
                     Image(systemName: icon)
-                        .font(.subheadline)
-                        .foregroundColor(style == .gradient ? AppTheme.primaryOrange : .white)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(style == .gradient ? AppTheme.primaryOrange : AppTheme.primaryYellow)
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
@@ -214,35 +220,31 @@ struct HomeView: View {
                         .fontWeight(.bold)
                     Text(subtitle)
                         .font(.caption)
-                        .opacity(0.8)
+                        .opacity(0.85)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .fontWeight(.bold)
             }
-            .foregroundColor(style == .card ? .orange : .white)
+            .foregroundColor(style == .card ? .primary : .white)
             .padding(16)
             .background(
                 Group {
                     switch style {
                     case .card:
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white)
-                            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                            .fill(AppTheme.cardSurface)
+                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(AppTheme.cardBorder, lineWidth: 1))
+                            .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 5)
                     case .gradient:
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(
-                                LinearGradient(
-                                    colors: [AppTheme.primaryOrange, AppTheme.primaryGold],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .shadow(color: AppTheme.primaryOrange.opacity(0.4), radius: 8, x: 0, y: 4)
+                            .fill(AppTheme.buttonGradient)
+                            .shadow(color: AppTheme.primaryOrange.opacity(0.45), radius: 12, x: 0, y: 6)
                     case .outline:
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
+                            .stroke(AppTheme.primaryYellow.opacity(0.6), lineWidth: 1.5)
+                            .background(RoundedRectangle(cornerRadius: 20).fill(AppTheme.cardSurface))
                     }
                 }
             )

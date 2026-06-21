@@ -19,18 +19,24 @@ struct HowToPlayView: View {
     ]
 
     var body: some View {
-        TabView {
-            ForEach(steps.indices, id: \.self) { index in
-                stepView(step: steps[index], isLast: index == steps.count - 1)
+        ZStack {
+            AppTheme.mainGradient
+                .ignoresSafeArea()
+
+            TabView {
+                ForEach(steps.indices, id: \.self) { index in
+                    stepView(step: steps[index], isLast: index == steps.count - 1)
+                }
             }
+            .tabViewStyle(.page)
+            .indexViewStyle(.page(backgroundDisplayMode: .always))
         }
-        .tabViewStyle(.page)
-        .indexViewStyle(.page(backgroundDisplayMode: .always))
         .navigationTitle("¿Cómo jugar?")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Listo") { dismiss() }
+                    .foregroundColor(AppTheme.primaryYellow)
             }
         }
     }
@@ -39,18 +45,21 @@ struct HowToPlayView: View {
         VStack(spacing: 30) {
             Spacer()
 
+            PetAvatarView(emotion: .idea, size: 120)
+
             Image(systemName: step.icon)
-                .font(.system(size: 80))
-                .foregroundColor(.orange)
+                .font(.system(size: 70))
+                .foregroundColor(AppTheme.primaryYellow)
 
             Text(step.title)
                 .font(.title)
                 .fontWeight(.bold)
+                .foregroundColor(.white)
 
             Text(step.text)
                 .font(.body)
                 .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppTheme.secondaryText)
                 .padding(.horizontal, 40)
 
             Spacer()
@@ -61,11 +70,13 @@ struct HowToPlayView: View {
                 } label: {
                     Text("¡Empezar a jugar!")
                         .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: 200)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppTheme.primaryOrange)
+                        .frame(maxWidth: 220)
                         .padding()
-                        .background(Color.orange)
+                        .background(Color.white)
                         .cornerRadius(18)
+                        .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)
                 }
                 .padding(.bottom, 40)
             }

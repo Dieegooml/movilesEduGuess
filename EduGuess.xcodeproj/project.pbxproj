@@ -28,6 +28,7 @@
 		5C41F79C2FB768D7002814AC /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F79B2FB768D7002814AC /* QuestionCard.swift */; };
 		5C41F79E2FB768E6002814AC /* RobotAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F79D2FB768E6002814AC /* RobotAvatar.swift */; };
 		CA0C4D5262AC423AA8E12C23 /* PetAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BAD2289EC44219D6837DC /* PetAvatarView.swift */; };
+		F9212253093448458D72B1FF /* PetFloatingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0361DCB61A3548B5A3F63772 /* PetFloatingBackground.swift */; };
 		5C41F7A12FB768F5002814AC /* AttributeDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F7A32FB768F5002814AC /* AttributeDefinition.swift */; };
 		8419A8F92FE22A4E00F1F187 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8419A8F82FE22A4E00F1F187 /* FirebaseAuth */; };
 		8419A8FB2FE22A4E00F1F187 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8419A8FA2FE22A4E00F1F187 /* FirebaseFirestore */; };
@@ -99,6 +100,7 @@
 		5C41F79B2FB768D7002814AC /* QuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCard.swift; sourceTree = "<group>"; };
 		5C41F79D2FB768E6002814AC /* RobotAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotAvatar.swift; sourceTree = "<group>"; };
 		3D3BAD2289EC44219D6837DC /* PetAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetAvatarView.swift; sourceTree = "<group>"; };
+		0361DCB61A3548B5A3F63772 /* PetFloatingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetFloatingBackground.swift; sourceTree = "<group>"; };
 		5C41F7A32FB768F5002814AC /* AttributeDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeDefinition.swift; sourceTree = "<group>"; };
 		8419A9082FE24BF700F1F187 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		8419A90A2FE24C0E00F1F187 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				5C41F79B2FB768D7002814AC /* QuestionCard.swift */,
 				5C41F79D2FB768E6002814AC /* RobotAvatar.swift */,
 				3D3BAD2289EC44219D6837DC /* PetAvatarView.swift */,
+				0361DCB61A3548B5A3F63772 /* PetFloatingBackground.swift */,
 				BBF76C0802FA48A8A33CAF73 /* ToastView.swift */,
 				A4B5C6D7E8F9A0B1 /* AvatarView.swift */,
 				B62E4F87D3B249EC9D616716FB53F2B3 /* EmptyStateView.swift */,
@@ -394,6 +397,7 @@
 				5C41F78A2FB7645C002814AC /* HomeView.swift in Sources */,
 				5C41F79E2FB768E6002814AC /* RobotAvatar.swift in Sources */,
 				CA0C4D5262AC423AA8E12C23 /* PetAvatarView.swift in Sources */,
+				F9212253093448458D72B1FF /* PetFloatingBackground.swift in Sources */,
 				8419A9192FE2512800F1F187 /* SeedManager.swift in Sources */,
 				5C41F7842FB763AD002814AC /* Question.swift in Sources */,
 				8419A90F2FE24C1C00F1F187 /* LeaderboardView.swift in Sources */,
