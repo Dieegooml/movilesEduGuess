@@ -63,7 +63,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -130,7 +134,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -197,7 +205,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -264,7 +276,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -331,7 +347,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -398,7 +418,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -465,7 +489,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -532,7 +560,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -599,7 +631,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -666,7 +702,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -733,7 +773,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -800,7 +844,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -867,7 +915,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -934,7 +986,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1001,7 +1057,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1068,7 +1128,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1135,7 +1199,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1202,7 +1270,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isLeftFooted": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isBald": false
     }
   },
   {
@@ -1269,7 +1341,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1336,7 +1412,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1403,7 +1483,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1470,7 +1554,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1537,7 +1625,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1604,7 +1696,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1671,7 +1767,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1738,7 +1838,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1805,7 +1909,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1872,7 +1980,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -1939,7 +2051,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2006,7 +2122,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2073,7 +2193,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2140,7 +2264,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2207,7 +2335,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2274,7 +2406,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2341,7 +2477,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2408,7 +2548,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2475,7 +2619,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2542,7 +2690,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2609,7 +2761,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2676,7 +2832,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2743,7 +2903,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2810,7 +2974,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -2877,7 +3045,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isLeftFooted": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isBald": false
     }
   },
   {
@@ -2944,7 +3116,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3011,7 +3187,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3078,7 +3258,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3145,7 +3329,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3212,7 +3400,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3279,7 +3471,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3346,7 +3542,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3413,7 +3613,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3480,7 +3684,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3547,7 +3755,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3614,7 +3826,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3681,7 +3897,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3748,7 +3968,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3815,7 +4039,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3882,7 +4110,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -3949,7 +4181,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4016,7 +4252,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4083,7 +4323,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4150,7 +4394,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4217,7 +4465,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4284,7 +4536,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4351,7 +4607,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4418,7 +4678,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4485,7 +4749,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4552,7 +4820,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4619,7 +4891,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4686,7 +4962,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4753,7 +5033,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4820,7 +5104,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4887,7 +5175,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -4954,7 +5246,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5021,7 +5317,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5088,7 +5388,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5155,7 +5459,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5222,7 +5530,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5289,7 +5601,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5356,7 +5672,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5423,7 +5743,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5490,7 +5814,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5557,7 +5885,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5624,7 +5956,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5691,7 +6027,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5758,7 +6098,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5825,7 +6169,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5892,7 +6240,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -5959,7 +6311,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6026,7 +6382,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6093,7 +6453,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6160,7 +6524,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6227,7 +6595,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6294,7 +6666,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6361,7 +6737,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6428,7 +6808,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6495,7 +6879,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6562,7 +6950,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6629,7 +7021,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6696,7 +7092,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6763,7 +7163,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6830,7 +7234,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6897,7 +7305,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -6964,7 +7376,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7031,7 +7447,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7098,7 +7518,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7165,7 +7589,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7232,7 +7660,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7299,7 +7731,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7366,7 +7802,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7433,7 +7873,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7500,7 +7944,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7567,7 +8015,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7634,7 +8086,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7701,7 +8157,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7768,7 +8228,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7835,7 +8299,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7902,7 +8370,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -7969,7 +8441,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8036,7 +8512,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8103,7 +8583,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8170,7 +8654,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8237,7 +8725,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8304,7 +8796,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromCartoon": true,
+      "isFromNorthAmerica": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8371,7 +8867,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8438,7 +8938,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8505,7 +9009,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8572,7 +9080,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8639,7 +9151,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8706,7 +9222,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8773,7 +9293,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8840,7 +9364,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8907,7 +9435,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -8974,7 +9506,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9041,7 +9577,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9108,7 +9648,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9175,7 +9719,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9242,7 +9790,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9309,7 +9861,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9376,7 +9932,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9443,7 +10003,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9510,7 +10074,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9577,7 +10145,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9644,7 +10216,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9711,7 +10287,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9778,7 +10358,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9845,7 +10429,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9912,7 +10500,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -9979,7 +10571,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10046,7 +10642,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10113,7 +10713,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10180,7 +10784,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10247,7 +10855,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10314,7 +10926,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10381,7 +10997,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10448,7 +11068,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10515,7 +11139,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10582,7 +11210,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10649,7 +11281,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10716,7 +11352,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10783,7 +11423,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10850,7 +11494,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10917,7 +11565,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -10984,7 +11636,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11051,7 +11707,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11118,7 +11778,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11185,7 +11849,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11252,7 +11920,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11319,7 +11991,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11386,7 +12062,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11453,7 +12133,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11520,7 +12204,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11587,7 +12275,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11654,7 +12346,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11721,7 +12417,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11788,7 +12488,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11855,7 +12559,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11922,7 +12630,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -11989,7 +12701,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12056,7 +12772,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12123,7 +12843,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12190,7 +12914,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12257,7 +12985,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12324,7 +13056,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12391,7 +13127,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12458,7 +13198,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12525,7 +13269,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12592,7 +13340,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12659,7 +13411,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12726,7 +13482,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12793,7 +13553,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12860,7 +13624,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12927,7 +13695,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -12994,7 +13766,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13061,7 +13837,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13128,7 +13908,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isBald": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false
     }
   },
   {
@@ -13195,7 +13979,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13262,7 +14050,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13329,7 +14121,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13396,7 +14192,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isLeftFooted": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isBald": false
     }
   },
   {
@@ -13463,7 +14263,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13530,7 +14334,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13597,7 +14405,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13664,7 +14476,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13731,7 +14547,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isLeftFooted": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isBald": false
     }
   },
   {
@@ -13798,7 +14618,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13865,7 +14689,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13932,7 +14760,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -13999,7 +14831,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14066,7 +14902,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14133,7 +14973,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14200,7 +15044,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14267,7 +15115,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14334,7 +15186,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14401,7 +15257,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14468,7 +15328,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14535,7 +15399,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14602,7 +15470,11 @@
       "isFromAsia": false,
       "isActor": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14669,7 +15541,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14736,7 +15612,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14803,7 +15683,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14870,7 +15754,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -14937,7 +15825,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15004,7 +15896,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15071,7 +15967,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15138,7 +16038,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15205,7 +16109,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15272,7 +16180,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15339,7 +16251,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15406,7 +16322,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15473,7 +16393,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15540,7 +16464,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15607,7 +16535,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15674,7 +16606,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15741,7 +16677,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15808,7 +16748,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15875,7 +16819,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -15942,7 +16890,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16009,7 +16961,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16076,7 +17032,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16143,7 +17103,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16210,7 +17174,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16277,7 +17245,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16344,7 +17316,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16411,7 +17387,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16478,7 +17458,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16545,7 +17529,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16612,7 +17600,11 @@
       "isFromAsia": false,
       "isActor": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16679,7 +17671,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16746,7 +17742,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16813,7 +17813,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16880,7 +17884,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -16947,7 +17955,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17014,7 +18026,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17081,7 +18097,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17148,7 +18168,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17215,7 +18239,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17282,7 +18310,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17349,7 +18381,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17416,7 +18452,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17483,7 +18523,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17550,7 +18594,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17617,7 +18665,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17684,7 +18736,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17751,7 +18807,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17818,7 +18878,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17885,7 +18949,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -17952,7 +19020,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18019,7 +19091,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18086,7 +19162,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18153,7 +19233,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18220,7 +19304,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18287,7 +19375,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18354,7 +19446,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18421,7 +19517,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18488,7 +19588,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18555,7 +19659,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18622,7 +19730,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18689,7 +19801,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18756,7 +19872,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18823,7 +19943,11 @@
       "isFromAsia": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18890,7 +20014,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -18957,7 +20085,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19024,7 +20156,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19091,7 +20227,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19158,7 +20298,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19225,7 +20369,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19292,7 +20440,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19359,7 +20511,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19426,7 +20582,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19493,7 +20653,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19560,7 +20724,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19627,7 +20795,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19694,7 +20866,11 @@
       "hasTattoos": false,
       "isDancer": false,
       "isYoung": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19761,7 +20937,11 @@
       "isActor": false,
       "hasTattoos": false,
       "isDancer": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": true,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19828,7 +21008,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isLeftFooted": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isBald": false
     }
   },
   {
@@ -19895,7 +21079,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -19962,7 +21150,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isLeftFooted": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isBald": false
     }
   },
   {
@@ -20029,7 +21221,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20096,7 +21292,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20163,7 +21363,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20230,7 +21434,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20297,7 +21505,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20364,7 +21576,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20431,7 +21647,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20498,7 +21718,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20565,7 +21789,11 @@
       "isGoalkeeper": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20632,7 +21860,11 @@
       "isGoalkeeper": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20699,7 +21931,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20766,7 +22002,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20833,7 +22073,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20900,7 +22144,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -20967,7 +22215,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21034,7 +22286,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21101,7 +22357,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21168,7 +22428,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21235,7 +22499,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21302,7 +22570,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21369,7 +22641,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21436,7 +22712,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21503,7 +22783,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21570,7 +22854,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21637,7 +22925,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21704,7 +22996,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isBald": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false
     }
   },
   {
@@ -21771,7 +23067,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21838,7 +23138,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21905,7 +23209,11 @@
       "isCaptain": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -21972,7 +23280,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22039,7 +23351,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22106,7 +23422,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22173,7 +23493,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22240,7 +23564,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22307,7 +23635,11 @@
       "isCaptain": false,
       "isDefender": false,
       "isFromAsia": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22374,7 +23706,11 @@
       "isCaptain": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22441,7 +23777,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22508,7 +23848,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22575,7 +23919,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22642,7 +23990,11 @@
       "isCaptain": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22709,7 +24061,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22776,7 +24132,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22843,7 +24203,11 @@
       "isGoalkeeper": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22910,7 +24274,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -22977,7 +24345,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23044,7 +24416,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23111,7 +24487,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23178,7 +24558,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23245,7 +24629,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23312,7 +24700,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isBald": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false
     }
   },
   {
@@ -23379,7 +24771,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23446,7 +24842,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23513,7 +24913,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23580,7 +24984,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23647,7 +25055,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23714,7 +25126,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23781,7 +25197,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23848,7 +25268,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23915,7 +25339,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -23982,7 +25410,11 @@
       "isCaptain": false,
       "isDefender": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24049,7 +25481,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24116,7 +25552,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24183,7 +25623,11 @@
       "isCaptain": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24250,7 +25694,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24317,7 +25765,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24384,7 +25836,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24451,7 +25907,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24518,7 +25978,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24585,7 +26049,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24652,7 +26120,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24719,7 +26191,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24786,7 +26262,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24853,7 +26333,11 @@
       "isGoalkeeper": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24920,7 +26404,11 @@
       "isCaptain": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -24987,7 +26475,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25054,7 +26546,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25121,7 +26617,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25188,7 +26688,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25255,7 +26759,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25322,7 +26830,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isLeftFooted": true,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isBald": false
     }
   },
   {
@@ -25389,7 +26901,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25456,7 +26972,11 @@
       "isGoalkeeper": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25523,7 +27043,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25590,7 +27114,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25657,7 +27185,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25724,7 +27256,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25791,7 +27327,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25858,7 +27398,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25925,7 +27469,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -25992,7 +27540,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26059,7 +27611,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26126,7 +27682,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26193,7 +27753,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26260,7 +27824,11 @@
       "isGoalkeeper": false,
       "isCaptain": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26327,7 +27895,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26394,7 +27966,11 @@
       "isCaptain": false,
       "isDefender": false,
       "isFromAsia": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26461,7 +28037,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26528,7 +28108,11 @@
       "isCaptain": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26595,7 +28179,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26662,7 +28250,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26729,7 +28321,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26796,7 +28392,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26863,7 +28463,11 @@
       "isGoalkeeper": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26930,7 +28534,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -26997,7 +28605,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27064,7 +28676,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27131,7 +28747,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27198,7 +28818,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27265,7 +28889,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27332,7 +28960,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27399,7 +29031,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27466,7 +29102,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27533,7 +29173,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27600,7 +29244,11 @@
       "isCaptain": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27667,7 +29315,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27734,7 +29386,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27801,7 +29457,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27868,7 +29528,11 @@
       "isCaptain": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -27935,7 +29599,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28002,7 +29670,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28069,7 +29741,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28136,7 +29812,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28203,7 +29883,11 @@
       "isCaptain": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28270,7 +29954,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28337,7 +30025,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28404,7 +30096,11 @@
       "isCaptain": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28471,7 +30167,11 @@
       "isGoalkeeper": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28538,7 +30238,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28605,7 +30309,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28672,7 +30380,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28739,7 +30451,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28806,7 +30522,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28873,7 +30593,11 @@
       "isMidfielder": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -28940,7 +30664,11 @@
       "isCaptain": false,
       "isDefender": false,
       "isFromAsia": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -29007,7 +30735,11 @@
       "isDefender": false,
       "isFromAsia": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -29074,7 +30806,11 @@
       "isDefender": false,
       "isMidfielder": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -29141,7 +30877,11 @@
       "isCaptain": false,
       "isDefender": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -29208,7 +30948,11 @@
       "isCaptain": false,
       "isDefender": false,
       "hasTattoos": false,
-      "isTall": false
+      "isTall": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   },
   {
@@ -29275,7 +31019,11 @@
       "isForward": false,
       "isGoalkeeper": false,
       "isMidfielder": false,
-      "hasTattoos": false
+      "hasTattoos": false,
+      "isFromNorthAmerica": false,
+      "isFromCartoon": false,
+      "isLeftFooted": false,
+      "isBald": false
     }
   }
 ]
