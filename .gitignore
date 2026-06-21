@@ -1,0 +1,58 @@
+# Xcode
+.DS_Store
+**/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcuserstate
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.hmap
+*.o
+*.pyc
+.git/
+.gitignore
+
+# Build
+build/
+.build/
+
+# SwiftPM
+.swiftpm/
+*.resolved
+
+# Xcode Workspace
+*.xcworkspace
+
+# Pod files
+Pods/
+Podfile.lock
+
+# Backups
+*.tmp
+*.swp
+*~.nib
+
+# Environment
+.env
+.env.local
+
+# Firebase config (DO NOT commit - contains API keys)
+EduGuess/GoogleService-Info.plist
+GoogleService-Info.plist
+
+# Info.plist contains Facebook App ID, Client Token and OAuth URL schemes
+EduGuess/Info.plist
+Info.plist
+
+# API Keys
+# GenerativeAIConfig.swift no longer contains secrets; it reads from Firebase Remote Config.
+# EduGuess/Config/GenerativeAIConfig.swift
+
+# Firebase Functions (no longer used)
+functions/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
