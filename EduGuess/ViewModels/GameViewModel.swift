@@ -42,6 +42,7 @@ class GameViewModel: ObservableObject {
     private var characterScores: [UUID: Int] = [:]
     private let eliminationThreshold = -10
     private var generationTask: Task<Void, Never>?
+    private var hasForcedGuessAt30 = false
 
     // MARK: - Read-Only Exports
 
@@ -76,6 +77,7 @@ class GameViewModel: ObservableObject {
         isAttemptingGuess = false
         isRevealing = false
         guessCandidate = nil
+        hasForcedGuessAt30 = false
         gameState = .playing
 
         Task { await generateNextQuestion() }
@@ -214,6 +216,13 @@ class GameViewModel: ObservableObject {
         // Always reveal if only 1 character remains
         if possibleCharacters.count == 1 { return true }
 
+        // Force a guess at exactly 30 questions if we haven't already.
+        // If the user rejects it, the game continues normally past question 30.
+        if questionsAskedCount >= 30 && !hasForcedGuessAt30 {
+            hasForcedGuessAt30 = true
+            return true
+        }
+
         // Calculate score gap between #1 and #2
         let sorted = possibleCharacters
         guard sorted.count >= 2 else { return true }
@@ -224,7 +233,6 @@ class GameViewModel: ObservableObject {
         // High confidence: big gap after many questions
         if questionsAskedCount >= 20 && gap >= 8 { return true }
         if questionsAskedCount >= 25 && gap >= 6 { return true }
-        if questionsAskedCount >= 30 && gap >= 4 { return true }
 
         // Very high confidence regardless of question count
         if gap >= 12 { return true }
@@ -451,6 +459,7 @@ class GameViewModel: ObservableObject {
         isAttemptingGuess = false
         isRevealing = false
         guessCandidate = nil
+        hasForcedGuessAt30 = false
         gameState = .playing
     }
 }
