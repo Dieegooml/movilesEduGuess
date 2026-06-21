@@ -114,7 +114,11 @@ final class FirestoreService {
                 stats["bestScore"] = score
             }
 
-            transaction.updateData(["stats": stats], forDocument: ref)
+            let totalScore = stats["totalScore"] as? Int ?? 0
+            transaction.updateData([
+                "stats": stats,
+                "totalScore": totalScore
+            ], forDocument: ref)
             return nil
         }
     }
@@ -164,24 +168,24 @@ final class FirestoreService {
             try await doc.reference.delete()
         }
 
-        // 4. Delete daily challenge scores
-        let dailySnapshot = try await db.collection("daily_challenges").getDocuments()
-        for challengeDoc in dailySnapshot.documents {
-            let scoresSnapshot = try await challengeDoc.reference.collection("scores")
-                .whereField("userId", isEqualTo: uid)
-                .getDocuments()
-            for scoreDoc in scoresSnapshot.documents {
-                try await scoreDoc.reference.delete()
-            }
+        // 4. Delete daily challenge scores using a collection group query
+        let scoresSnapshot = try await db.collectionGroup("scores")
+            .whereField("userId", isEqualTo: uid)
+            .getDocuments()
+        for scoreDoc in scoresSnapshot.documents {
+            try await scoreDoc.reference.delete()
         }
     }
 
     // MARK: - Leaderboard
 
     func fetchLeaderboard(limit: Int = 50) async throws -> [LeaderboardEntry] {
-        let snapshot = try await db.collection(usersCollection).limit(to: limit).getDocuments()
+        let snapshot = try await db.collection(usersCollection)
+            .order(by: "totalScore", descending: true)
+            .limit(to: limit)
+            .getDocuments()
 
-        let entries = snapshot.documents.compactMap { doc -> LeaderboardEntry? in
+        return snapshot.documents.compactMap { doc -> LeaderboardEntry? in
             guard let fbUser = try? doc.data(as: FirebaseUser.self) else { return nil }
             return LeaderboardEntry(
                 userId: doc.documentID,
@@ -189,10 +193,12 @@ final class FirestoreService {
                 avatar: fbUser.avatar,
                 score: fbUser.stats.totalScore,
                 wins: fbUser.stats.wins,
-                games: fbUser.stats.totalGames
+                games: fbUser.stats.totalGames,
+                losses: fbUser.stats.losses,
+                bestScore: fbUser.stats.bestScore,
+                streak: fbUser.streak.currentStreak
             )
         }
-        return entries.sorted { $0.score > $1.score }.prefix(limit).map { $0 }
     }
 
     func fetchTopWeekly(limit: Int = 50) async throws -> [LeaderboardEntry] {
@@ -214,7 +220,7 @@ final class FirestoreService {
         }
 
         return scores
-            .map { LeaderboardEntry(userId: $0.key, name: $0.value.name, avatar: "person.circle.fill", score: $0.value.score, wins: $0.value.wins, games: $0.value.games) }
+            .map { LeaderboardEntry(userId: $0.key, name: $0.value.name, avatar: "person.circle.fill", score: $0.value.score, wins: $0.value.wins, games: $0.value.games, losses: 0, bestScore: 0, streak: 0) }
             .sorted { $0.score > $1.score }
             .prefix(limit)
             .map { $0 }

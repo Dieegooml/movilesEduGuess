@@ -34,11 +34,14 @@ class DataService {
         name: String,
         image: String,
         attributes: [String: Bool],
-        context: ModelContext
+        context: ModelContext,
+        autoSave: Bool = true
     ) {
         let sdCharacter = SDCharacter(name: name, image: image, attributes: attributes)
         context.insert(sdCharacter)
-        try? context.save()
+        if autoSave {
+            try? context.save()
+        }
     }
 
     // MARK: - Add Question
@@ -215,9 +218,11 @@ class DataService {
             timestamp: Date()
         )
         do {
-            try await FirestoreService.shared.saveSession(fbSession)
-            try await FirestoreService.shared.updateStats(uid: userId, won: won, score: score)
+            // Independent Firestore writes can run in parallel.
+            async let saveSessionTask: () = FirestoreService.shared.saveSession(fbSession)
+            async let updateStatsTask: () = FirestoreService.shared.updateStats(uid: userId, won: won, score: score)
             let streak = await AchievementService.shared.updateStreak(uid: userId)
+            _ = try await (saveSessionTask, updateStatsTask)
             if let fbUser = try? await FirestoreService.shared.fetchUser(uid: userId) {
                 let _ = await AchievementService.shared.checkAndUnlock(uid: userId, stats: fbUser.stats, streak: streak, questionsCount: questionsAsked.count)
             }

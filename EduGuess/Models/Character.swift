@@ -25,18 +25,27 @@ final class SDCharacter {
     var image: String
     var attributesData: Data?
 
+    /// Cached decoded attributes to avoid decoding JSON on every access.
+    /// Transient so it is not persisted by SwiftData.
+    @Transient private var cachedAttributes: [String: Bool]?
+
     init(name: String, image: String = "", attributes: [String: Bool]) {
         self.name = name
         self.image = image
         self.attributesData = (try? JSONEncoder().encode(attributes)) ?? Data()
+        self.cachedAttributes = attributes
     }
 
     var attributes: [String: Bool] {
         get {
+            if let cached = cachedAttributes { return cached }
             guard let data = attributesData else { return [:] }
-            return (try? JSONDecoder().decode([String: Bool].self, from: data)) ?? [:]
+            let decoded = (try? JSONDecoder().decode([String: Bool].self, from: data)) ?? [:]
+            cachedAttributes = decoded
+            return decoded
         }
         set {
+            cachedAttributes = newValue
             attributesData = (try? JSONEncoder().encode(newValue))
         }
     }

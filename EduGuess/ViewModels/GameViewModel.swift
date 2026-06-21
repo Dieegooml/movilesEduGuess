@@ -38,7 +38,7 @@ class GameViewModel: ObservableObject {
     private let forcedGuessMilestones: [Int] = [25, 50, 60]
 
     private var characterProfile: [String: Bool] = [:]
-    private var askedAttributes: [String] = []
+    private var askedAttributes: Set<String> = []
     private var sessionQuestions: [String] = []
     private var sessionAnswers: [AnswerType] = []
     private var allCharacters: [Character] = []
@@ -94,7 +94,7 @@ class GameViewModel: ObservableObject {
         characterProfile[key] = answerValue(for: answer)
         sessionQuestions.append(key)
         sessionAnswers.append(answer)
-        askedAttributes.append(key)
+        askedAttributes.insert(key)
         questionsAskedCount += 1
 
         // Apply fuzzy scoring to all possible characters

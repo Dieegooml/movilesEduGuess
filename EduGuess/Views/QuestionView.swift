@@ -12,6 +12,7 @@ struct QuestionView: View {
     @State private var addCharacterAlertTitle = ""
     @State private var addCharacterAlertMessage = ""
     @State private var showAddCharacterAlert = false
+    @State private var animationPhase: Double = 0
 
     let preloadedCharacters: [Character]?
     let isDailyChallenge: Bool
@@ -165,7 +166,7 @@ struct QuestionView: View {
                 Circle()
                     .fill(Color.green.opacity(0.15))
                     .frame(width: 140, height: 140)
-                    .scaleEffect(1 + 0.1 * sin(Date().timeIntervalSince1970 * 3))
+                    .scaleEffect(1 + 0.1 * sin(animationPhase))
 
                 Circle()
                     .stroke(Color.green.opacity(0.3), lineWidth: 2)
@@ -176,6 +177,11 @@ struct QuestionView: View {
                     .foregroundColor(.green)
             }
             .frame(height: 150)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                    animationPhase = .pi * 2
+                }
+            }
 
             Text("Estoy pensando en el personaje...")
                 .font(.title3.weight(.semibold))

@@ -37,16 +37,42 @@ struct SeedManager {
         }
 
         let service = DataService()
+        let allAttributeKeys = Set(AttributeDefinition.pool.map(\.key))
         var imported = 0
+
         for char in characters {
+            // Support both sparse (only true values) and full attribute dictionaries.
+            let fullAttributes: [String: Bool]
+            let isFullFormat = char.attributes.count >= allAttributeKeys.count
+                || char.attributes.values.contains(false)
+            if isFullFormat {
+                // Full format: use as-is.
+                fullAttributes = char.attributes
+            } else {
+                // Sparse format: expand with false defaults.
+                var expanded = Dictionary(uniqueKeysWithValues: allAttributeKeys.map { ($0, false) })
+                for (key, value) in char.attributes where value == true {
+                    expanded[key] = true
+                }
+                fullAttributes = expanded
+            }
+
             service.addCharacter(
                 name: char.name,
                 image: char.image,
-                attributes: char.attributes,
-                context: context
+                attributes: fullAttributes,
+                context: context,
+                autoSave: false
             )
             imported += 1
         }
-        print("SeedManager: Imported \(imported) characters from seed file.")
+
+        // Single batch save after all inserts.
+        do {
+            try context.save()
+            print("SeedManager: Imported \(imported) characters from seed file.")
+        } catch {
+            print("SeedManager: Failed to save seeded characters: \(error)")
+        }
     }
 }

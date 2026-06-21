@@ -135,13 +135,12 @@ class AIService {
     // MARK: - Select Next Attribute
 
     func selectNextAttribute(
-        askedAttributes: [String],
+        askedAttributes: Set<String>,
         positiveAttributes: [String],
         possibleCharacters: [Character],
         allCharacters: [Character]
     ) -> AttributeDefinition? {
-        let askedSet = Set(askedAttributes)
-        let available = availableAttributes(askedAttributes: askedSet)
+        let available = availableAttributes(askedAttributes: askedAttributes)
         guard !available.isEmpty else { return nil }
 
         // No conocidos aún → orden por defecto (categorías generales primero)
@@ -250,8 +249,17 @@ class AIService {
         let total = characters.count
         guard total > 1 else { return 0 }
 
-        let trueCount = characters.filter { $0.attributes[attributeKey] == true }.count
-        let falseCount = characters.filter { $0.attributes[attributeKey] == false }.count
+        // Single-pass count: true, false, and nil buckets.
+        var trueCount = 0
+        var falseCount = 0
+        for character in characters {
+            let value = character.attributes[attributeKey]
+            if value == true {
+                trueCount += 1
+            } else if value == false {
+                falseCount += 1
+            }
+        }
         let nilCount = total - trueCount - falseCount
 
         // Attributes that are uniform or nearly uniform give low gain

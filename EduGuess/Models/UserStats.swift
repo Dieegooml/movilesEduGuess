@@ -42,6 +42,17 @@ struct LeaderboardEntry: Codable, Identifiable {
     var score: Int
     var wins: Int
     var games: Int
+    var losses: Int
+    var bestScore: Int
+    var streak: Int
+
+    var winRate: Double {
+        games > 0 ? Double(wins) / Double(games) : 0
+    }
+
+    var winRateText: String {
+        "\(Int(winRate * 100))%"
+    }
 }
 
 // MARK: - Scoring

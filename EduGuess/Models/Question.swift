@@ -62,12 +62,22 @@ final class SDGameSession {
     var score: Int = 0
     var timestamp: Date = Date()
 
+    /// Cached decoded attributes to avoid decoding JSON on every access.
+    /// Transient so it is not persisted by SwiftData.
+    @Transient private var cachedCharacterAttributes: [String: Bool]?
+
     var characterAttributes: [String: Bool] {
         get {
+            if let cached = cachedCharacterAttributes { return cached }
             guard let data = attributesData else { return [:] }
-            return (try? JSONDecoder().decode([String: Bool].self, from: data)) ?? [:]
+            let decoded = (try? JSONDecoder().decode([String: Bool].self, from: data)) ?? [:]
+            cachedCharacterAttributes = decoded
+            return decoded
         }
-        set { attributesData = (try? JSONEncoder().encode(newValue)) }
+        set {
+            cachedCharacterAttributes = newValue
+            attributesData = (try? JSONEncoder().encode(newValue))
+        }
     }
 
     init(characterName: String,
@@ -77,6 +87,7 @@ final class SDGameSession {
          won: Bool) {
         self.characterName = characterName
         self.attributesData = (try? JSONEncoder().encode(characterAttributes)) ?? Data()
+        self.cachedCharacterAttributes = characterAttributes
         self.questionsAsked = questionsAsked
         self.answers = answers
         self.won = won
