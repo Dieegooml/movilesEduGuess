@@ -29,6 +29,7 @@
 		5C41F7A12FB768F5002814AC /* AttributeDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F7A32FB768F5002814AC /* AttributeDefinition.swift */; };
 		8419A8F92FE22A4E00F1F187 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8419A8F82FE22A4E00F1F187 /* FirebaseAuth */; };
 		8419A8FB2FE22A4E00F1F187 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8419A8FA2FE22A4E00F1F187 /* FirebaseFirestore */; };
+		4951E40F302A4960B0E381CE2E598E70 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 92F85A6C87DC4EEE81E6C6208990DA6E /* FirebaseRemoteConfig */; };
 		cfa353fcb4e942f2aaeeb688 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 5c3b6a19cf7a475cb1839454 /* GoogleSignIn */; };
 		1bb9053c72184407a067ee7e /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 5a8835a1e9f34b82b9d6f9d7 /* FacebookLogin */; };
 		8419A9092FE24BF700F1F187 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419A9082FE24BF700F1F187 /* AuthViewModel.swift */; };
@@ -48,6 +49,7 @@
 		6CE7160249AB483D9A8D6F46 /* AdminListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D46A660E6874ECB87893C27 /* AdminListView.swift */; };
 		D64C67AB393B4E018564288A /* CharacterFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62734DE69DD34D1780A5F915 /* CharacterFormView.swift */; };
 		0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9F57B001B4063966C482B /* WikiService.swift */; };
+		EF5AF957830C40CFA4BCEF9821CE47C9 /* RemoteConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BBC892D4724EA291DF6D8F9809A69C /* RemoteConfigService.swift */; };
 		FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B4F200274C708E1E9615 /* HowToPlayView.swift */; };
 		0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A02971A848A5B8612E68 /* SettingsView.swift */; };
 		4CB03316082D4124907A516B /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF76C0802FA48A8A33CAF73 /* ToastView.swift */; };
@@ -114,6 +116,7 @@
 		0A87B4F200274C708E1E9615 /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
 		50B5A02971A848A5B8612E68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2ED9F57B001B4063966C482B /* WikiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiService.swift; sourceTree = "<group>"; };
+		D3BBC892D4724EA291DF6D8F9809A69C /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		BBF76C0802FA48A8A33CAF73 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyChallengeService.swift; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 			files = (
 				8419A8F92FE22A4E00F1F187 /* FirebaseAuth in Frameworks */,
 				8419A8FB2FE22A4E00F1F187 /* FirebaseFirestore in Frameworks */,
+				4951E40F302A4960B0E381CE2E598E70 /* FirebaseRemoteConfig in Frameworks */,
 				cfa353fcb4e942f2aaeeb688 /* GoogleSignIn in Frameworks */,
 				1bb9053c72184407a067ee7e /* FacebookLogin in Frameworks */,
 			);
@@ -263,6 +267,7 @@
 				5C41F7932FB7674F002814AC /* AIService.swift */,
 				5C41F7952FB76760002814AC /* DataService.swift */,
 				2ED9F57B001B4063966C482B /* WikiService.swift */,
+				D3BBC892D4724EA291DF6D8F9809A69C /* RemoteConfigService.swift */,
 				49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */,
 				B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */,
 				F5A6B7C8D9E0F1A2 /* ThemeManager.swift */,
@@ -402,6 +407,7 @@
 				FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */,
 				0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */,
 				0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */,
+				EF5AF957830C40CFA4BCEF9821CE47C9 /* RemoteConfigService.swift in Sources */,
 				4CB03316082D4124907A516B /* ToastView.swift in Sources */,
 				FC01F65A1F02407DA8520A0D /* NetworkMonitor.swift in Sources */,
 				D3E4F5A6B7C8D9E0 /* DailyChallengeService.swift in Sources */,
@@ -648,6 +654,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8419A8F72FE22A4E00F1F187 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		92F85A6C87DC4EEE81E6C6208990DA6E /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8419A8F72FE22A4E00F1F187 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
 		};
 		5c3b6a19cf7a475cb1839454 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;

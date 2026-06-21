@@ -69,7 +69,7 @@ actor GenerativeAIService {
         askedHistory: [(attributeKey: String, answer: Bool)],
         questionCount: Int
     ) async -> GenerativeQuestionResponse? {
-        guard let url = apiURL, GenerativeAIConfig.apiKey != "YOUR_GEMINI_API_KEY_HERE" else {
+        guard let url = apiURL, !GenerativeAIConfig.apiKey.isEmpty else {
             print("[GenerativeAI] API key no configurada")
             return nil
         }

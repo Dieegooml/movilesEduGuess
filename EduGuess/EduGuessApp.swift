@@ -66,6 +66,11 @@ struct EduGuessApp: App {
                         await NotificationService.shared.requestPermission()
                         await NotificationService.shared.scheduleDailyChallengeReminder()
                     }
+                    Task {
+                        // Pre-fetch the Gemini API key from Firebase Remote Config
+                        // so it is available when the game needs to generate questions.
+                        _ = await RemoteConfigService.activateAndGetGeminiKey()
+                    }
                     TrackingTransparencyManager.requestTrackingAuthorization()
                 }
             } else {

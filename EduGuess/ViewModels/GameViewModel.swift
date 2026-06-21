@@ -385,7 +385,7 @@ class GameViewModel: ObservableObject {
                 Responde SOLO con el texto de la pregunta, sin explicaciones ni formato.
                 """
                 guard let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=\(GenerativeAIConfig.apiKey)"),
-                      GenerativeAIConfig.apiKey != "YOUR_GEMINI_API_KEY_HERE" else { continue }
+                      !GenerativeAIConfig.apiKey.isEmpty else { continue }
 
                 let body: [String: Any] = [
                     "contents": [["parts": [["text": prompt]]]],
