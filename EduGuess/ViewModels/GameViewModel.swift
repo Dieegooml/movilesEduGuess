@@ -32,8 +32,10 @@ class GameViewModel: ObservableObject {
     private var modelContext: ModelContext?
     private let totalAttributes = AttributeDefinition.pool.count
     private let minimumQuestionsBeforeGuess = 18
-    private let maximumQuestionsBeforeFail = 50
+    private let maximumQuestionsBeforeFail = 65
     private let minimumScoreToGuess = 8
+    /// Question counts at which the AI must attempt a guess, even if confidence is low.
+    private let forcedGuessMilestones: [Int] = [25, 50, 60]
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
@@ -44,7 +46,7 @@ class GameViewModel: ObservableObject {
     private var characterScores: [UUID: Int] = [:]
     private let eliminationThreshold = -10
     private var generationTask: Task<Void, Never>?
-    private var hasForcedGuessAt30 = false
+    private var completedForcedGuesses: Set<Int> = []
 
     // MARK: - Read-Only Exports
 
@@ -79,7 +81,7 @@ class GameViewModel: ObservableObject {
         isAttemptingGuess = false
         isRevealing = false
         guessCandidate = nil
-        hasForcedGuessAt30 = false
+        completedForcedGuesses.removeAll()
         gameState = .playing
 
         Task { await generateNextQuestion() }
@@ -193,6 +195,13 @@ class GameViewModel: ObservableObject {
         }
         guessCandidate = nil
 
+        // If this was the final forced guess milestone (60) and it was wrong, fail the game.
+        if questionsAskedCount >= forcedGuessMilestones.last ?? 60 {
+            gameState = .failed
+            finalProfile = characterProfile
+            return
+        }
+
         // Fallback if everyone eliminated
         if possibleCharacters.isEmpty {
             possibleCharacters = allCharacters
@@ -218,11 +227,13 @@ class GameViewModel: ObservableObject {
         // Always reveal if only 1 character remains
         if possibleCharacters.count == 1 { return true }
 
-        // Force a guess at exactly 30 questions if we haven't already.
-        // If the user rejects it, the game continues normally past question 30.
-        if questionsAskedCount >= 30 && !hasForcedGuessAt30 {
-            hasForcedGuessAt30 = true
-            return true
+        // Force a guess at configured milestones (25, 50, 60) if we haven't already.
+        // If the user rejects it, the game continues until the next milestone.
+        for milestone in forcedGuessMilestones {
+            if questionsAskedCount >= milestone && !completedForcedGuesses.contains(milestone) {
+                completedForcedGuesses.insert(milestone)
+                return true
+            }
         }
 
         // Calculate score gap between #1 and #2
@@ -478,7 +489,7 @@ class GameViewModel: ObservableObject {
         isAttemptingGuess = false
         isRevealing = false
         guessCandidate = nil
-        hasForcedGuessAt30 = false
+        completedForcedGuesses.removeAll()
         gameState = .playing
     }
 }
