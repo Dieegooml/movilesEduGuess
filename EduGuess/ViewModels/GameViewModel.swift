@@ -32,6 +32,8 @@ class GameViewModel: ObservableObject {
     private var modelContext: ModelContext?
     private let totalAttributes = AttributeDefinition.pool.count
     private let minimumQuestionsBeforeGuess = 18
+    private let maximumQuestionsBeforeFail = 50
+    private let minimumScoreToGuess = 8
 
     private var characterProfile: [String: Bool] = [:]
     private var askedAttributes: [String] = []
@@ -264,13 +266,30 @@ class GameViewModel: ObservableObject {
     // MARK: - Evaluation
 
     private func evaluateGameState() {
-        // Only fail if we have exhausted all attributes and still can't decide
+        // Restore all characters if everyone was eliminated so the game can continue
         if possibleCharacters.isEmpty {
             possibleCharacters = allCharacters
             for c in possibleCharacters {
                 characterScores[c.id] = 0
             }
         }
+
+        // After many questions, if no candidate has a strong enough score, give up.
+        // This improves precision by avoiding wild guesses when the user's answers
+        // no longer match any known character well.
+        if questionsAskedCount >= maximumQuestionsBeforeFail && gameState == .playing {
+            let bestScore = possibleCharacters.first.flatMap { characterScores[$0.id] } ?? 0
+            let secondScore = possibleCharacters.dropFirst().first.flatMap { characterScores[$0.id] } ?? 0
+            let gap = bestScore - secondScore
+
+            // Fail if the best candidate is weak or not clearly ahead of the rest.
+            if bestScore < minimumScoreToGuess || gap < 6 {
+                gameState = .failed
+                finalProfile = characterProfile
+                return
+            }
+        }
+
         if askedAttributes.count >= totalAttributes && possibleCharacters.count > 1 {
             // If we used all attributes and still have multiple, pick the top scorer
             if let best = possibleCharacters.first {
