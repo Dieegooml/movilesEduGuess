@@ -12,12 +12,8 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppTheme.homeGradient
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // Offline banner
@@ -120,12 +116,8 @@ struct HomeView: View {
             Spacer()
 
             VStack(spacing: 20) {
-                Image(systemName: "brain")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.white)
-                    .symbolEffect(.bounce, options: .nonRepeating, value: buttonsAppeared)
+                PetAvatarView(emotion: .welcome, size: 140)
+                    .shadow(color: AppTheme.primaryOrange.opacity(0.3), radius: 20, x: 0, y: 10)
 
                 Text("EduGuess")
                     .font(.system(size: 40, weight: .heavy))
@@ -201,7 +193,7 @@ struct HomeView: View {
                     switch style {
                     case .card:
                         Circle()
-                            .fill(Color.orange)
+                            .fill(AppTheme.primaryOrange)
                             .frame(width: 36, height: 36)
                     case .gradient:
                         Circle()
@@ -214,7 +206,7 @@ struct HomeView: View {
                     }
                     Image(systemName: icon)
                         .font(.subheadline)
-                        .foregroundColor(style == .gradient ? .orange : .white)
+                        .foregroundColor(style == .gradient ? AppTheme.primaryOrange : .white)
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
@@ -242,12 +234,12 @@ struct HomeView: View {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(
                                 LinearGradient(
-                                    colors: [Color.orange, Color.orange.opacity(0.8)],
+                                    colors: [AppTheme.primaryOrange, AppTheme.primaryGold],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
                             )
-                            .shadow(color: .orange.opacity(0.4), radius: 8, x: 0, y: 4)
+                            .shadow(color: AppTheme.primaryOrange.opacity(0.4), radius: 8, x: 0, y: 4)
                     case .outline:
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(Color.white.opacity(0.5), lineWidth: 1.5)

@@ -26,12 +26,8 @@ struct QuestionView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color.orange.opacity(0.05), Color.red.opacity(0.05)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppTheme.homeGradient
+                .ignoresSafeArea()
 
             if isLoading {
                 loadingContent
@@ -111,7 +107,11 @@ struct QuestionView: View {
 
             Spacer()
 
-            RobotAvatar()
+            PetAvatarView(
+                emotion: viewModel.isRevealing ? .surprised : viewModel.isAttemptingGuess ? .idea : .thinking,
+                size: 130
+            )
+            .padding(.top, 10)
 
             ProgressBar(progress: progressValue, questionsAsked: viewModel.questionsAskedCount)
                 .frame(height: 50)
@@ -162,26 +162,13 @@ struct QuestionView: View {
         VStack(spacing: 28) {
             Spacer()
 
-            ZStack {
-                Circle()
-                    .fill(Color.green.opacity(0.15))
-                    .frame(width: 140, height: 140)
-                    .scaleEffect(1 + 0.1 * sin(animationPhase))
-
-                Circle()
-                    .stroke(Color.green.opacity(0.3), lineWidth: 2)
-                    .frame(width: 120, height: 120)
-
-                Image(systemName: "magnifyingglass")
-                    .font(.system(size: 55))
-                    .foregroundColor(.green)
-            }
-            .frame(height: 150)
-            .onAppear {
-                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-                    animationPhase = .pi * 2
+            PetAvatarView(emotion: .thinking, size: 180)
+                .scaleEffect(1 + 0.05 * sin(animationPhase))
+                .onAppear {
+                    withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                        animationPhase = .pi * 2
+                    }
                 }
-            }
 
             Text("Estoy pensando en el personaje...")
                 .font(.title3.weight(.semibold))

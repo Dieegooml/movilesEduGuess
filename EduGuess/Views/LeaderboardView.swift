@@ -232,12 +232,8 @@ struct LeaderboardView: View {
     }
 
     private var backgroundGradient: some View {
-        LinearGradient(
-            colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        AppTheme.leaderboardGradient
+            .ignoresSafeArea()
     }
 
     private func loadLeaderboard() async {
@@ -261,12 +257,8 @@ struct LeaderboardStatsSheet: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(
-                    colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+                AppTheme.leaderboardGradient
+                    .ignoresSafeArea()
 
                 ScrollView {
                     VStack(spacing: 24) {

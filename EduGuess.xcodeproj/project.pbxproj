@@ -11,6 +11,7 @@
 		5C41F76D2FB762AD002814AC /* EduGuessApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F76C2FB762AD002814AC /* EduGuessApp.swift */; };
 		5C41F7712FB762AF002814AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C41F7702FB762AF002814AC /* Assets.xcassets */; };
 		5C41F7742FB762AF002814AC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C41F7732FB762AF002814AC /* Preview Assets.xcassets */; };
+		744C0BB1439F464D9F4E7754 /* PetEmotions.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C667339BFE9A4D8494D532F2 /* PetEmotions.xcassets */; };
 		5C41F7822FB76392002814AC /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F7812FB76392002814AC /* Character.swift */; };
 		5C41F7842FB763AD002814AC /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F7832FB763AD002814AC /* Question.swift */; };
 		5C41F7862FB763BF002814AC /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F7852FB763BF002814AC /* GameState.swift */; };
@@ -26,6 +27,7 @@
 		5C41F79A2FB768C5002814AC /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F7992FB768C5002814AC /* ProgressBar.swift */; };
 		5C41F79C2FB768D7002814AC /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F79B2FB768D7002814AC /* QuestionCard.swift */; };
 		5C41F79E2FB768E6002814AC /* RobotAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F79D2FB768E6002814AC /* RobotAvatar.swift */; };
+		CA0C4D5262AC423AA8E12C23 /* PetAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3BAD2289EC44219D6837DC /* PetAvatarView.swift */; };
 		5C41F7A12FB768F5002814AC /* AttributeDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41F7A32FB768F5002814AC /* AttributeDefinition.swift */; };
 		8419A8F92FE22A4E00F1F187 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8419A8F82FE22A4E00F1F187 /* FirebaseAuth */; };
 		8419A8FB2FE22A4E00F1F187 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8419A8FA2FE22A4E00F1F187 /* FirebaseFirestore */; };
@@ -50,6 +52,7 @@
 		D64C67AB393B4E018564288A /* CharacterFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62734DE69DD34D1780A5F915 /* CharacterFormView.swift */; };
 		0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED9F57B001B4063966C482B /* WikiService.swift */; };
 		EF5AF957830C40CFA4BCEF9821CE47C9 /* RemoteConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BBC892D4724EA291DF6D8F9809A69C /* RemoteConfigService.swift */; };
+		FFF10886BC6B4D53852E1477 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE1B15A1F6455398482870 /* AppTheme.swift */; };
 		FD06A686BE114853AD42D551 /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A87B4F200274C708E1E9615 /* HowToPlayView.swift */; };
 		0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A02971A848A5B8612E68 /* SettingsView.swift */; };
 		4CB03316082D4124907A516B /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF76C0802FA48A8A33CAF73 /* ToastView.swift */; };
@@ -79,6 +82,7 @@
 		5C41F76C2FB762AD002814AC /* EduGuessApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EduGuessApp.swift; sourceTree = "<group>"; };
 		5C41F7702FB762AF002814AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C41F7732FB762AF002814AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C667339BFE9A4D8494D532F2 /* PetEmotions.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PetEmotions.xcassets; sourceTree = "<group>"; };
 		5C41F7812FB76392002814AC /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		5C41F7832FB763AD002814AC /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		5C41F7852FB763BF002814AC /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
@@ -94,6 +98,7 @@
 		5C41F7992FB768C5002814AC /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		5C41F79B2FB768D7002814AC /* QuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCard.swift; sourceTree = "<group>"; };
 		5C41F79D2FB768E6002814AC /* RobotAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotAvatar.swift; sourceTree = "<group>"; };
+		3D3BAD2289EC44219D6837DC /* PetAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetAvatarView.swift; sourceTree = "<group>"; };
 		5C41F7A32FB768F5002814AC /* AttributeDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeDefinition.swift; sourceTree = "<group>"; };
 		8419A9082FE24BF700F1F187 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		8419A90A2FE24C0E00F1F187 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -117,6 +122,7 @@
 		50B5A02971A848A5B8612E68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2ED9F57B001B4063966C482B /* WikiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiService.swift; sourceTree = "<group>"; };
 		D3BBC892D4724EA291DF6D8F9809A69C /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
+		17BE1B15A1F6455398482870 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		BBF76C0802FA48A8A33CAF73 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyChallengeService.swift; sourceTree = "<group>"; };
@@ -183,6 +189,7 @@
 				67865319debd451d8b493235 /* AppDelegate.swift */,
 				5C41F76C2FB762AD002814AC /* EduGuessApp.swift */,
 				5C41F7702FB762AF002814AC /* Assets.xcassets */,
+				C667339BFE9A4D8494D532F2 /* PetEmotions.xcassets */,
 				5C41F7722FB762AF002814AC /* Preview Content */,
 				8419A9122FE24C4D00F1F187 /* characters_seed.json */,
 				B4E8A41674B5A8D454E09481 /* GoogleService-Info.plist */,
@@ -271,6 +278,7 @@
 				49C0D28B1AE348E8AF898FBF /* NetworkMonitor.swift */,
 				B1F2A3B4C5D6E7F8 /* DailyChallengeService.swift */,
 				F5A6B7C8D9E0F1A2 /* ThemeManager.swift */,
+				17BE1B15A1F6455398482870 /* AppTheme.swift */,
 				D9E0F1A2B3C4D5E6 /* CharacterImportService.swift */,
 				A1B2C3D4E5F6A7B8 /* NotificationService.swift */,
 				F2A3B4C5D6E7F8A2 /* AchievementService.swift */,
@@ -287,6 +295,7 @@
 				5C41F7992FB768C5002814AC /* ProgressBar.swift */,
 				5C41F79B2FB768D7002814AC /* QuestionCard.swift */,
 				5C41F79D2FB768E6002814AC /* RobotAvatar.swift */,
+				3D3BAD2289EC44219D6837DC /* PetAvatarView.swift */,
 				BBF76C0802FA48A8A33CAF73 /* ToastView.swift */,
 				A4B5C6D7E8F9A0B1 /* AvatarView.swift */,
 				B62E4F87D3B249EC9D616716FB53F2B3 /* EmptyStateView.swift */,
@@ -360,6 +369,7 @@
 			files = (
 				8419A9132FE24C4D00F1F187 /* characters_seed.json in Resources */,
 				B4E8A41674B5A8D454E09482 /* GoogleService-Info.plist in Resources */,
+				744C0BB1439F464D9F4E7754 /* PetEmotions.xcassets in Resources */,
 				5C41F7742FB762AF002814AC /* Preview Assets.xcassets in Resources */,
 				5C41F7712FB762AF002814AC /* Assets.xcassets in Resources */,
 			);
@@ -383,6 +393,7 @@
 				5C41F7922FB76722002814AC /* GameViewModel.swift in Sources */,
 				5C41F78A2FB7645C002814AC /* HomeView.swift in Sources */,
 				5C41F79E2FB768E6002814AC /* RobotAvatar.swift in Sources */,
+				CA0C4D5262AC423AA8E12C23 /* PetAvatarView.swift in Sources */,
 				8419A9192FE2512800F1F187 /* SeedManager.swift in Sources */,
 				5C41F7842FB763AD002814AC /* Question.swift in Sources */,
 				8419A90F2FE24C1C00F1F187 /* LeaderboardView.swift in Sources */,
@@ -408,6 +419,7 @@
 				0F7ECD3786BF49CF9EA14C42 /* SettingsView.swift in Sources */,
 				0AD40F38C1FE48DCAEE496C3 /* WikiService.swift in Sources */,
 				EF5AF957830C40CFA4BCEF9821CE47C9 /* RemoteConfigService.swift in Sources */,
+				FFF10886BC6B4D53852E1477 /* AppTheme.swift in Sources */,
 				4CB03316082D4124907A516B /* ToastView.swift in Sources */,
 				FC01F65A1F02407DA8520A0D /* NetworkMonitor.swift in Sources */,
 				D3E4F5A6B7C8D9E0 /* DailyChallengeService.swift in Sources */,

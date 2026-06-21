@@ -25,7 +25,7 @@ struct CorrectGuessView: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                colors: [Color.green, Color.teal],
+                colors: [AppTheme.accentGreen, AppTheme.accentBlue],
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -39,12 +39,8 @@ struct CorrectGuessView: View {
             VStack(spacing: 25) {
                 Spacer()
 
-                Image(systemName: "checkmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 130, height: 130)
-                    .foregroundColor(.white)
-                    .scaleEffect(celebratePulse ? 1.15 : (showContent ? 1 : 0.3))
+                PetAvatarView(emotion: .celebration, size: 160)
+                    .scaleEffect(celebratePulse ? 1.1 : (showContent ? 1 : 0.3))
                     .opacity(showContent ? 1 : 0)
 
                 Text("¡Lo adiviné!")

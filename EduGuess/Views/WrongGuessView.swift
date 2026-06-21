@@ -28,7 +28,7 @@ struct WrongGuessView: View {
         ZStack {
 
             LinearGradient(
-                colors: [Color.red, Color.orange],
+                colors: [AppTheme.accentCoral, AppTheme.primaryOrange],
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -39,14 +39,9 @@ struct WrongGuessView: View {
 
                 Spacer()
 
-                Image(systemName: "xmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 130, height: 130)
-                    .foregroundColor(.white)
+                PetAvatarView(emotion: .angry, size: 160)
                     .scaleEffect(showContent ? 1 : 0.5)
                     .opacity(showContent ? 1 : 0)
-                    .symbolEffect(.bounce, options: .nonRepeating, value: showContent)
 
                 Text("No pude adivinar")
                     .font(.system(size: 34, weight: .bold))
