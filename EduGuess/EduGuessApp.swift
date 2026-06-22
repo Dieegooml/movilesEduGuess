@@ -81,12 +81,8 @@ struct EduGuessApp: App {
 
     private var loadingView: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppTheme.mainGradient.ignoresSafeArea()
+            PetFloatingBackground()
 
             ProgressView()
                 .tint(.white)
@@ -95,52 +91,57 @@ struct EduGuessApp: App {
     }
 
     private var errorView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.orange)
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
 
-            Text("Error al cargar la base de datos")
-                .font(.title2)
-                .fontWeight(.bold)
+            VStack(spacing: 20) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(AppTheme.warningOrange)
 
-            if !containerErrorMessage.isEmpty {
-                Text(containerErrorMessage)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                Text("Error al cargar la base de datos")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppTheme.primaryText)
+
+                if !containerErrorMessage.isEmpty {
+                    Text(containerErrorMessage)
+                        .font(.caption)
+                        .foregroundColor(AppTheme.secondaryText)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+
+                Text("Esto puede ocurrir tras una actualización o si los datos se corrompieron.")
+                    .font(.subheadline)
+                    .foregroundColor(AppTheme.secondaryText)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
-            }
 
-            Text("Esto puede ocurrir tras una actualización o si los datos se corrompieron.")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-
-            Button(role: .destructive) {
-                resetStore()
-            } label: {
-                HStack {
-                    if isRetrying {
-                        ProgressView()
-                            .tint(.white)
-                    } else {
-                        Image(systemName: "trash")
+                Button(role: .destructive) {
+                    resetStore()
+                } label: {
+                    HStack {
+                        if isRetrying {
+                            ProgressView()
+                                .tint(.white)
+                        } else {
+                            Image(systemName: "trash")
+                        }
+                        Text("Borrar datos locales y reintentar")
                     }
-                    Text("Borrar datos locales y reintentar")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(AppTheme.errorRed)
+                    .cornerRadius(14)
                 }
-                .font(.headline)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.red)
-                .cornerRadius(14)
+                .disabled(isRetrying)
+                .padding(.horizontal, 30)
             }
-            .disabled(isRetrying)
-            .padding(.horizontal, 30)
+            .padding()
         }
-        .padding()
     }
 
     private func resetStore() {
