@@ -108,12 +108,6 @@ struct ProfileView: View {
             }
 
             NavigationLink {
-                CharacterListView()
-            } label: {
-                menuRow(icon: "person.3.fill", title: "Personajes")
-            }
-
-            NavigationLink {
                 GameHistoryView()
             } label: {
                 menuRow(icon: "clock.arrow.circlepath", title: "Historial de partidas")
