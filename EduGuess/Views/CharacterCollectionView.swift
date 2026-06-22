@@ -15,6 +15,7 @@ struct CharacterCollectionView: View {
     @State private var pendingUnlockName: String?
     @State private var toastMessage = ""
     @State private var showToast = false
+    @State private var characterImages: [String: String] = [:]
 
     private let unlockCost = 100
     private let authVM = AuthViewModel.shared
@@ -119,6 +120,7 @@ struct CharacterCollectionView: View {
 
     private func collectionCell(_ character: Character) -> some View {
         let isUnlocked = unlockedNames.contains(character.name)
+        let imageURL = characterImages[character.name]
 
         return Button {
             if isUnlocked {
@@ -140,9 +142,33 @@ struct CharacterCollectionView: View {
                         )
 
                     if isUnlocked {
-                        Text(String(character.name.prefix(1)))
-                            .font(.system(size: 32, weight: .bold))
-                            .foregroundColor(AppTheme.primaryGold)
+                        if let urlString = imageURL, let url = URL(string: urlString) {
+                            AsyncImage(url: url) { phase in
+                                switch phase {
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 76, height: 76)
+                                        .clipShape(Circle())
+                                case .failure:
+                                    Text(String(character.name.prefix(1)))
+                                        .font(.system(size: 32, weight: .bold))
+                                        .foregroundColor(AppTheme.primaryGold)
+                                case .empty:
+                                    ProgressView()
+                                        .tint(AppTheme.primaryGold)
+                                @unknown default:
+                                    Text(String(character.name.prefix(1)))
+                                        .font(.system(size: 32, weight: .bold))
+                                        .foregroundColor(AppTheme.primaryGold)
+                                }
+                            }
+                        } else {
+                            Text(String(character.name.prefix(1)))
+                                .font(.system(size: 32, weight: .bold))
+                                .foregroundColor(AppTheme.primaryGold)
+                        }
                     } else {
                         Image(systemName: "lock.fill")
                             .font(.system(size: 28))
@@ -160,6 +186,11 @@ struct CharacterCollectionView: View {
             }
         }
         .buttonStyle(.plain)
+        .onAppear {
+            if isUnlocked && imageURL == nil {
+                loadImage(for: character.name)
+            }
+        }
     }
 
     private func loadData() async {
@@ -186,6 +217,21 @@ struct CharacterCollectionView: View {
         toastMessage = "¡Juega y adivina a \(name) para desbloquearlo!"
         withAnimation { showToast = true }
     }
+
+    private func loadImage(for name: String) {
+        Task {
+            do {
+                let response = try await WikiService.shared.fetchSummary(for: name)
+                if let thumbnailURL = response.thumbnail?.source {
+                    await MainActor.run {
+                        characterImages[name] = thumbnailURL
+                    }
+                }
+            } catch {
+                // Silently fail - will show initial letter instead
+            }
+        }
+    }
 }
 
 // MARK: - Detail Sheet
@@ -193,6 +239,7 @@ struct CharacterCollectionView: View {
 private struct CollectionCharacterDetailView: View {
     let character: Character
     @State private var summary: String?
+    @State private var thumbnailURL: String?
     @State private var isLoading = false
     @State private var showError = false
 
@@ -203,18 +250,32 @@ private struct CollectionCharacterDetailView: View {
 
                 ScrollView {
                     VStack(spacing: 24) {
-                        Circle()
-                            .fill(AppTheme.primaryGold.opacity(0.2))
-                            .frame(width: 120, height: 120)
-                            .overlay(
-                                Circle()
-                                    .stroke(AppTheme.primaryGold.opacity(0.6), lineWidth: 2)
-                            )
-                            .overlay(
-                                Text(String(character.name.prefix(1)))
-                                    .font(.system(size: 48, weight: .bold))
-                                    .foregroundColor(AppTheme.primaryGold)
-                            )
+                        if let urlString = thumbnailURL, let url = URL(string: urlString) {
+                            AsyncImage(url: url) { phase in
+                                switch phase {
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 120, height: 120)
+                                        .clipShape(Circle())
+                                        .overlay(
+                                            Circle()
+                                                .stroke(AppTheme.primaryGold.opacity(0.6), lineWidth: 2)
+                                        )
+                                case .failure:
+                                    fallbackAvatar
+                                case .empty:
+                                    ProgressView()
+                                        .tint(AppTheme.primaryGold)
+                                        .frame(width: 120, height: 120)
+                                @unknown default:
+                                    fallbackAvatar
+                                }
+                            }
+                        } else {
+                            fallbackAvatar
+                        }
 
                         Text(character.name)
                             .font(.title)
@@ -263,11 +324,27 @@ private struct CollectionCharacterDetailView: View {
 
     @Environment(\.dismiss) private var dismiss
 
+    private var fallbackAvatar: some View {
+        Circle()
+            .fill(AppTheme.primaryGold.opacity(0.2))
+            .frame(width: 120, height: 120)
+            .overlay(
+                Circle()
+                    .stroke(AppTheme.primaryGold.opacity(0.6), lineWidth: 2)
+            )
+            .overlay(
+                Text(String(character.name.prefix(1)))
+                    .font(.system(size: 48, weight: .bold))
+                    .foregroundColor(AppTheme.primaryGold)
+            )
+    }
+
     private func loadSummary() async {
         isLoading = true
         do {
             let response = try await WikiService.shared.fetchSummary(for: character.name)
             summary = response.extract
+            thumbnailURL = response.thumbnail?.source
         } catch {
             showError = true
         }
