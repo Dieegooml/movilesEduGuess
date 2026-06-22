@@ -20,7 +20,9 @@ struct PublicProfileView: View {
 
     var body: some View {
         ZStack {
-            backgroundGradient
+            AppTheme.mainGradient.ignoresSafeArea()
+            PetFloatingBackground()
+
             ScrollView {
                 VStack(spacing: 24) {
                     profileHeader
@@ -37,28 +39,20 @@ struct PublicProfileView: View {
             }
         }
         .navigationTitle(userName)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .task { await loadData() }
         .refreshable { await loadData() }
         .toast(message: errorText, icon: "exclamationmark.circle.fill", isShowing: $showError)
     }
 
-    private var backgroundGradient: some View {
-        LinearGradient(
-            colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
-    }
-
     private var profileHeader: some View {
         VStack(spacing: 12) {
-            AvatarView(avatar: avatarName, size: 80)
+            AvatarView(avatar: avatarName, size: 90)
 
             Text(userName)
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryText)
         }
     }
 

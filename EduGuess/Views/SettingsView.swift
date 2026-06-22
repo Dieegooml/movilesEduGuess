@@ -54,15 +54,21 @@ struct SettingsView: View {
     private let authVM = AuthViewModel.shared
 
     var body: some View {
-        Form {
-            profileSection
-            avatarSection
-            appearanceSection
-            languageSection
-            preferencesSection
-            infoSection
-            localDataSection
-            dangerZoneSection
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
+
+            Form {
+                profileSection
+                avatarSection
+                appearanceSection
+                languageSection
+                preferencesSection
+                infoSection
+                localDataSection
+                dangerZoneSection
+            }
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
         }
         .alert("Eliminar cuenta", isPresented: $showDeleteAccountAlert) {
             Button("Cancelar", role: .cancel) {}
@@ -79,9 +85,11 @@ struct SettingsView: View {
             )
         }
         .navigationTitle("Ajustes")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Listo") { dismiss() }
+                    .foregroundColor(AppTheme.primaryText)
             }
         }
         .navigationDestination(isPresented: $showAdmin) {
@@ -90,24 +98,26 @@ struct SettingsView: View {
     }
 
     private var profileSection: some View {
-        Section("Perfil") {
+        Section {
             HStack {
-                AvatarView(avatar: avatarName, size: 44)
+                AvatarView(avatar: avatarName, size: 50)
                 if avatarName.hasPrefix("data:image/") {
                     Button("Quitar foto") {
                         avatarName = "person.circle.fill"
                         saveProfile()
                     }
                     .font(.caption)
+                    .foregroundColor(AppTheme.primaryGold)
                 }
             }
 
-            HStack {
+            HStack(spacing: 16) {
                 PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
                     HStack {
                         Image(systemName: "camera.fill")
                         Text("Elegir foto")
                     }
+                    .foregroundColor(AppTheme.infoBlue)
                 }
                 .onChange(of: selectedPhotoItem) { _, item in
                     Task {
@@ -118,29 +128,34 @@ struct SettingsView: View {
                 Button("Avatar SF") {
                     showAvatarPicker = true
                 }
+                .foregroundColor(AppTheme.primaryGold)
             }
 
             HStack {
                 TextField("Nombre visible", text: $displayName)
+                    .foregroundColor(AppTheme.primaryText)
                 Button {
                     saveProfile()
                 } label: {
                     Image(systemName: "arrow.clockwise.circle.fill")
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(AppTheme.primaryGold)
                         .font(.title3)
                 }
             }
             if showNameSaved {
                 Text("¡Guardado!")
                     .font(.caption)
-                    .foregroundColor(.green)
+                    .foregroundColor(AppTheme.successGreen)
                     .transition(.opacity)
             }
+        } header: {
+            Text("Perfil")
+                .foregroundColor(AppTheme.mutedText)
         }
     }
 
     private var avatarSection: some View {
-        Section("Avatar") {
+        Section {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(avatarOptions, id: \.self) { icon in
@@ -153,61 +168,81 @@ struct SettingsView: View {
                                 .scaledToFit()
                                 .frame(width: 36, height: 36)
                                 .padding(8)
-                                .background(avatarName == icon ? Color.accentColor.opacity(0.2) : Color.clear)
+                                .background(avatarName == icon ? AppTheme.primaryGold.opacity(0.2) : Color.clear)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(avatarName == icon ? Color.accentColor : Color.clear, lineWidth: 2)
+                                        .stroke(avatarName == icon ? AppTheme.primaryGold : Color.clear, lineWidth: 2)
                                 )
                         }
-                        .foregroundColor(avatarName == icon ? .accentColor : .primary)
+                        .foregroundColor(avatarName == icon ? AppTheme.primaryGold : AppTheme.secondaryText)
                     }
                 }
                 .padding(.vertical, 4)
             }
+        } header: {
+            Text("Avatar")
+                .foregroundColor(AppTheme.mutedText)
         }
     }
 
     private var appearanceSection: some View {
-        Section("Apariencia") {
+        Section {
             Picker("Tema", selection: $appTheme) {
                 ForEach(Theme.allCases) { theme in
                     Text(theme.displayName).tag(theme)
                 }
             }
             .pickerStyle(.menu)
+            .foregroundColor(AppTheme.primaryText)
+        } header: {
+            Text("Apariencia")
+                .foregroundColor(AppTheme.mutedText)
         }
     }
 
     private var languageSection: some View {
-        Section("Idioma") {
+        Section {
             Picker("Idioma", selection: $appLanguage) {
                 Text("Español").tag("es")
                 Text("English").tag("en")
             }
             .pickerStyle(.menu)
+            .foregroundColor(AppTheme.primaryText)
+        } header: {
+            Text("Idioma")
+                .foregroundColor(AppTheme.mutedText)
         }
     }
 
     private var preferencesSection: some View {
-        Section("Preferencias") {
+        Section {
             Toggle("Sonidos", isOn: $soundEnabled)
+                .tint(AppTheme.primaryGold)
             Toggle("Vibración (Haptic)", isOn: $hapticEnabled)
+                .tint(AppTheme.primaryGold)
+        } header: {
+            Text("Preferencias")
+                .foregroundColor(AppTheme.mutedText)
         }
     }
 
     private var infoSection: some View {
-        Section("Información") {
+        Section {
             HStack {
                 Text("Versión")
+                    .foregroundColor(AppTheme.primaryText)
                 Spacer()
                 Text("1.0.0")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.mutedText)
             }
             .contentShape(Rectangle())
             .onLongPressGesture(minimumDuration: 2) {
                 showAdmin = true
             }
+        } header: {
+            Text("Información")
+                .foregroundColor(AppTheme.mutedText)
         }
     }
 
@@ -218,8 +253,10 @@ struct SettingsView: View {
             } label: {
                 Text("Borrar datos locales")
             }
+            .foregroundColor(AppTheme.errorRed)
         } footer: {
             Text("Esto eliminará todo el progreso local, incluyendo el historial de partidas. Esta acción no se puede deshacer.")
+                .foregroundColor(AppTheme.mutedText)
         }
         .alert("Borrar datos locales", isPresented: $showDeleteAlert) {
             Button("Cancelar", role: .cancel) {}
@@ -236,10 +273,13 @@ struct SettingsView: View {
             } label: {
                 Label("Eliminar cuenta", systemImage: "person.fill.xmark")
             }
+            .foregroundColor(AppTheme.errorRed)
         } header: {
             Text("Zona de peligro")
+                .foregroundColor(AppTheme.mutedText)
         } footer: {
             Text("Eliminará tu cuenta permanentemente, incluyendo todos tus datos en la nube y locales. Esta acción no se puede deshacer.")
+                .foregroundColor(AppTheme.mutedText)
         }
     }
 
@@ -313,65 +353,77 @@ struct DeleteAccountSheet: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.red)
+            ZStack {
+                AppTheme.mainGradient.ignoresSafeArea()
 
-                Text("Eliminar cuenta")
-                    .font(.title)
-                    .fontWeight(.bold)
+                VStack(spacing: 24) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(AppTheme.errorRed)
 
-                Text("Para confirmar, ingresa tu contraseña actual. Si iniciaste sesión con Google, Facebook o Apple, deja el campo vacío y toca 'Eliminar'.")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
+                    Text("Eliminar cuenta")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppTheme.primaryText)
 
-                SecureField("Contraseña (opcional para redes sociales)", text: $password)
-                    .textContentType(.password)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
-                    .padding(.horizontal)
-
-                if let error = errorMessage {
-                    Text(error)
-                        .font(.caption)
-                        .foregroundColor(.red)
+                    Text("Para confirmar, ingresa tu contraseña actual. Si iniciaste sesión con Google, Facebook o Apple, deja el campo vacío y toca 'Eliminar'.")
+                        .font(.body)
+                        .foregroundColor(AppTheme.secondaryText)
+                        .multilineTextAlignment(.center)
                         .padding(.horizontal)
-                }
 
-                Button {
-                    deleteAccount()
-                } label: {
-                    HStack {
-                        if isDeleting {
-                            ProgressView()
-                                .tint(.white)
-                        }
-                        Text("Eliminar permanentemente")
+                    SecureField("Contraseña (opcional para redes sociales)", text: $password)
+                        .textContentType(.password)
+                        .foregroundColor(AppTheme.primaryText)
+                        .padding()
+                        .background(AppTheme.cardSurface)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(AppTheme.cardBorder, lineWidth: 1)
+                        )
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+
+                    if let error = errorMessage {
+                        Text(error)
+                            .font(.caption)
+                            .foregroundColor(AppTheme.errorRed)
+                            .padding(.horizontal)
                     }
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.red)
-                    .cornerRadius(14)
-                }
-                .disabled(isDeleting)
-                .padding(.horizontal)
 
-                Spacer()
+                    Button {
+                        deleteAccount()
+                    } label: {
+                        HStack {
+                            if isDeleting {
+                                ProgressView()
+                                    .tint(.white)
+                            }
+                            Text("Eliminar permanentemente")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(AppTheme.errorRed)
+                        .cornerRadius(14)
+                    }
+                    .disabled(isDeleting)
+                    .padding(.horizontal)
+
+                    Spacer()
+                }
+                .padding(.top, 40)
             }
-            .padding(.top, 40)
             .navigationTitle("Confirmar eliminación")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancelar") {
                         isPresented = false
                     }
+                    .foregroundColor(AppTheme.primaryText)
                 }
             }
             .alert("Cuenta eliminada", isPresented: $showSuccess) {

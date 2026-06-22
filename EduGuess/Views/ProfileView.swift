@@ -12,7 +12,9 @@ struct ProfileView: View {
 
     var body: some View {
         ZStack {
-            backgroundGradient
+            AppTheme.mainGradient.ignoresSafeArea()
+            PetFloatingBackground()
+
             ScrollView {
                 VStack(spacing: 24) {
                     profileHeader
@@ -31,6 +33,7 @@ struct ProfileView: View {
             }
         }
         .navigationTitle("Mi Perfil")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -47,37 +50,29 @@ struct ProfileView: View {
         .toast(message: errorText, icon: "exclamationmark.circle.fill", isShowing: $showError)
     }
 
-    private var backgroundGradient: some View {
-        LinearGradient(
-            colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
-    }
-
     private var profileHeader: some View {
         VStack(spacing: 12) {
             NavigationLink {
                 SettingsView()
             } label: {
-                AvatarView(avatar: avatarName, size: 80)
+                AvatarView(avatar: avatarName, size: 90)
             }
             .buttonStyle(.plain)
 
             Text(authVM.userName)
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryText)
 
             Text(authVM.userEmail)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(AppTheme.secondaryText)
 
             Button("Cerrar sesión", role: .destructive) {
                 showSignOutAlert = true
             }
             .buttonStyle(.borderedProminent)
-            .tint(.white.opacity(0.3))
+            .tint(AppTheme.accentRed.opacity(0.85))
+            .foregroundColor(.white)
             .padding(.top, 8)
             .alert("Cerrar sesión", isPresented: $showSignOutAlert) {
                 Button("Cancelar", role: .cancel) {}
@@ -109,57 +104,43 @@ struct ProfileView: View {
             NavigationLink {
                 StatisticsView()
             } label: {
-                HStack {
-                    Image(systemName: "chart.bar.fill")
-                        .font(.title3)
-                    Text("Estadísticas detalladas")
-                        .font(.headline)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                }
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.white.opacity(0.15))
-                .cornerRadius(12)
+                menuRow(icon: "chart.bar.fill", title: "Estadísticas detalladas")
             }
 
             NavigationLink {
                 CharacterListView()
             } label: {
-                HStack {
-                    Image(systemName: "person.3.fill")
-                        .font(.title3)
-                    Text("Personajes")
-                        .font(.headline)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                }
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.white.opacity(0.15))
-                .cornerRadius(12)
+                menuRow(icon: "person.3.fill", title: "Personajes")
             }
 
             NavigationLink {
                 GameHistoryView()
             } label: {
-                HStack {
-                    Image(systemName: "clock.arrow.circlepath")
-                        .font(.title3)
-                    Text("Historial de partidas")
-                        .font(.headline)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                }
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.white.opacity(0.15))
-                .cornerRadius(12)
+                menuRow(icon: "clock.arrow.circlepath", title: "Historial de partidas")
             }
         }
+    }
+
+    private func menuRow(icon: String, title: String) -> some View {
+        HStack {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundColor(AppTheme.primaryGold)
+            Text(title)
+                .font(.headline)
+                .foregroundColor(AppTheme.primaryText)
+            Spacer()
+            Image(systemName: "chevron.right")
+                .font(.caption)
+                .foregroundColor(AppTheme.mutedText)
+        }
+        .padding()
+        .background(AppTheme.cardSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
+        )
+        .cornerRadius(12)
     }
 
     private var historySection: some View {
@@ -191,34 +172,38 @@ private struct HistoryPreviewView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Últimas partidas")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryText)
 
             if recentSessions.isEmpty {
                 Text("Aún no has jugado")
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppTheme.secondaryText)
             } else {
                 ForEach(recentSessions) { session in
                     HStack {
                         Image(systemName: session.won ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .foregroundColor(session.won ? .green : .red)
+                            .foregroundColor(session.won ? AppTheme.successGreen : AppTheme.errorRed)
                         VStack(alignment: .leading) {
                             Text(session.characterName)
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppTheme.primaryText)
                             Text("\(session.questionsAsked.count) preguntas")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(AppTheme.secondaryText)
                         }
                         Spacer()
                         if session.won {
                             Text("+\(session.score)")
                                 .font(.subheadline)
-                                .foregroundColor(.yellow)
+                                .foregroundColor(AppTheme.primaryGold)
                         }
                     }
                     .padding()
-                    .background(Color.white.opacity(0.15))
+                    .background(AppTheme.cardSurface)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(AppTheme.cardBorder, lineWidth: 1)
+                    )
                     .cornerRadius(12)
                 }
             }
@@ -249,14 +234,18 @@ struct StatCard: View {
             Text(value)
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryText)
             Text(label)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(AppTheme.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(Color.white.opacity(0.15))
+        .background(AppTheme.cardSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
+        )
         .cornerRadius(12)
     }
 }
