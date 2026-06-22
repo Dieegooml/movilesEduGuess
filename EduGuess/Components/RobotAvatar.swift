@@ -15,14 +15,14 @@ struct RobotAvatar: View {
         ZStack {
             // Outer expanding ring
             Circle()
-                .stroke(Color.orange.opacity(0.2), lineWidth: 3)
+                .stroke(AppTheme.primaryGold.opacity(0.2), lineWidth: 3)
                 .frame(width: 180, height: 180)
                 .scaleEffect(outerRing ? 1.2 : 0.9)
                 .opacity(outerRing ? 0 : 0.6)
 
             // Middle ring
             Circle()
-                .stroke(Color.orange.opacity(0.3), lineWidth: 2)
+                .stroke(AppTheme.primaryOrange.opacity(0.3), lineWidth: 2)
                 .frame(width: 160, height: 160)
                 .scaleEffect(innerRing ? 1.1 : 0.95)
                 .opacity(innerRing ? 0.3 : 0.7)
@@ -32,8 +32,8 @@ struct RobotAvatar: View {
                 .fill(
                     RadialGradient(
                         colors: [
-                            Color.orange.opacity(0.3),
-                            Color.orange.opacity(0.1)
+                            AppTheme.primaryGold.opacity(0.25),
+                            AppTheme.primaryOrange.opacity(0.1)
                         ],
                         center: .center,
                         startRadius: 0,
@@ -41,12 +41,12 @@ struct RobotAvatar: View {
                     )
                 )
                 .frame(width: 150, height: 150)
-                .shadow(color: Color.orange.opacity(0.3), radius: 20, x: 0, y: 0)
+                .shadow(color: AppTheme.primaryGold.opacity(0.25), radius: 20, x: 0, y: 0)
 
             // Decorative dots orbiting
             ForEach(0..<3) { i in
                 Circle()
-                    .fill(Color.orange.opacity(0.6))
+                    .fill(AppTheme.primaryGold.opacity(0.6))
                     .frame(width: 8, height: 8)
                     .offset(
                         x: cos(Double(i) * 2.094 + (rotate ? 6.283 : 0)) * 68,
@@ -61,14 +61,14 @@ struct RobotAvatar: View {
                 .frame(width: 80, height: 80)
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [.orange, .red],
+                        colors: [AppTheme.primaryGold, AppTheme.accentRed],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
                 .symbolEffect(.bounce, options: .nonRepeating)
                 .scaleEffect(breathe ? 1.08 : 1.0)
-                .shadow(color: Color.orange.opacity(0.5), radius: 8, x: 0, y: 4)
+                .shadow(color: AppTheme.primaryGold.opacity(0.4), radius: 8, x: 0, y: 4)
         }
         .onAppear {
             withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {

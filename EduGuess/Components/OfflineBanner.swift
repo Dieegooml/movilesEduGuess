@@ -46,7 +46,7 @@ struct OfflineBanner: View {
                 }
             }
             .padding()
-            .background(Color.red.opacity(0.9))
+            .background(AppTheme.errorRed.opacity(0.9))
             .transition(.move(edge: .top).combined(with: .opacity))
         }
     }

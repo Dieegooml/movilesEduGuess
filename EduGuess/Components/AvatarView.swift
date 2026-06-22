@@ -19,7 +19,7 @@ struct AvatarView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: size, height: size)
-                .foregroundColor(.accentColor)
+                .foregroundColor(AppTheme.primaryText)
         }
     }
 

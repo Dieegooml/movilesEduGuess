@@ -95,7 +95,7 @@ struct AnswerButton: View {
         AnswerButton(title: "Sí", icon: "checkmark.circle.fill", color: .green) {}
         AnswerButton(title: "Probablemente sí", icon: "hand.thumbsup.fill", color: Color.green.opacity(0.7)) {}
         AnswerButton(title: "No sé", icon: "questionmark.circle.fill", color: .gray) {}
-        AnswerButton(title: "Probablemente no", icon: "hand.thumbsdown.fill", color: .orange) {}
+        AnswerButton(title: "Probablemente no", icon: "hand.thumbsdown.fill", color: AppTheme.warningOrange) {}
         AnswerButton(title: "No", icon: "xmark.circle.fill", color: .red) {}
     }
     .padding()

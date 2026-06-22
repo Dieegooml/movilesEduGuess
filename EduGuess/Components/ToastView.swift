@@ -12,14 +12,21 @@ struct Toast: ViewModifier {
                 if isShowing {
                     HStack(spacing: 10) {
                         Image(systemName: icon)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppTheme.primaryGold)
                         Text(message)
                             .font(.subheadline)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppTheme.primaryText)
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
-                    .background(Capsule().fill(Color.black.opacity(0.8)))
+                    .background(
+                        Capsule()
+                            .fill(AppTheme.cardSurfaceSolid.opacity(0.95))
+                    )
+                    .overlay(
+                        Capsule()
+                            .stroke(AppTheme.cardBorder, lineWidth: 1)
+                    )
                     .padding(.bottom, 30)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .onAppear {

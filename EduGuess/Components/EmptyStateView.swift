@@ -16,7 +16,7 @@ struct EmptyStateView: View {
 
             Image(systemName: icon)
                 .font(.system(size: 60))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(AppTheme.primaryText.opacity(0.6))
                 .symbolEffect(.bounce, options: .nonRepeating, value: animate)
                 .onAppear {
                     animate.toggle()
@@ -25,12 +25,12 @@ struct EmptyStateView: View {
             Text(title)
                 .font(.title3)
                 .fontWeight(.semibold)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(AppTheme.primaryText.opacity(0.9))
                 .multilineTextAlignment(.center)
 
             Text(description)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(AppTheme.secondaryText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
 
@@ -39,10 +39,10 @@ struct EmptyStateView: View {
                     Text(buttonTitle)
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundColor(.orange)
+                        .foregroundColor(AppTheme.backgroundTop)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
-                        .background(Color.white)
+                        .background(AppTheme.buttonGradient)
                         .cornerRadius(12)
                 }
                 .padding(.top, 8)
@@ -56,7 +56,7 @@ struct EmptyStateView: View {
 
 #Preview {
     ZStack {
-        Color.orange.ignoresSafeArea()
+        AppTheme.mainGradient.ignoresSafeArea()
         EmptyStateView(
             icon: "trophy.fill",
             title: "Aún no hay ranking",
