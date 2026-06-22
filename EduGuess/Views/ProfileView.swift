@@ -118,6 +118,12 @@ struct ProfileView: View {
             } label: {
                 menuRow(icon: "clock.arrow.circlepath", title: "Historial de partidas")
             }
+
+            NavigationLink {
+                CharacterCollectionView()
+            } label: {
+                menuRow(icon: "star.circle.fill", title: "Mi Colección")
+            }
         }
     }
 
