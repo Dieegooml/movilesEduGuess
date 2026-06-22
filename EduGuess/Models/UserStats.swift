@@ -1,4 +1,5 @@
 import Foundation
+import FirebaseFirestore
 
 // MARK: - Firestore Codable Models
 
@@ -53,6 +54,15 @@ struct LeaderboardEntry: Codable, Identifiable {
     var winRateText: String {
         "\(Int(winRate * 100))%"
     }
+}
+
+// MARK: - Collection
+
+/// Represents a character the user has successfully guessed and unlocked.
+struct UnlockedCharacter: Codable, Identifiable {
+    @DocumentID var id: String?
+    let name: String
+    let unlockedAt: Date
 }
 
 // MARK: - Scoring

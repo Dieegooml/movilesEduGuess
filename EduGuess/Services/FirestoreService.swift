@@ -177,6 +177,25 @@ final class FirestoreService {
         }
     }
 
+    // MARK: - Character Collection
+
+    func unlockCharacter(uid: String, name: String) async throws {
+        let ref = db.collection(usersCollection).document(uid).collection("unlocked_characters").document(name)
+        let snapshot = try await ref.getDocument()
+        guard !snapshot.exists else { return }
+        let unlocked = UnlockedCharacter(name: name, unlockedAt: Date())
+        try ref.setData(from: unlocked)
+    }
+
+    func fetchUnlockedCharacters(uid: String) async throws -> [String] {
+        let snapshot = try await db.collection(usersCollection)
+            .document(uid)
+            .collection("unlocked_characters")
+            .order(by: "unlockedAt", descending: true)
+            .getDocuments()
+        return snapshot.documents.compactMap { try? $0.data(as: UnlockedCharacter.self).name }
+    }
+
     // MARK: - Leaderboard
 
     func fetchLeaderboard(limit: Int = 50) async throws -> [LeaderboardEntry] {

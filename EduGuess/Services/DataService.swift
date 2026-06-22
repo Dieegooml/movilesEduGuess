@@ -221,8 +221,10 @@ class DataService {
             // Independent Firestore writes can run in parallel.
             async let saveSessionTask: () = FirestoreService.shared.saveSession(fbSession)
             async let updateStatsTask: () = FirestoreService.shared.updateStats(uid: userId, won: won, score: score)
+            async let unlockTask: ()? = won ? FirestoreService.shared.unlockCharacter(uid: userId, name: characterName) : nil
             let streak = await AchievementService.shared.updateStreak(uid: userId)
             _ = try await (saveSessionTask, updateStatsTask)
+            _ = try? await unlockTask
             if let fbUser = try? await FirestoreService.shared.fetchUser(uid: userId) {
                 let _ = await AchievementService.shared.checkAndUnlock(uid: userId, stats: fbUser.stats, streak: streak, questionsCount: questionsAsked.count)
             }
