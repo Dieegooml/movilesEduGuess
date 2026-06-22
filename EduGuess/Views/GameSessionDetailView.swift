@@ -9,41 +9,47 @@ struct GameSessionDetailView: View {
 
     private func answerIconAndColor(for rawValue: String) -> (String, Color) {
         switch rawValue {
-        case "yes": return ("checkmark.circle.fill", .green)
-        case "probably_yes": return ("hand.thumbsup.fill", Color.green.opacity(0.7))
-        case "unknown": return ("questionmark.circle.fill", .gray)
-        case "probably_no": return ("hand.thumbsdown.fill", .orange)
-        case "no": return ("xmark.circle.fill", .red)
-        default: return ("questionmark.circle", .gray)
+        case "yes": return ("checkmark.circle.fill", AppTheme.successGreen)
+        case "probably_yes": return ("hand.thumbsup.fill", AppTheme.successGreen.opacity(0.7))
+        case "unknown": return ("questionmark.circle.fill", AppTheme.mutedText)
+        case "probably_no": return ("hand.thumbsdown.fill", AppTheme.warningOrange)
+        case "no": return ("xmark.circle.fill", AppTheme.errorRed)
+        default: return ("questionmark.circle", AppTheme.mutedText)
         }
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                headerSection
-                scoreSection
-                questionsSection
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 20) {
+                    headerSection
+                    scoreSection
+                    questionsSection
+                }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle(session.characterName)
         .navigationBarTitleDisplayMode(.large)
+        .toolbarColorScheme(.dark, for: .navigationBar)
     }
 
     private var headerSection: some View {
         VStack(spacing: 12) {
             Image(systemName: session.won ? "trophy.fill" : "magnifyingglass")
                 .font(.system(size: 60))
-                .foregroundColor(session.won ? .yellow : .gray)
+                .foregroundColor(session.won ? AppTheme.primaryGold : AppTheme.mutedText)
 
             Text(session.characterName)
                 .font(.title2)
                 .fontWeight(.bold)
+                .foregroundColor(AppTheme.primaryText)
 
             Label(session.won ? "Adivinado" : "No adivinado",
                   systemImage: session.won ? "checkmark.circle" : "xmark.circle")
-                .foregroundColor(session.won ? .green : .red)
+                .foregroundColor(session.won ? AppTheme.successGreen : AppTheme.errorRed)
         }
     }
 
@@ -52,11 +58,11 @@ struct GameSessionDetailView: View {
             if session.won {
                 Text("Puntaje")
                     .font(.headline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.secondaryText)
 
                 Text("+\(session.score)")
                     .font(.system(size: 40, weight: .bold))
-                    .foregroundColor(.orange)
+                    .foregroundColor(AppTheme.primaryGold)
             }
 
             HStack(spacing: 24) {
@@ -65,16 +71,19 @@ struct GameSessionDetailView: View {
             }
         }
         .padding()
-        .background(
+        .background(AppTheme.cardSurface)
+        .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemGray6))
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
         )
+        .cornerRadius(16)
     }
 
     private var questionsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Preguntas realizadas")
                 .font(.headline)
+                .foregroundColor(AppTheme.primaryText)
                 .padding(.bottom, 4)
 
             ForEach(pairedQA.indices, id: \.self) { index in
@@ -86,11 +95,12 @@ struct GameSessionDetailView: View {
 
                 HStack(alignment: .top) {
                     Text("\(index + 1).")
-                        .foregroundColor(.secondary)
+                        .foregroundColor(AppTheme.mutedText)
                         .frame(width: 24, alignment: .leading)
 
                     Text(questionText)
                         .font(.subheadline)
+                        .foregroundColor(AppTheme.primaryText)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     Image(systemName: icon)
@@ -98,10 +108,12 @@ struct GameSessionDetailView: View {
                 }
                 .padding(.vertical, 6)
                 .padding(.horizontal, 12)
-                .background(
+                .background(AppTheme.cardSurface)
+                .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(.systemGray6))
+                        .stroke(AppTheme.cardBorder, lineWidth: 1)
                 )
+                .cornerRadius(8)
             }
         }
     }
@@ -111,9 +123,10 @@ struct GameSessionDetailView: View {
             Text(value)
                 .font(.title3)
                 .fontWeight(.semibold)
+                .foregroundColor(AppTheme.primaryText)
             Text(title)
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppTheme.secondaryText)
         }
     }
 }

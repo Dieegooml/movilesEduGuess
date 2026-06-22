@@ -25,24 +25,27 @@ struct StatisticsView: View {
     @State private var winLoss: [WinLossData] = []
     @State private var cumulativeScores: [(index: Int, total: Int)] = []
 
-
-
     var body: some View {
-        ScrollView {
-            VStack(spacing: 28) {
-                if sessions.isEmpty {
-                    ContentUnavailableView("Sin partidas", systemImage: "chart.bar", description: Text("Juega algunas partidas para ver estadísticas"))
-                        .padding(.top, 60)
-                } else {
-                    scoreChart
-                    winLossChart
-                    questionsChart
-                    cumulativeChart
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 28) {
+                    if sessions.isEmpty {
+                        ContentUnavailableView("Sin partidas", systemImage: "chart.bar", description: Text("Juega algunas partidas para ver estadísticas"))
+                            .padding(.top, 60)
+                    } else {
+                        scoreChart
+                        winLossChart
+                        questionsChart
+                        cumulativeChart
+                    }
                 }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle("Estadísticas")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .onAppear(perform: loadSessions)
         .refreshable { loadSessions() }
     }
@@ -53,6 +56,7 @@ struct StatisticsView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Puntuación por partida")
                 .font(.headline)
+                .foregroundColor(AppTheme.primaryText)
 
             Chart {
                 ForEach(dataPoints) { point in
@@ -60,15 +64,43 @@ struct StatisticsView: View {
                         x: .value("Partida", point.index + 1),
                         y: .value("Puntaje", point.score)
                     )
-                    .foregroundStyle(point.won ? Color.green.gradient : Color.red.gradient)
+                    .foregroundStyle(point.won ? AppTheme.successGreen.gradient : AppTheme.errorRed.gradient)
                 }
             }
             .frame(height: 200)
             .chartXAxisLabel("Partida")
             .chartYAxisLabel("Puntos")
+            .chartXAxis {
+                AxisMarks(values: .automatic) { value in
+                    AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 1))
+                        .foregroundStyle(AppTheme.divider)
+                    AxisValueLabel {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)")
+                                .foregroundColor(AppTheme.secondaryText)
+                        }
+                    }
+                }
+            }
+            .chartYAxis {
+                AxisMarks(values: .automatic) { value in
+                    AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 1))
+                        .foregroundStyle(AppTheme.divider)
+                    AxisValueLabel {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)")
+                                .foregroundColor(AppTheme.secondaryText)
+                        }
+                    }
+                }
+            }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppTheme.cardSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
+        )
         .cornerRadius(16)
     }
 
@@ -78,6 +110,7 @@ struct StatisticsView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Victorias vs Derrotas")
                 .font(.headline)
+                .foregroundColor(AppTheme.primaryText)
 
             Chart(winLoss) { item in
                 SectorMark(
@@ -102,13 +135,17 @@ struct StatisticsView: View {
                             .frame(width: 10, height: 10)
                         Text("\(item.label): \(item.count)")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(AppTheme.secondaryText)
                     }
                 }
             }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppTheme.cardSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
+        )
         .cornerRadius(16)
     }
 
@@ -118,6 +155,7 @@ struct StatisticsView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Preguntas por partida")
                 .font(.headline)
+                .foregroundColor(AppTheme.primaryText)
 
             Chart {
                 ForEach(dataPoints) { point in
@@ -125,15 +163,43 @@ struct StatisticsView: View {
                         x: .value("Partida", point.index + 1),
                         y: .value("Preguntas", point.questions)
                     )
-                    .foregroundStyle(Color.orange.gradient)
+                    .foregroundStyle(AppTheme.primaryOrange.gradient)
                 }
             }
             .frame(height: 200)
             .chartXAxisLabel("Partida")
             .chartYAxisLabel("Preguntas")
+            .chartXAxis {
+                AxisMarks(values: .automatic) { value in
+                    AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 1))
+                        .foregroundStyle(AppTheme.divider)
+                    AxisValueLabel {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)")
+                                .foregroundColor(AppTheme.secondaryText)
+                        }
+                    }
+                }
+            }
+            .chartYAxis {
+                AxisMarks(values: .automatic) { value in
+                    AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 1))
+                        .foregroundStyle(AppTheme.divider)
+                    AxisValueLabel {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)")
+                                .foregroundColor(AppTheme.secondaryText)
+                        }
+                    }
+                }
+            }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppTheme.cardSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
+        )
         .cornerRadius(16)
     }
 
@@ -143,6 +209,7 @@ struct StatisticsView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Puntaje acumulado")
                 .font(.headline)
+                .foregroundColor(AppTheme.primaryText)
 
             Chart {
                 ForEach(cumulativeScores, id: \.index) { point in
@@ -150,23 +217,51 @@ struct StatisticsView: View {
                         x: .value("Partida", point.index + 1),
                         y: .value("Total", point.total)
                     )
-                    .foregroundStyle(Color.orange.gradient)
+                    .foregroundStyle(AppTheme.primaryGold.gradient)
                     .interpolationMethod(.catmullRom)
 
                     AreaMark(
                         x: .value("Partida", point.index + 1),
                         y: .value("Total", point.total)
                     )
-                    .foregroundStyle(Color.orange.opacity(0.1).gradient)
+                    .foregroundStyle(AppTheme.primaryGold.opacity(0.1).gradient)
                     .interpolationMethod(.catmullRom)
                 }
             }
             .frame(height: 200)
             .chartXAxisLabel("Partida")
             .chartYAxisLabel("Puntos")
+            .chartXAxis {
+                AxisMarks(values: .automatic) { value in
+                    AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 1))
+                        .foregroundStyle(AppTheme.divider)
+                    AxisValueLabel {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)")
+                                .foregroundColor(AppTheme.secondaryText)
+                        }
+                    }
+                }
+            }
+            .chartYAxis {
+                AxisMarks(values: .automatic) { value in
+                    AxisGridLine(centered: true, stroke: StrokeStyle(lineWidth: 1))
+                        .foregroundStyle(AppTheme.divider)
+                    AxisValueLabel {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)")
+                                .foregroundColor(AppTheme.secondaryText)
+                        }
+                    }
+                }
+            }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppTheme.cardSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
+        )
         .cornerRadius(16)
     }
 
@@ -190,8 +285,8 @@ struct StatisticsView: View {
         let wins = sessions.filter { $0.won }.count
         let losses = sessions.filter { !$0.won }.count
         winLoss = [
-            WinLossData(label: "Victorias", count: wins, color: .green),
-            WinLossData(label: "Derrotas", count: losses, color: .red),
+            WinLossData(label: "Victorias", count: wins, color: AppTheme.successGreen),
+            WinLossData(label: "Derrotas", count: losses, color: AppTheme.errorRed),
         ]
 
         var total = 0

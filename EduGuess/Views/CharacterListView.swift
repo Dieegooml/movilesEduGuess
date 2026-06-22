@@ -12,28 +12,40 @@ struct CharacterListView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(filteredCharacters, id: \.id) { character in
-                NavigationLink {
-                    CharacterDetailView(character: character)
-                } label: {
-                    HStack {
-                        Circle()
-                            .fill(Color.orange.opacity(0.3))
-                            .frame(width: 40, height: 40)
-                            .overlay(
-                                Text(String(character.name.prefix(1)))
-                                    .font(.headline)
-                                    .foregroundColor(.orange)
-                            )
-                        Text(character.name)
-                            .font(.body)
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
+
+            List {
+                ForEach(filteredCharacters, id: \.id) { character in
+                    NavigationLink {
+                        CharacterDetailView(character: character)
+                    } label: {
+                        HStack {
+                            Circle()
+                                .fill(AppTheme.primaryGold.opacity(0.2))
+                                .frame(width: 40, height: 40)
+                                .overlay(
+                                    Text(String(character.name.prefix(1)))
+                                        .font(.headline)
+                                        .foregroundColor(AppTheme.primaryGold)
+                                )
+                            Text(character.name)
+                                .font(.body)
+                                .foregroundColor(AppTheme.primaryText)
+                        }
                     }
+                    .listRowBackground(AppTheme.cardSurface)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
                 }
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
+            .searchable(text: $searchText, prompt: "Buscar personaje")
         }
-        .searchable(text: $searchText, prompt: "Buscar personaje")
         .navigationTitle("Personajes")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .onAppear(perform: loadCharacters)
         .refreshable { loadCharacters() }
     }

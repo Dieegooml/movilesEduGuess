@@ -14,16 +14,21 @@ struct CharacterDetailView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                headerSection
-                attributesSection
-                wikiSection
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 24) {
+                    headerSection
+                    attributesSection
+                    wikiSection
+                }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle(character.name)
         .navigationBarTitleDisplayMode(.large)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .task {
             await loadWikiSummary()
         }
@@ -48,7 +53,7 @@ struct CharacterDetailView: View {
             Circle()
                 .fill(
                     LinearGradient(
-                        colors: [.orange, .red],
+                        colors: [AppTheme.primaryGold, AppTheme.primaryOrange],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -63,11 +68,12 @@ struct CharacterDetailView: View {
             Text(character.name)
                 .font(.title2)
                 .fontWeight(.bold)
+                .foregroundColor(AppTheme.primaryText)
 
             let knownCount = character.attributes.filter { $0.value }.count
             Text("\(knownCount) atributos conocidos de \(AttributeDefinition.pool.count)")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(AppTheme.secondaryText)
         }
     }
 
@@ -77,17 +83,19 @@ struct CharacterDetailView: View {
         case .idle, .loading:
             VStack(spacing: 12) {
                 ProgressView()
-                    .tint(.orange)
+                    .tint(AppTheme.primaryGold)
                 Text("Cargando información...")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.secondaryText)
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(
+            .background(AppTheme.cardSurface)
+            .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.systemGray6))
+                    .stroke(AppTheme.cardBorder, lineWidth: 1)
             )
+            .cornerRadius(12)
             .transition(.opacity)
 
         case .loaded:
@@ -95,7 +103,7 @@ struct CharacterDetailView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Información adicional")
                         .font(.headline)
-                        .foregroundColor(.orange)
+                        .foregroundColor(AppTheme.primaryGold)
                         .padding(.bottom, 4)
 
                     Text(summary
@@ -103,32 +111,36 @@ struct CharacterDetailView: View {
                         .trimmingCharacters(in: .whitespaces)
                     )
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.secondaryText)
                     .lineLimit(8)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
-                .background(
+                .background(AppTheme.cardSurface)
+                .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(.systemGray6))
+                        .stroke(AppTheme.cardBorder, lineWidth: 1)
                 )
+                .cornerRadius(12)
                 .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
 
         case .error(let message):
             HStack {
                 Image(systemName: "wifi.slash")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.mutedText)
                 Text(message)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.mutedText)
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(
+            .background(AppTheme.cardSurface)
+            .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.systemGray6))
+                    .stroke(AppTheme.cardBorder, lineWidth: 1)
             )
+            .cornerRadius(12)
             .transition(.opacity)
         }
     }
@@ -140,10 +152,12 @@ struct CharacterDetailView: View {
             }
         }
         .padding(.vertical, 8)
-        .background(
+        .background(AppTheme.cardSurface)
+        .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemGray6))
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
         )
+        .cornerRadius(12)
         .padding(.horizontal, 4)
     }
 
@@ -155,17 +169,17 @@ struct CharacterDetailView: View {
         return HStack {
             Text(definition.questionTemplates.first ?? definition.key)
                 .font(.subheadline)
-                .foregroundColor(.primary)
+                .foregroundColor(AppTheme.primaryText)
 
             Spacer()
 
             if isKnown {
                 Image(systemName: isTrue ? "checkmark.circle.fill" : "xmark.circle.fill")
-                    .foregroundColor(isTrue ? .green : .red)
+                    .foregroundColor(isTrue ? AppTheme.successGreen : AppTheme.errorRed)
                     .font(.title3)
             } else {
                 Text("—")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.mutedText)
             }
         }
         .padding(.horizontal, 12)

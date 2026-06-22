@@ -22,12 +22,7 @@ struct GameHistoryView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppTheme.mainGradient.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 Picker("Filtro", selection: $filter) {
@@ -37,7 +32,7 @@ struct GameHistoryView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding()
-                .colorMultiply(.white)
+                .colorMultiply(AppTheme.primaryGold)
 
                 if filteredSessions.isEmpty {
                     EmptyStateView(
@@ -57,15 +52,19 @@ struct GameHistoryView: View {
                             } label: {
                                 sessionRow(session)
                             }
-                            .listRowBackground(Color.clear)
+                            .listRowBackground(AppTheme.cardSurface)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
                         }
                     }
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
+                    .background(Color.clear)
                 }
             }
         }
         .navigationTitle("Historial")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .onAppear(perform: loadSessions)
         .refreshable { loadSessions() }
     }
@@ -73,15 +72,16 @@ struct GameHistoryView: View {
     private func sessionRow(_ session: SDGameSession) -> some View {
         HStack {
             Image(systemName: session.won ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .foregroundColor(session.won ? .green : .red)
+                .foregroundColor(session.won ? AppTheme.successGreen : AppTheme.errorRed)
                 .font(.title2)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(session.characterName)
                     .font(.headline)
+                    .foregroundColor(AppTheme.primaryText)
                 Text(session.timestamp, style: .date)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppTheme.mutedText)
             }
 
             Spacer()
@@ -89,7 +89,7 @@ struct GameHistoryView: View {
             if session.won {
                 Text("+\(session.score)")
                     .font(.headline)
-                    .foregroundColor(.orange)
+                    .foregroundColor(AppTheme.primaryGold)
             }
         }
         .padding(.vertical, 4)

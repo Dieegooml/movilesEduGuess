@@ -32,12 +32,8 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color.orange.opacity(0.9), Color.red.opacity(0.9)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppTheme.mainGradient.ignoresSafeArea()
+            PetFloatingBackground()
 
             VStack(spacing: 0) {
                 Spacer()
@@ -58,7 +54,7 @@ struct OnboardingView: View {
                 HStack(spacing: 8) {
                     ForEach(0..<pages.count, id: \.self) { index in
                         Capsule()
-                            .fill(index == currentPage ? Color.white : Color.white.opacity(0.4))
+                            .fill(index == currentPage ? AppTheme.primaryGold : AppTheme.primaryText.opacity(0.4))
                             .frame(width: index == currentPage ? 24 : 8, height: 8)
                             .animation(.spring(duration: 0.3), value: currentPage)
                     }
@@ -81,10 +77,10 @@ struct OnboardingView: View {
                             .font(.headline)
                         Image(systemName: currentPage < pages.count - 1 ? "arrow.right" : "play.fill")
                     }
-                    .foregroundColor(.orange)
+                    .foregroundColor(AppTheme.backgroundTop)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.white)
+                    .background(AppTheme.buttonGradient)
                     .cornerRadius(18)
                 }
                 .padding(.horizontal, 40)
@@ -97,19 +93,19 @@ struct OnboardingView: View {
         VStack(spacing: 24) {
             Image(systemName: page.icon)
                 .font(.system(size: 80))
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryGold)
                 .symbolEffect(.bounce, options: .repeat(1), value: currentPage)
                 .padding(.bottom, 8)
 
             Text(page.title)
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryText)
                 .multilineTextAlignment(.center)
 
             Text(page.description)
                 .font(.body)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(AppTheme.secondaryText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
                 .lineSpacing(4)

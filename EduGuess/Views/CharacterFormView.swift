@@ -32,30 +32,47 @@ struct CharacterFormView: View {
     }
 
     var body: some View {
-        Form {
-            Section("Nombre") {
-                TextField("Nombre del personaje", text: $name)
-            }
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
 
-            Section("Atributos") {
-                ForEach(AttributeDefinition.pool, id: \.key) { def in
-                    Toggle(def.questionTemplates.first ?? def.key, isOn: Binding(
-                        get: { attributes[def.key] ?? false },
-                        set: { attributes[def.key] = $0 }
-                    ))
+            Form {
+                Section {
+                    TextField("Nombre del personaje", text: $name)
+                        .foregroundColor(AppTheme.primaryText)
+                } header: {
+                    Text("Nombre")
+                        .foregroundColor(AppTheme.mutedText)
+                }
+
+                Section {
+                    ForEach(AttributeDefinition.pool, id: \.key) { def in
+                        Toggle(def.questionTemplates.first ?? def.key, isOn: Binding(
+                            get: { attributes[def.key] ?? false },
+                            set: { attributes[def.key] = $0 }
+                        ))
+                        .tint(AppTheme.primaryGold)
+                    }
+                } header: {
+                    Text("Atributos")
+                        .foregroundColor(AppTheme.mutedText)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
         }
         .navigationTitle(name.isEmpty ? "Nuevo personaje" : name)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Guardar") {
                     save()
                 }
                 .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+                .foregroundColor(AppTheme.primaryGold)
             }
             ToolbarItem(placement: .cancellationAction) {
                 Button("Cancelar") { dismiss() }
+                    .foregroundColor(AppTheme.primaryText)
             }
         }
     }

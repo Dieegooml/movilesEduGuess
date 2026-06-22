@@ -8,80 +8,92 @@ struct DailyChallengeView: View {
     @State private var alreadyPlayed = false
 
     var body: some View {
-        VStack(spacing: 24) {
-            if isLoading {
-                ProgressView("Preparando desafío...")
-            } else if let character = dailyCharacter {
-                VStack(spacing: 16) {
-                    Image(systemName: "star.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(.yellow)
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
 
-                    Text("Desafío Diario")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
+            VStack(spacing: 24) {
+                if isLoading {
+                    ProgressView("Preparando desafío...")
+                        .tint(.white)
+                } else if let character = dailyCharacter {
+                    VStack(spacing: 16) {
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 60))
+                            .foregroundColor(AppTheme.primaryGold)
 
-                    Text("Responde pensando en el personaje de hoy.\n¡Menos preguntas = mejor puntaje!")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+                        Text("Desafío Diario")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppTheme.primaryText)
 
-                    if alreadyPlayed {
-                        VStack(spacing: 12) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title)
-                                .foregroundColor(.green)
-                            Text("Ya participaste hoy")
-                                .font(.headline)
-                            Text("Vuelve mañana para un nuevo desafío")
-                                .foregroundColor(.secondary)
-                        }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(16)
+                        Text("Responde pensando en el personaje de hoy.\n¡Menos preguntas = mejor puntaje!")
+                            .font(.body)
+                            .foregroundColor(AppTheme.secondaryText)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
 
-                        NavigationLink {
-                            DailyLeaderboardView()
-                        } label: {
-                            Text("Ver ranking del día")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.orange)
-                                .cornerRadius(18)
-                        }
-                        .padding(.horizontal, 30)
-                    } else {
-                        NavigationLink {
-                            QuestionView(
-                                preloadedCharacters: [character],
-                                isDailyChallenge: true,
-                                dailyCharacterName: character.name
+                        if alreadyPlayed {
+                            VStack(spacing: 12) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(AppTheme.successGreen)
+                                Text("Ya participaste hoy")
+                                    .font(.headline)
+                                    .foregroundColor(AppTheme.primaryText)
+                                Text("Vuelve mañana para un nuevo desafío")
+                                    .foregroundColor(AppTheme.secondaryText)
+                            }
+                            .padding()
+                            .background(AppTheme.cardSurface)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(AppTheme.cardBorder, lineWidth: 1)
                             )
-                        } label: {
-                            Text("Comenzar desafío")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.orange)
-                                .cornerRadius(18)
+                            .cornerRadius(16)
+
+                            NavigationLink {
+                                DailyLeaderboardView()
+                            } label: {
+                                Text("Ver ranking del día")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(AppTheme.buttonGradient)
+                                    .cornerRadius(18)
+                            }
+                            .padding(.horizontal, 30)
+                        } else {
+                            NavigationLink {
+                                QuestionView(
+                                    preloadedCharacters: [character],
+                                    isDailyChallenge: true,
+                                    dailyCharacterName: character.name
+                                )
+                            } label: {
+                                Text("Comenzar desafío")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(AppTheme.buttonGradient)
+                                    .cornerRadius(18)
+                            }
+                            .padding(.horizontal, 30)
                         }
-                        .padding(.horizontal, 30)
                     }
+                } else {
+                    ContentUnavailableView(
+                        "No hay personajes",
+                        systemImage: "person.slash",
+                        description: Text("Agrega personajes primero")
+                    )
                 }
-            } else {
-                ContentUnavailableView(
-                    "No hay personajes",
-                    systemImage: "person.slash",
-                    description: Text("Agrega personajes primero")
-                )
             }
+            .padding()
         }
-        .padding()
         .navigationTitle("Desafío Diario")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .task {
             loadCharacter()
         }
@@ -106,57 +118,69 @@ struct DailyLeaderboardView: View {
     @State private var isLoading = true
 
     var body: some View {
-        List {
-            if isLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity)
-            } else if scores.isEmpty {
-                ContentUnavailableView(
-                    "Sin resultados",
-                    systemImage: "trophy",
-                    description: Text("Sé el primero en participar hoy")
-                )
-            } else {
-                ForEach(Array(scores.enumerated()), id: \.element.id) { index, score in
-                    NavigationLink {
-                        PublicProfileView(userId: score.userId, userName: score.userName, userAvatar: score.userAvatar)
-                    } label: {
-                        HStack {
-                            Text("#\(index + 1)")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundColor(rankColor(index))
-                                .frame(width: 50)
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
 
-                            AvatarView(avatar: score.userAvatar, size: 30)
-                                .foregroundColor(rankColor(index))
-
-                            VStack(alignment: .leading) {
-                                Text(score.userName)
-                                    .fontWeight(.semibold)
-                                Text(score.characterName)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-
-                            Spacer()
-
-                            VStack(alignment: .trailing) {
-                                Text("\(score.score)")
-                                    .font(.title3)
+            List {
+                if isLoading {
+                    ProgressView()
+                        .tint(.white)
+                        .frame(maxWidth: .infinity)
+                        .listRowBackground(Color.clear)
+                } else if scores.isEmpty {
+                    ContentUnavailableView(
+                        "Sin resultados",
+                        systemImage: "trophy",
+                        description: Text("Sé el primero en participar hoy")
+                    )
+                    .listRowBackground(Color.clear)
+                } else {
+                    ForEach(Array(scores.enumerated()), id: \.element.id) { index, score in
+                        NavigationLink {
+                            PublicProfileView(userId: score.userId, userName: score.userName, userAvatar: score.userAvatar)
+                        } label: {
+                            HStack {
+                                Text("#\(index + 1)")
+                                    .font(.title2)
                                     .fontWeight(.bold)
-                                    .foregroundColor(.orange)
-                                Text("\(score.questionsAsked) preg")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(rankColor(index))
+                                    .frame(width: 50)
+
+                                AvatarView(avatar: score.userAvatar, size: 30)
+                                    .foregroundColor(rankColor(index))
+
+                                VStack(alignment: .leading) {
+                                    Text(score.userName)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(AppTheme.primaryText)
+                                    Text(score.characterName)
+                                        .font(.caption)
+                                        .foregroundColor(AppTheme.mutedText)
+                                }
+
+                                Spacer()
+
+                                VStack(alignment: .trailing) {
+                                    Text("\(score.score)")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(AppTheme.primaryGold)
+                                    Text("\(score.questionsAsked) preg")
+                                        .font(.caption)
+                                        .foregroundColor(AppTheme.mutedText)
+                                }
                             }
+                            .padding(.vertical, 4)
                         }
-                        .padding(.vertical, 4)
+                        .listRowBackground(AppTheme.cardSurface)
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
         }
         .navigationTitle("Ranking del Día")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .refreshable {
             await refresh()
         }
@@ -173,10 +197,10 @@ struct DailyLeaderboardView: View {
 
     private func rankColor(_ index: Int) -> Color {
         switch index {
-        case 0: return .yellow
-        case 1: return .gray
-        case 2: return .brown
-        default: return .secondary
+        case 0: return AppTheme.primaryGold
+        case 1: return Color.gray
+        case 2: return Color.brown
+        default: return AppTheme.mutedText
         }
     }
 }
