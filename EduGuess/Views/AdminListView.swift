@@ -14,80 +14,94 @@ struct AdminListView: View {
     @State private var isImporting = false
 
     var body: some View {
-        List {
-            Section {
-                if characters.isEmpty {
-                    ContentUnavailableView(
-                        "Sin personajes",
-                        systemImage: "person.slash",
-                        description: Text("Agrega o importa personajes")
-                    )
-                } else {
-                    ForEach(characters, id: \.id) { character in
-                        NavigationLink {
-                            CharacterFormView(character: character) { name, attributes in
-                                let service = DataService()
-                                service.updateCharacter(
-                                    character,
-                                    newName: name,
-                                    newAttributes: attributes,
-                                    context: modelContext
-                                )
-                                loadCharacters()
-                            }
-                        } label: {
-                            HStack {
-                                Circle()
-                                    .fill(Color.orange.opacity(0.3))
-                                    .frame(width: 36, height: 36)
-                                    .overlay(
-                                        Text(String(character.name.prefix(1)))
-                                            .font(.caption)
-                                            .foregroundColor(.orange)
+        ZStack {
+            AppTheme.mainGradient.ignoresSafeArea()
+
+            List {
+                Section {
+                    if characters.isEmpty {
+                        ContentUnavailableView(
+                            "Sin personajes",
+                            systemImage: "person.slash",
+                            description: Text("Agrega o importa personajes")
+                        )
+                    } else {
+                        ForEach(characters, id: \.id) { character in
+                            NavigationLink {
+                                CharacterFormView(character: character) { name, attributes in
+                                    let service = DataService()
+                                    service.updateCharacter(
+                                        character,
+                                        newName: name,
+                                        newAttributes: attributes,
+                                        context: modelContext
                                     )
-                                Text(character.name)
+                                    loadCharacters()
+                                }
+                            } label: {
+                                HStack {
+                                    Circle()
+                                        .fill(AppTheme.primaryGold.opacity(0.2))
+                                        .frame(width: 36, height: 36)
+                                        .overlay(
+                                            Text(String(character.name.prefix(1)))
+                                                .font(.caption)
+                                                .foregroundColor(AppTheme.primaryGold)
+                                        )
+                                    Text(character.name)
+                                        .foregroundColor(AppTheme.primaryText)
+                                }
                             }
                         }
-                    }
-                    .onDelete { indexSet in
-                        guard let index = indexSet.first else { return }
-                        deleteTarget = characters[index]
-                        showDeleteAlert = true
-                    }
-                }
-            }
-
-            Section("Importación masiva") {
-                TextField("URL del JSON", text: $importURLString)
-                    .keyboardType(.URL)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-
-                Button {
-                    Task { await importFromAPI() }
-                } label: {
-                    HStack {
-                        if isImporting {
-                            ProgressView()
-                                .tint(.white)
-                        } else {
-                            Image(systemName: "icloud.and.arrow.down")
+                        .onDelete { indexSet in
+                            guard let index = indexSet.first else { return }
+                            deleteTarget = characters[index]
+                            showDeleteAlert = true
                         }
-                        Text("Importar desde API")
                     }
                 }
-                .disabled(isImporting || importURLString.isEmpty)
-            }
 
-            Section {
-                Button {
-                    showNewForm = true
-                } label: {
-                    Label("Agregar manualmente", systemImage: "plus.circle")
+                Section {
+                    TextField("URL del JSON", text: $importURLString)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .foregroundColor(AppTheme.primaryText)
+
+                    Button {
+                        Task { await importFromAPI() }
+                    } label: {
+                        HStack {
+                            if isImporting {
+                                ProgressView()
+                                    .tint(.white)
+                            } else {
+                                Image(systemName: "icloud.and.arrow.down")
+                            }
+                            Text("Importar desde API")
+                        }
+                        .foregroundColor(AppTheme.infoBlue)
+                    }
+                    .disabled(isImporting || importURLString.isEmpty)
+                } header: {
+                    Text("Importación masiva")
+                        .foregroundColor(AppTheme.mutedText)
+                }
+
+                Section {
+                    Button {
+                        showNewForm = true
+                    } label: {
+                        Label("Agregar manualmente", systemImage: "plus.circle")
+                            .foregroundColor(AppTheme.successGreen)
+                    }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
         }
         .navigationTitle("Administrar")
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .sheet(isPresented: $showNewForm) {
             NavigationStack {
                 CharacterFormView { name, attributes in

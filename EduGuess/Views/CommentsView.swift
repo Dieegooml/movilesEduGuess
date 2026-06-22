@@ -23,7 +23,7 @@ struct CommentsView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Comentarios")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryText)
                 .onTapGesture { UIApplication.shared.endEditing() }
 
             if isLoading {
@@ -34,6 +34,7 @@ struct CommentsView: View {
                     HStack {
                         TextField("Escribe un comentario...", text: $newCommentText)
                             .textFieldStyle(.roundedBorder)
+                            .foregroundColor(AppTheme.primaryText)
                             .disabled(isSending)
 
                         Button {
@@ -44,7 +45,7 @@ struct CommentsView: View {
                                     .tint(.white)
                             } else {
                                 Image(systemName: "paperplane.fill")
-                                    .foregroundColor(.orange)
+                                    .foregroundColor(AppTheme.primaryGold)
                             }
                         }
                         .disabled(newCommentText.trimmingCharacters(in: .whitespaces).isEmpty || isSending)
@@ -52,7 +53,7 @@ struct CommentsView: View {
 
                     if comments.isEmpty {
                         Text("Sin comentarios. ¡Sé el primero!")
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(AppTheme.secondaryText.opacity(0.7))
                             .font(.caption)
                             .padding(.top, 4)
                     } else {
@@ -62,18 +63,22 @@ struct CommentsView: View {
                                     Text(comment.userName)
                                         .font(.caption)
                                         .fontWeight(.bold)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(AppTheme.primaryText)
                                     Spacer()
                                     Text(comment.timestamp, style: .relative)
                                         .font(.caption2)
-                                        .foregroundColor(.white.opacity(0.5))
+                                        .foregroundColor(AppTheme.mutedText)
                                 }
                                 Text(comment.text)
                                     .font(.subheadline)
-                                    .foregroundColor(.white.opacity(0.9))
+                                    .foregroundColor(AppTheme.secondaryText)
                             }
                             .padding(10)
-                            .background(Color.white.opacity(0.1))
+                            .background(AppTheme.cardSurface)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(AppTheme.cardBorder, lineWidth: 1)
+                            )
                             .cornerRadius(10)
                         }
                     }

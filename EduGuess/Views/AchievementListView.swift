@@ -12,14 +12,14 @@ struct AchievementListView: View {
         VStack(alignment: .leading, spacing: 16) {
             // Streak section
             HStack(spacing: 20) {
-                StreakBadge(label: "Racha actual", value: streak.currentStreak, icon: "flame.fill", color: .orange)
-                StreakBadge(label: "Mejor racha", value: streak.longestStreak, icon: "crown.fill", color: .yellow)
+                StreakBadge(label: "Racha actual", value: streak.currentStreak, icon: "flame.fill", color: AppTheme.primaryOrange)
+                StreakBadge(label: "Mejor racha", value: streak.longestStreak, icon: "crown.fill", color: AppTheme.primaryGold)
             }
 
             // Achievements
             Text("Logros")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.primaryText)
 
             if isLoading {
                 VStack(spacing: 12) {
@@ -28,7 +28,7 @@ struct AchievementListView: View {
                         .scaleEffect(1.2)
                     Text("Cargando logros...")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(AppTheme.secondaryText)
                 }
                 .frame(maxWidth: .infinity, minHeight: 200)
             } else {
@@ -69,15 +69,19 @@ private struct StreakBadge: View {
                 Text("\(value)")
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.primaryText)
                 Text(label)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppTheme.secondaryText)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(Color.white.opacity(0.1))
+        .background(AppTheme.cardSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(AppTheme.cardBorder, lineWidth: 1)
+        )
         .cornerRadius(12)
     }
 }
@@ -90,33 +94,37 @@ private struct AchievementCard: View {
         HStack(spacing: 12) {
             Image(systemName: achievement.icon)
                 .font(.title2)
-                .foregroundColor(unlocked ? .yellow : .white.opacity(0.3))
+                .foregroundColor(unlocked ? AppTheme.primaryGold : AppTheme.primaryText.opacity(0.3))
                 .frame(width: 32)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(achievement.name)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundColor(unlocked ? .white : .white.opacity(0.4))
+                    .foregroundColor(unlocked ? AppTheme.primaryText : AppTheme.primaryText.opacity(0.4))
                 Text(achievement.requirement)
                     .font(.caption2)
-                    .foregroundColor(unlocked ? .white.opacity(0.7) : .white.opacity(0.3))
+                    .foregroundColor(unlocked ? AppTheme.secondaryText : AppTheme.secondaryText.opacity(0.5))
             }
 
             Spacer()
 
             if unlocked {
                 Image(systemName: "checkmark.seal.fill")
-                    .foregroundColor(.green)
+                    .foregroundColor(AppTheme.successGreen)
                     .font(.caption)
             } else {
                 Image(systemName: "lock.fill")
-                    .foregroundColor(.white.opacity(0.2))
+                    .foregroundColor(AppTheme.primaryText.opacity(0.2))
                     .font(.caption)
             }
         }
         .padding(12)
-        .background(Color.white.opacity(unlocked ? 0.15 : 0.05))
+        .background(AppTheme.cardSurface.opacity(unlocked ? 1 : 0.5))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(unlocked ? AppTheme.cardBorder : Color.clear, lineWidth: 1)
+        )
         .cornerRadius(12)
         .opacity(unlocked ? 1 : 0.6)
     }

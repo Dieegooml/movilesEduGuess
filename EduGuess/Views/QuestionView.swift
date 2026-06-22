@@ -245,7 +245,7 @@ struct QuestionView: View {
                         AnswerButton(
                             title: "Probablemente no",
                             icon: "hand.thumbsdown.fill",
-                            color: Color.orange
+                            color: AppTheme.warningOrange
                         ) {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 viewModel.answerQuestion(answer: .probablyNo)

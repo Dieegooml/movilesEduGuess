@@ -135,7 +135,7 @@ struct LeaderboardView: View {
                         Spacer()
                         Text("Cargar más (\(sortedEntries.count - pageSize) restantes)")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(AppTheme.secondaryText)
                         Spacer()
                     }
                     .padding(.vertical, 8)
@@ -153,7 +153,7 @@ struct LeaderboardView: View {
             Text("#\(rank)")
                 .font(.title3)
                 .fontWeight(.bold)
-                .foregroundColor(rank <= 3 ? .yellow : .white)
+                .foregroundColor(rank <= 3 ? AppTheme.primaryGold : AppTheme.primaryText)
                 .frame(width: 40)
 
             AvatarView(avatar: entry.avatar, size: 36)
@@ -162,10 +162,10 @@ struct LeaderboardView: View {
                 Text(entry.name)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.primaryText)
                 Text("\(entry.wins)V / \(entry.games)P • \(entry.winRateText)")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(AppTheme.secondaryText)
             }
 
             Spacer()
@@ -174,11 +174,11 @@ struct LeaderboardView: View {
                 Text(tabValue(for: entry))
                     .font(.title3)
                     .fontWeight(.bold)
-                    .foregroundColor(.yellow)
+                    .foregroundColor(AppTheme.primaryGold)
                 if entry.streak > 0 {
                     Text("🔥 \(entry.streak)")
                         .font(.caption)
-                        .foregroundColor(.orange)
+                        .foregroundColor(AppTheme.warningOrange)
                 }
             }
         }
@@ -186,10 +186,10 @@ struct LeaderboardView: View {
         .padding(.horizontal, 12)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(isCurrentUser ? Color.yellow.opacity(0.25) : Color.white.opacity(0.1))
+                .fill(isCurrentUser ? AppTheme.primaryGold.opacity(0.2) : AppTheme.cardSurface)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(isCurrentUser ? Color.yellow.opacity(0.6) : Color.clear, lineWidth: 1.5)
+                        .stroke(isCurrentUser ? AppTheme.primaryGold.opacity(0.6) : AppTheme.cardBorder, lineWidth: 1.5)
                 )
         )
     }
@@ -214,19 +214,19 @@ struct LeaderboardView: View {
                 Text("Tú")
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(.yellow)
+                    .foregroundColor(AppTheme.primaryGold)
                 Text("#\(rank) • \(tabValue(for: entry))")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(AppTheme.secondaryText)
             }
             Spacer()
         }
         .padding()
-        .background(Color.black.opacity(0.3))
+        .background(AppTheme.cardSurfaceSolid)
         .overlay(
             Rectangle()
                 .frame(height: 1)
-                .foregroundColor(.yellow.opacity(0.5)),
+                .foregroundColor(AppTheme.primaryGold.opacity(0.5)),
             alignment: .top
         )
     }
@@ -267,7 +267,7 @@ struct LeaderboardStatsSheet: View {
                             Text(entry.name)
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppTheme.primaryText)
                         }
 
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
@@ -291,7 +291,11 @@ struct LeaderboardStatsSheet: View {
                                 Spacer()
                             }
                             .padding()
-                            .background(Color.white.opacity(0.2))
+                            .background(AppTheme.cardSurface)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(AppTheme.cardBorder, lineWidth: 1)
+                            )
                             .cornerRadius(12)
                         }
                     }
