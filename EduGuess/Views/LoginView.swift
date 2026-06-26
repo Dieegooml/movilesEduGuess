@@ -1,6 +1,7 @@
 import SwiftUI
 import AuthenticationServices
 import CryptoKit
+import Security
 
 struct LoginView: View {
     @State private var authVM = AuthViewModel.shared
@@ -96,8 +97,8 @@ struct LoginView: View {
                         // Request configured in coordinator
                     } onCompletion: { result in
                         switch result {
-                        case .success(let authorization):
-                            authVM.signInWithApple(authorization: authorization)
+                        case .success(let (authorization, nonce)):
+                            authVM.signInWithApple(authorization: authorization, nonce: nonce)
                         case .failure(let error):
                             authVM.errorMessage = error.localizedDescription
                         }
@@ -185,7 +186,7 @@ struct LoginView: View {
 
 struct AppleSignInButton: UIViewRepresentable {
     let onRequest: (ASAuthorizationAppleIDRequest) -> Void
-    let onCompletion: (Result<ASAuthorization, Error>) -> Void
+    let onCompletion: (Result<(ASAuthorization, String?), Error>) -> Void
 
     func makeUIView(context: Context) -> ASAuthorizationAppleIDButton {
         let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
@@ -205,6 +206,7 @@ struct AppleSignInButton: UIViewRepresentable {
 
     class Coordinator: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
         let parent: AppleSignInButton
+        var currentNonce: String?
 
         init(_ parent: AppleSignInButton) {
             self.parent = parent
@@ -214,6 +216,12 @@ struct AppleSignInButton: UIViewRepresentable {
             let provider = ASAuthorizationAppleIDProvider()
             let request = provider.createRequest()
             request.requestedScopes = [.fullName, .email]
+            
+            // Generate and configure nonce for security
+            let nonce = randomNonceString()
+            currentNonce = nonce
+            request.nonce = sha256(nonce)
+            
             parent.onRequest(request)
 
             let controller = ASAuthorizationController(authorizationRequests: [request])
@@ -231,7 +239,7 @@ struct AppleSignInButton: UIViewRepresentable {
         }
 
         func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-            parent.onCompletion(.success(authorization))
+            parent.onCompletion(.success((authorization, currentNonce)))
         }
 
         func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
@@ -268,4 +276,43 @@ extension UIApplication {
     func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+}
+
+// MARK: - Nonce Utilities for Sign in with Apple
+
+func randomNonceString(length: Int = 32) -> String {
+    precondition(length > 0)
+    let charset = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+    var result = ""
+    var remainingLength = length
+    
+    while remainingLength > 0 {
+        let randoms: [UInt8] = (0..<16).map { _ in
+            var random: UInt8 = 0
+            let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+            if errorCode != errSecSuccess {
+                fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+            }
+            return random
+        }
+        
+        randoms.forEach { random in
+            if remainingLength == 0 {
+                return
+            }
+            
+            if random < charset.count {
+                result.append(charset[Int(random)])
+                remainingLength -= 1
+            }
+        }
+    }
+    
+    return result
+}
+
+func sha256(_ input: String) -> String {
+    let inputData = Data(input.utf8)
+    let hashedData = SHA256.hash(data: inputData)
+    return hashedData.compactMap { String(format: "%02x", $0) }.joined()
 }

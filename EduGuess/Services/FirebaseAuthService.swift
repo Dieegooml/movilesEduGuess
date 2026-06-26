@@ -198,19 +198,18 @@ final class FirebaseAuthService {
     // MARK: - Sign In with Apple
 
     @MainActor
-    func signInWithApple(authorization: ASAuthorization) async throws {
+    func signInWithApple(authorization: ASAuthorization, nonce: String?) async throws {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
               let identityTokenData = appleIDCredential.identityToken,
               let identityToken = String(data: identityTokenData, encoding: .utf8) else {
             throw AuthError.noCredential
         }
 
-        // Extract nonce from the coordinator or regenerate (stored in a more complete implementation)
-        // For now, we'll pass the nonce through the authorization
+        // Use the original nonce (not hashed) for Firebase verification
         let credential = OAuthProvider.credential(
             providerID: .apple,
             idToken: identityToken,
-            rawNonce: "" // Nonce is validated via the identityToken itself
+            rawNonce: nonce ?? ""
         )
 
         let authResult = try await Auth.auth().signIn(with: credential)

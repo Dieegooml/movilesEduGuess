@@ -138,12 +138,12 @@ final class AuthViewModel {
         }
     }
 
-    func signInWithApple(authorization: AuthenticationServices.ASAuthorization) {
+    func signInWithApple(authorization: AuthenticationServices.ASAuthorization, nonce: String?) {
         isLoading = true
         errorMessage = nil
         Task {
             do {
-                try await FirebaseAuthService.shared.signInWithApple(authorization: authorization)
+                try await FirebaseAuthService.shared.signInWithApple(authorization: authorization, nonce: nonce)
                 guard let uid = FirebaseAuthService.shared.user?.uid else {
                     await MainActor.run { errorMessage = "No se pudo obtener el UID del usuario." }
                     return
