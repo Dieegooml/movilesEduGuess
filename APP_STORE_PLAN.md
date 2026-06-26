@@ -1,9 +1,10 @@
 # Plan de Implementación: EduGuess → App Store
 
-> **Versión:** 1.0  
-> **Fecha:** 20 de junio de 2026  
+> **Versión:** 1.1  
+> **Fecha:** 26 de junio de 2026  
 > **Estado:** En progreso  
-> **Tiempo total estimado:** 64-82 horas (~4 semanas)
+> **Tiempo total estimado:** 64-82 horas (~4 semanas)  
+> **Última actualización:** Tema oscuro espacial, colección de personajes, mejoras de IA
 
 ---
 
@@ -61,11 +62,11 @@ Este documento detalla el plan completo para llevar EduGuess desde su estado act
 
 | # | Tarea | Archivos | Estado |
 |---|-------|----------|--------|
-| 1.1.1 | Agregar `AuthenticationServices` framework | `EduGuess.xcodeproj` → Build Phases | 🔲 |
-| 1.1.2 | Importar `AuthenticationServices` en FirebaseAuthService | `Services/FirebaseAuthService.swift` | 🔲 |
-| 1.1.3 | Crear método `signInWithApple()` con nonce SHA-256 | `Services/FirebaseAuthService.swift` | 🔲 |
-| 1.1.4 | Agregar botón `ASAuthorizationAppleIDButton` en LoginView | `Views/LoginView.swift` | 🔲 |
-| 1.1.5 | Manejar callback de Apple Sign In en AppDelegate | `AppDelegate.swift` | 🔲 |
+| 1.1.1 | Agregar `AuthenticationServices` framework | `EduGuess.xcodeproj` → Build Phases | ✅ |
+| 1.1.2 | Importar `AuthenticationServices` en FirebaseAuthService | `Services/FirebaseAuthService.swift` | ✅ |
+| 1.1.3 | Crear método `signInWithApple()` con nonce SHA-256 | `Services/FirebaseAuthService.swift` | ✅ |
+| 1.1.4 | Agregar botón `ASAuthorizationAppleIDButton` en LoginView | `Views/LoginView.swift` | ✅ |
+| 1.1.5 | Manejar callback de Apple Sign In en AppDelegate | `AppDelegate.swift` | ✅ |
 | 1.1.6 | Configurar Apple Sign-In en Firebase Console | [Firebase Console](https://console.firebase.google.com) | 🔲 |
 | 1.1.7 | Configurar Apple Sign-In en Apple Developer Portal | [Apple Developer](https://developer.apple.com) | 🔲 |
 | 1.1.8 | Probar flujo end-to-end: registro, login, logout, re-login | Simulator + Device | 🔲 |
@@ -88,15 +89,15 @@ Este documento detalla el plan completo para llevar EduGuess desde su estado act
 
 | # | Tarea | Archivos | Estado |
 |---|-------|----------|--------|
-| 1.2.1 | Agregar sección "Zona de Peligro" en SettingsView | `Views/SettingsView.swift` | 🔲 |
-| 1.2.2 | Crear modal de confirmación con re-autenticación | `Views/SettingsView.swift` | 🔲 |
-| 1.2.3 | Implementar `deleteAccount()` en AuthViewModel | `ViewModels/AuthViewModel.swift` | 🔲 |
-| 1.2.4 | Re-autenticar usuario antes de borrar (Firebase lo exige) | `ViewModels/AuthViewModel.swift` | 🔲 |
-| 1.2.5 | Borrar documento `users/{uid}` en Firestore | `Services/FirestoreService.swift` | 🔲 |
-| 1.2.6 | Borrar sesiones de `game_sessions` del usuario | `Services/FirestoreService.swift` | 🔲 |
-| 1.2.7 | Llamar `Auth.auth().currentUser?.delete()` | `Services/FirebaseAuthService.swift` | 🔲 |
-| 1.2.8 | Limpiar SwiftData local y Keychain/UserDefaults | `ViewModels/AuthViewModel.swift` | 🔲 |
-| 1.2.9 | Navegar a LoginView tras eliminación | `Views/SettingsView.swift` | 🔲 |
+| 1.2.1 | Agregar sección "Zona de Peligro" en SettingsView | `Views/SettingsView.swift` | ✅ |
+| 1.2.2 | Crear modal de confirmación con re-autenticación | `Views/SettingsView.swift` | ✅ |
+| 1.2.3 | Implementar `deleteAccount()` en AuthViewModel | `ViewModels/AuthViewModel.swift` | ✅ |
+| 1.2.4 | Re-autenticar usuario antes de borrar (Firebase lo exige) | `ViewModels/AuthViewModel.swift` | ✅ |
+| 1.2.5 | Borrar documento `users/{uid}` en Firestore | `Services/FirestoreService.swift` | ✅ |
+| 1.2.6 | Borrar sesiones de `game_sessions` del usuario | `Services/FirestoreService.swift` | ✅ |
+| 1.2.7 | Llamar `Auth.auth().currentUser?.delete()` | `Services/FirebaseAuthService.swift` | ✅ |
+| 1.2.8 | Limpiar SwiftData local y Keychain/UserDefaults | `ViewModels/AuthViewModel.swift` | ✅ |
+| 1.2.9 | Navegar a LoginView tras eliminación | `Views/SettingsView.swift` | ✅ |
 | 1.2.10 | Test: verificar que el usuario ya no puede loguearse | Manual | 🔲 |
 
 #### Flujo de Eliminación
@@ -127,11 +128,11 @@ Navegar a LoginView
 
 | # | Tarea | Archivos | Estado |
 |---|-------|----------|--------|
-| 1.3.1 | Agregar `NSUserTrackingUsageDescription` a Info.plist | `Info.plist` | 🔲 |
-| 1.3.2 | Importar `AppTrackingTransparency` en AppDelegate | `AppDelegate.swift` | 🔲 |
-| 1.3.3 | Solicitar permiso ATT al inicio (después del splash) | `AppDelegate.swift` o `EduGuessApp.swift` | 🔲 |
-| 1.3.4 | Configurar Facebook SDK para respetar estado de ATT | `AppDelegate.swift` | 🔲 |
-| 1.3.5 | Configurar Google Sign-In para respetar estado de ATT | `AppDelegate.swift` | 🔲 |
+| 1.3.1 | Agregar `NSUserTrackingUsageDescription` a Info.plist | `Info.plist` | ✅ |
+| 1.3.2 | Importar `AppTrackingTransparency` en AppDelegate | `AppDelegate.swift` | ✅ |
+| 1.3.3 | Solicitar permiso ATT al inicio (después del splash) | `AppDelegate.swift` o `EduGuessApp.swift` | ✅ |
+| 1.3.4 | Configurar Facebook SDK para respetar estado de ATT | `AppDelegate.swift` | ✅ |
+| 1.3.5 | Configurar Google Sign-In para respetar estado de ATT | `AppDelegate.swift` | ✅ |
 | 1.3.6 | Probar: Denegar ATT → verificar que login social funciona | Device físico | 🔲 |
 
 #### Info.plist Requerido
@@ -314,14 +315,14 @@ service cloud.firestore {
 
 | # | Tarea | Archivos | Estado |
 |---|-------|----------|--------|
-| 3.1.1 | Crear `OnboardingView.swift` (3-4 pantallas swipeables) | `Views/OnboardingView.swift` | 🔲 |
-| 3.1.2 | Pantalla 1: "Piensa en un personaje" + animación | `Views/OnboardingView.swift` | 🔲 |
-| 3.1.3 | Pantalla 2: "Responde Sí o No" | `Views/OnboardingView.swift` | 🔲 |
-| 3.1.4 | Pantalla 3: "La IA adivinará" + demo visual | `Views/OnboardingView.swift` | 🔲 |
-| 3.1.5 | Pantalla 4: "Compite en el ranking" | `Views/OnboardingView.swift` | 🔲 |
-| 3.1.6 | Guardar flag `hasSeenOnboarding` en UserDefaults | `EduGuessApp.swift` | 🔲 |
-| 3.1.7 | Mostrar onboarding antes del login si `!hasSeenOnboarding` | `EduGuessApp.swift` | 🔲 |
-| 3.1.8 | Agregar botón "Saltir" y dots de progreso | `Views/OnboardingView.swift` | 🔲 |
+| 3.1.1 | Crear `OnboardingView.swift` (3-4 pantallas swipeables) | `Views/OnboardingView.swift` | ✅ |
+| 3.1.2 | Pantalla 1: "Piensa en un personaje" + animación | `Views/OnboardingView.swift` | ✅ |
+| 3.1.3 | Pantalla 2: "Responde Sí o No" | `Views/OnboardingView.swift` | ✅ |
+| 3.1.4 | Pantalla 3: "La IA adivinará" + demo visual | `Views/OnboardingView.swift` | ✅ |
+| 3.1.5 | Pantalla 4: "Compite en el ranking" | `Views/OnboardingView.swift` | ✅ |
+| 3.1.6 | Guardar flag `hasSeenOnboarding` en UserDefaults | `EduGuessApp.swift` | ✅ |
+| 3.1.7 | Mostrar onboarding antes del login si `!hasSeenOnboarding` | `EduGuessApp.swift` | ✅ |
+| 3.1.8 | Agregar botón "Saltir" y dots de progreso | `Views/OnboardingView.swift` | ✅ |
 
 ---
 
@@ -347,11 +348,11 @@ service cloud.firestore {
 
 | # | Tarea | Archivos | Estado |
 |---|-------|----------|--------|
-| 3.3.1 | Crear componente `OfflineBannerView.swift` | `Components/OfflineBannerView.swift` | 🔲 |
-| 3.3.2 | Integrar `NetworkMonitor` en vistas de Firestore | Varias vistas | 🔲 |
-| 3.3.3 | Mostrar banner cuando `!isConnected` | `HomeView.swift`, `ProfileView.swift` | 🔲 |
-| 3.3.4 | Leaderboard offline: mostrar datos cacheados + label "Offline" | `Views/LeaderboardView.swift` | 🔲 |
-| 3.3.5 | Perfil offline: mostrar stats locales + label "Sincronizando..." | `Views/ProfileView.swift` | 🔲 |
+| 3.3.1 | Crear componente `OfflineBannerView.swift` | `Components/OfflineBannerView.swift` | ✅ |
+| 3.3.2 | Integrar `NetworkMonitor` en vistas de Firestore | Varias vistas | ✅ |
+| 3.3.3 | Mostrar banner cuando `!isConnected` | `HomeView.swift`, `ProfileView.swift` | ✅ |
+| 3.3.4 | Leaderboard offline: mostrar datos cacheados + label "Offline" | `Views/LeaderboardView.swift` | ✅ |
+| 3.3.5 | Perfil offline: mostrar stats locales + label "Sincronizando..." | `Views/ProfileView.swift` | ✅ |
 | 3.3.6 | Implementar cola de sincronización offline | `Services/DataService.swift` | 🔲 |
 
 ---
@@ -362,10 +363,10 @@ service cloud.firestore {
 
 | # | Tarea | Archivos | Estado |
 |---|-------|----------|--------|
-| 3.4.1 | `CharacterListView`: empty state con CTA | `Views/CharacterListView.swift` | 🔲 |
-| 3.4.2 | `GameHistoryView`: empty state con ilustración | `Views/GameHistoryView.swift` | 🔲 |
-| 3.4.3 | `LeaderboardView`: empty state "Sé el primero" | `Views/LeaderboardView.swift` | 🔲 |
-| 3.4.4 | `AchievementListView`: empty state "Juega para desbloquear" | `Views/AchievementListView.swift` | 🔲 |
+| 3.4.1 | `CharacterListView`: empty state con CTA | `Views/CharacterListView.swift` | ✅ |
+| 3.4.2 | `GameHistoryView`: empty state con ilustración | `Views/GameHistoryView.swift` | ✅ |
+| 3.4.3 | `LeaderboardView`: empty state "Sé el primero" | `Views/LeaderboardView.swift` | ✅ |
+| 3.4.4 | `AchievementListView`: empty state "Juega para desbloquear" | `Views/AchievementListView.swift` | ✅ |
 
 ---
 
@@ -374,10 +375,10 @@ service cloud.firestore {
 | # | Tarea | Archivos | Estado |
 |---|-------|----------|--------|
 | 3.5.1 | Versión dinámica en SettingsView | `Views/SettingsView.swift` | 🔲 |
-| 3.5.2 | `FacebookDisplayName` corregir a "EduGuess" | `Info.plist` | 🔲 |
+| 3.5.2 | `FacebookDisplayName` corregir a "EduGuess" | `Info.plist` | ✅ |
 | 3.5.3 | Agregar `CFBundleLocalizations` (es, en) | `Info.plist` | 🔲 |
 | 3.5.4 | Revisar vistas en iPhone SE (pantalla pequeña) | Testing | 🔲 |
-| 3.5.5 | Revisar Dark Mode en todas las pantallas | Testing | 🔲 |
+| 3.5.5 | Revisar Dark Mode en todas las pantallas | Testing | ✅ |
 
 ---
 

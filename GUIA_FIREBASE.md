@@ -663,20 +663,159 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 
 ---
 
+## 11. Configurar Firebase Remote Config para Gemini API Key
+
+La app usa Google Gemini API para generar preguntas dinámicamente. Para evitar hardcodear la API key en el código, se usa Firebase Remote Config.
+
+### Paso 1: Ir a Remote Config en Firebase Console
+
+En el menú izquierdo de Firebase Console:
+
+1. Click **"Remote Config"** (icono de configuración remota)
+
+   > Si no lo ves, expandir **"Engage"** o **"Build"**
+
+### Paso 2: Crear parámetro
+
+1. Click **"Create configuration"** o **"Add parameter"**
+
+2. Llenar los campos:
+   ```
+   Parameter key:        gemini_api_key
+   Description:          API key for Google Gemini AI
+   Data type:            String
+   Default value:        (dejar vacío)
+   ```
+
+3. Click **"Add parameter"**
+
+### Paso 3: Obtener API Key de Google AI Studio
+
+1. Ir a [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Click **"Create API Key"**
+3. Seleccionar un proyecto de Google Cloud o crear uno nuevo
+4. Copiar la API key generada
+
+### Paso 4: Configurar valor en Remote Config
+
+1. En Firebase Console → Remote Config, click el parámetro `gemini_api_key`
+2. En **"Conditional values"**, click **"Add value for condition"**
+3. Seleccionar **"All users"** (o crear condiciones específicas si deseas)
+4. Pegar la API key de Google AI Studio en el campo de valor
+5. Click **"Save"**
+
+### Paso 5: Publicar configuración
+
+1. Click **"Publish changes"** (botón azul arriba)
+2. Confirmar la publicación
+
+### Paso 6: Verificar en la app
+
+La app ya está configurada para leer este parámetro automáticamente:
+
+```swift
+// RemoteConfigService.swift
+func fetchGeminiAPIKey() async -> String? {
+    let remoteConfig = RemoteConfig.remoteConfig()
+    let settings = RemoteConfigSettings()
+    settings.minimumFetchInterval = 3600 // 1 hora en producción
+    remoteConfig.configSettings = settings
+    
+    do {
+        let status = try await remoteConfig.fetchAndActivate()
+        return remoteConfig["gemini_api_key"].stringValue
+    } catch {
+        print("Error fetching Remote Config: \(error)")
+        return nil
+    }
+}
+```
+
+### Paso 7: Probar
+
+1. Compilar y ejecutar la app
+2. Iniciar una partida
+3. Verificar que las preguntas se generan dinámicamente (no son las preguntas por defecto)
+
+✅ Remote Config configurado. La API key de Gemini ahora se gestiona de forma segura sin hardcoding.
+
+---
+
+## 12. Configurar Sign in with Apple
+
+### Paso 1: Habilitar en Apple Developer Portal
+
+1. Ir a [Apple Developer](https://developer.apple.com/account)
+2. Click **"Certificates, IDs & Profiles"**
+3. Seleccionar tu App ID (`com.tecsup.EduGuess`)
+4. En la pestaña **"Capabilities"**, buscar **"Sign In with Apple"**
+5. Activar el toggle
+6. Click **"Save"**
+
+### Paso 2: Habilitar en Firebase Console
+
+1. Ir a Firebase Console → **Authentication** → **Sign-in method**
+2. Click **"Add new provider"** → **"Apple"**
+3. Activar el toggle **"Enable"**
+4. En **"Service ID"**, ingresar: `com.tecsup.EduGuess`
+5. En **"Apple Team ID"**, ingresar tu Team ID (disponible en Apple Developer Portal)
+6. Click **"Save"**
+
+### Paso 3: Configurar en Xcode
+
+1. Abrir `EduGuess.xcodeproj` en Xcode
+2. Seleccionar el target `EduGuess`
+3. Ir a la pestaña **"Signing & Capabilities"**
+4. Click **"+ Capability"**
+5. Buscar y agregar **"Sign In with Apple"**
+
+### Paso 4: Verificar implementación
+
+El proyecto ya tiene la implementación completa:
+
+```swift
+// FirebaseAuthService.swift
+func signInWithApple() async throws -> AuthDataResult {
+    let nonce = randomNonceString()
+    let request = ASAuthorizationAppleIDProvider().createRequest()
+    request.requestedScopes = [.fullName, .email]
+    request.nonce = sha256(nonce)
+    
+    let controller = ASAuthorizationController(authorizationRequests: [request])
+    controller.performRequests()
+    
+    // ... manejo del callback
+}
+```
+
+### Paso 5: Probar
+
+1. Compilar y ejecutar la app
+2. En la pantalla de login, click el botón **"Sign in with Apple"**
+3. Completar la autenticación con Face ID/Touch ID
+4. Verificar que el usuario se crea en Firebase Console → Authentication → Users
+
+✅ Sign in with Apple configurado y funcionando.
+
+---
+
 ## Resumen rápido (checklist)
 
 - [ ] Crear proyecto Firebase (console.firebase.google.com)
 - [ ] Registrar app iOS con bundle ID `com.tecsup.EduGuess`
 - [ ] Descargar `GoogleService-Info.plist` y agregar a Xcode
-- [ ] Agregar Firebase SDK via SPM (FirebaseAuth + FirebaseFirestore)
+- [ ] Agregar Firebase SDK via SPM (FirebaseAuth + FirebaseFirestore + FirebaseRemoteConfig)
 - [ ] Agregar GoogleSignIn-iOS via SPM
 - [ ] Agregar facebook-ios-sdk via SPM (FacebookLogin + FacebookCore)
 - [ ] Habilitar Authentication → Email/Password
 - [ ] Habilitar Authentication → Google Sign-In
 - [ ] Habilitar Authentication → Facebook Sign-In
+- [ ] Habilitar Authentication → Sign in with Apple
 - [ ] Crear Firestore Database en modo prueba
+- [ ] Configurar Remote Config con parámetro `gemini_api_key`
 - [ ] Crear app de Facebook (developers.facebook.com)
 - [ ] Configurar FacebookAppID, FacebookClientToken y URL scheme en Info.plist
+- [ ] Configurar Sign in with Apple en Apple Developer Portal
 - [ ] Compilar y probar (Cmd+R)
 - [ ] Verificar datos en Firebase Console
 
