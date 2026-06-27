@@ -11,7 +11,7 @@ class AIService {
     /// parent attribute, we boost the related attributes so the next questions
     /// stay on-topic and narrow the candidate pool faster.
     private let relatedAttributes: [String: [String]] = [
-        "isFootballer": ["isAthlete", "isLatinAmerican", "isFromEurope", "isFromAfrica", "isFromAsia", "isStrong", "drivesVehicle", "isFamous", "isControversial", "isGoalkeeper", "isForward", "isMidfielder", "isDefender", "isCaptain", "isTall", "hasTattoos", "isBald", "isLeftFooted", "isWinger", "isStriker", "isFromBrazil", "isFromArgentina", "isFromSpain", "isFromEngland", "isFromFrance", "isFromGermany", "isFromItaly", "isFromPortugal", "isFromMexico", "isFromColombia", "isFromChile", "isFromUruguay", "isFromNetherlands", "isFromBelgium", "isFromCroatia", "isFromNorway"],
+        "isFootballer": ["isAthlete", "isLatinAmerican", "isFromEurope", "isFromAfrica", "isFromAsia", "isStrong", "drivesVehicle", "isFamous", "isControversial", "isGoalkeeper", "isForward", "isMidfielder", "isDefender", "isCaptain", "isTall", "hasTattoos", "isBald", "isLeftFooted", "isWinger", "isStriker", "hasWonBallonDor", "hasWonWorldCup", "playsInEurope", "isPlaymaker", "isMarried", "hasChildren", "isVeteran", "isFromBrazil", "isFromArgentina", "isFromSpain", "isFromEngland", "isFromFrance", "isFromGermany", "isFromItaly", "isFromPortugal", "isFromMexico", "isFromColombia", "isFromChile", "isFromUruguay", "isFromNetherlands", "isFromBelgium", "isFromCroatia", "isFromNorway"],
         "isSinger": ["isMusician", "isFamous", "isFromMovie", "isActor", "isDancer", "isControversial", "isLatinAmerican", "isFromEurope", "isFromNorthAmerica", "isFromUSA", "isFromCanada", "isFromUK", "isFromSpain", "isFromMexico", "isFromColombia", "isFromPuertoRico", "isRapper", "isRockSinger", "isPopSinger", "isCountrySinger", "isOperaSinger", "isReggaetonSinger", "isSalsaSinger", "isVeteran"],
         "isActor": ["isFromMovie", "isFromTV", "isFamous", "isControversial", "isSinger", "isDancer", "isFromUSA", "isFromCanada", "isFromUK", "isFromSpain", "isFromMexico"],
         "isFromMarvel": ["isSuperhero", "isFromMovie", "isFromComic", "hasSuperpowers", "isStrong", "isVillain"],
@@ -35,7 +35,7 @@ class AIService {
         "isFromVideoGame": ["isFromMovie", "isFromTV", "hasSuperpowers", "isStrong"],
         "isLatinAmerican": ["isFootballer", "isSinger", "isPolitician", "isFromBrazil", "isFromArgentina", "isFromMexico", "isFromColombia", "isFromChile", "isFromUruguay", "isFromEcuador", "isFromVenezuela", "isFromParaguay", "isFromBolivia", "isFromPuertoRico", "isFromPeru"],
         "isFromPeru": ["isLatinAmerican", "isPolitician", "isMusician", "isAthlete"],
-        "isAthlete": ["isFootballer", "isStrong", "isFamous", "drivesVehicle", "isTall", "isWinger", "isStriker", "isVeteran"],
+        "isAthlete": ["isFootballer", "isStrong", "isFamous", "drivesVehicle", "isTall", "isWinger", "isStriker", "isVeteran", "hasWonBallonDor", "hasWonWorldCup", "playsInEurope", "isPlaymaker", "isMarried", "hasChildren"],
         "isWriter": ["isFromBook", "isSmart", "isScientist", "isPolitician"],
         "isReligious": ["isHistorical", "isRoyalty", "isPolitician"],
         "hasSuperpowers": ["isSuperhero", "isFromComic", "isFromMovie", "isStrong", "isMagical"],
@@ -48,14 +48,14 @@ class AIService {
         "isFromAfrica": ["isFootballer", "isAthlete"],
         "isFromAsia": ["isFootballer", "isFromVideoGame", "isFromAnime"],
         "isFromNorthAmerica": ["isActor", "isSinger", "isFromUSA", "isFromCanada"],
-        "isFromBrazil": ["isFootballer", "isAthlete", "isLatinAmerican", "isStrong", "isFamous"],
-        "isFromArgentina": ["isFootballer", "isAthlete", "isLatinAmerican", "isStrong", "isFamous"],
-        "isFromSpain": ["isFootballer", "isAthlete", "isFromEurope", "isActor", "isSinger", "isFamous"],
-        "isFromEngland": ["isFootballer", "isAthlete", "isFromEurope", "isActor", "isSinger", "isFamous"],
-        "isFromFrance": ["isFootballer", "isAthlete", "isFromEurope", "isFamous"],
-        "isFromGermany": ["isFootballer", "isAthlete", "isFromEurope", "isScientist", "isFamous"],
-        "isFromItaly": ["isFootballer", "isAthlete", "isFromEurope", "isFamous"],
-        "isFromPortugal": ["isFootballer", "isAthlete", "isFromEurope", "isFamous"],
+        "isFromBrazil": ["isFootballer", "isAthlete", "isLatinAmerican", "isStrong", "isFamous", "hasWonWorldCup", "playsInEurope"],
+        "isFromArgentina": ["isFootballer", "isAthlete", "isLatinAmerican", "isStrong", "isFamous", "hasWonBallonDor", "hasWonWorldCup", "playsInEurope", "isPlaymaker"],
+        "isFromSpain": ["isFootballer", "isAthlete", "isFromEurope", "isActor", "isSinger", "isFamous", "playsInEurope"],
+        "isFromEngland": ["isFootballer", "isAthlete", "isFromEurope", "isActor", "isSinger", "isFamous", "playsInEurope"],
+        "isFromFrance": ["isFootballer", "isAthlete", "isFromEurope", "isFamous", "hasWonWorldCup", "playsInEurope"],
+        "isFromGermany": ["isFootballer", "isAthlete", "isFromEurope", "isScientist", "isFamous", "hasWonWorldCup", "playsInEurope"],
+        "isFromItaly": ["isFootballer", "isAthlete", "isFromEurope", "isFamous", "hasWonWorldCup", "playsInEurope"],
+        "isFromPortugal": ["isFootballer", "isAthlete", "isFromEurope", "isFamous", "hasWonBallonDor", "playsInEurope"],
         "isFromMexico": ["isFootballer", "isAthlete", "isLatinAmerican", "isActor", "isSinger", "isFamous"],
         "isFromColombia": ["isFootballer", "isAthlete", "isLatinAmerican", "isSinger", "isFamous"],
         "isFromChile": ["isFootballer", "isAthlete", "isLatinAmerican", "isFamous"],
@@ -90,7 +90,7 @@ class AIService {
     /// Attributes NOT in any active theme group (except safe general ones)
     /// receive a heavy penalty.
     private let themeGroups: [String: [String]] = [
-        "isFootballer": ["isAthlete", "isFootballer", "isFamous", "isControversial", "isStrong", "isTall", "drivesVehicle", "hasTattoos", "isBald", "isLeftFooted", "isCaptain", "isGoalkeeper", "isForward", "isMidfielder", "isDefender", "isWinger", "isStriker", "isVeteran", "isFromEurope", "isFromAfrica", "isFromAsia", "isFromNorthAmerica", "isLatinAmerican", "isFromPeru", "isFromBrazil", "isFromArgentina", "isFromSpain", "isFromEngland", "isFromFrance", "isFromGermany", "isFromItaly", "isFromPortugal", "isFromMexico", "isFromColombia", "isFromChile", "isFromUruguay", "isFromNetherlands", "isFromBelgium", "isFromCroatia", "isFromNorway", "isYoung", "isAlive", "isReal"],
+        "isFootballer": ["isAthlete", "isFootballer", "isFamous", "isControversial", "isStrong", "isTall", "drivesVehicle", "hasTattoos", "isBald", "isLeftFooted", "isCaptain", "isGoalkeeper", "isForward", "isMidfielder", "isDefender", "isWinger", "isStriker", "isVeteran", "hasWonBallonDor", "hasWonWorldCup", "playsInEurope", "isPlaymaker", "isMarried", "hasChildren", "isFromEurope", "isFromAfrica", "isFromAsia", "isFromNorthAmerica", "isLatinAmerican", "isFromPeru", "isFromBrazil", "isFromArgentina", "isFromSpain", "isFromEngland", "isFromFrance", "isFromGermany", "isFromItaly", "isFromPortugal", "isFromMexico", "isFromColombia", "isFromChile", "isFromUruguay", "isFromNetherlands", "isFromBelgium", "isFromCroatia", "isFromNorway", "isYoung", "isAlive", "isReal"],
         "isAthlete": ["isAthlete", "isFootballer", "isStrong", "isTall", "isFamous", "isControversial", "drivesVehicle", "hasTattoos", "isBald", "isWinger", "isStriker", "isVeteran", "isFromEurope", "isFromAfrica", "isFromAsia", "isFromNorthAmerica", "isLatinAmerican", "isFromBrazil", "isFromArgentina", "isFromSpain", "isFromEngland", "isFromFrance", "isFromGermany", "isFromItaly", "isFromPortugal", "isFromMexico", "isFromColombia", "isFromChile", "isFromUruguay", "isFromNetherlands", "isFromBelgium", "isFromCroatia", "isFromNorway", "isYoung", "isAlive", "isReal"],
         "isSinger": ["isMusician", "isSinger", "isActor", "isDancer", "isFamous", "isControversial", "isFromMovie", "isFromTV", "isFromDisney", "isFromEurope", "isFromNorthAmerica", "isLatinAmerican", "isFromUSA", "isFromCanada", "isFromUK", "isFromSpain", "isFromMexico", "isFromColombia", "isFromPuertoRico", "isRapper", "isRockSinger", "isPopSinger", "isCountrySinger", "isOperaSinger", "isReggaetonSinger", "isSalsaSinger", "isBlonde", "isVeteran", "isYoung", "isAlive", "isReal"],
         "isActor": ["isActor", "isFromMovie", "isFromTV", "isFromDisney", "isSinger", "isDancer", "isFamous", "isControversial", "isFromEurope", "isFromNorthAmerica", "isLatinAmerican", "isFromUSA", "isFromCanada", "isFromUK", "isFromSpain", "isFromMexico", "isBlonde", "isYoung", "isAlive", "isReal"],
@@ -227,6 +227,24 @@ class AIService {
             (characterScores[$0.id] ?? 0) > (characterScores[$1.id] ?? 0)
         }
         let topCandidates = Array(sortedCandidates.prefix(min(5, sortedCandidates.count)))
+        
+        // Detect if top candidates are very similar (close scores)
+        let hasCloseCompetition: Bool = {
+            guard topCandidates.count >= 2 else { return false }
+            let topScore = characterScores[topCandidates[0].id] ?? 0
+            let secondScore = characterScores[topCandidates[1].id] ?? 0
+            let gap = topScore - secondScore
+            return gap <= 5 // Very close scores
+        }()
+        
+        // Strong competition: top 2-3 candidates have nearly identical scores
+        let hasStrongCompetition: Bool = {
+            guard topCandidates.count >= 2 else { return false }
+            let topScore = characterScores[topCandidates[0].id] ?? 0
+            let secondScore = characterScores[topCandidates[1].id] ?? 0
+            let gap = topScore - secondScore
+            return gap <= 3 // Extremely close
+        }()
 
         // Learning boost from past games
         let learningBoosts = learningService.boosts(for: availableKeys)
@@ -256,17 +274,40 @@ class AIService {
             }
 
             // Discriminative boost: prefer attributes that split the top candidates
-            let discriminatorBoost = discriminatorBoost(
+            // Increase boost significantly when candidates have close scores
+            var discriminatorBoost = discriminatorBoost(
                 attributeKey: attribute.key,
                 topCandidates: topCandidates
             )
+            if hasCloseCompetition && discriminatorBoost > 0 {
+                discriminatorBoost *= 2.5 // 2.5x boost when competition is close
+            }
+            if hasStrongCompetition && discriminatorBoost > 0 {
+                discriminatorBoost *= 1.5 // Additional 1.5x when extremely close
+            }
 
             // Unique-attribute boost: prefer attributes that the top candidate has true
             // and other top candidates do not, helping confirm a clear leader.
-            let uniqueBoost = uniqueConfirmBoost(
+            // Increase when competition is close
+            var uniqueBoost = uniqueConfirmBoost(
                 attributeKey: attribute.key,
                 topCandidates: topCandidates
             )
+            if hasCloseCompetition && uniqueBoost > 0 {
+                uniqueBoost *= 2.0 // 2x boost when competition is close
+            }
+            
+            // Direct discrimination boost: attributes that differ between top 2 candidates
+            let directDiscriminationBoost: Double = {
+                guard topCandidates.count >= 2 else { return 0 }
+                let top1Value = topCandidates[0].attributes[attribute.key]
+                let top2Value = topCandidates[1].attributes[attribute.key]
+                // If the attribute differs between top 2, it's extremely valuable
+                if top1Value != top2Value && (top1Value != nil || top2Value != nil) {
+                    return hasStrongCompetition ? 1.2 : (hasCloseCompetition ? 0.8 : 0.4)
+                }
+                return 0
+            }()
 
             // Learning boost from historical success
             let learningBoost = learningBoosts[attribute.key] ?? 0
@@ -283,7 +324,7 @@ class AIService {
                 unrelatedPenalty = 0
             }
 
-            let score = gain + relatedBoost + themeAdjustment + discriminatorBoost + uniqueBoost + learningBoost + redundancyPenalty + unrelatedPenalty
+            let score = gain + relatedBoost + themeAdjustment + discriminatorBoost + uniqueBoost + directDiscriminationBoost + learningBoost + redundancyPenalty + unrelatedPenalty
 
             if score > bestScore {
                 bestScore = score

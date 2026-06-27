@@ -818,6 +818,52 @@ extension AttributeDefinition {
             "¿Es considerado una leyenda?",
         ]),
 
+        // ── FOOTBALL ACHIEVEMENTS ──
+        .init(key: "hasWonBallonDor", questionTemplates: [
+            "¿Tu personaje ganó el Balón de Oro?",
+            "¿Recibió el premio al mejor jugador del mundo?",
+            "¿Ganó el Ballon d'Or?",
+            "¿Fue elegido mejor futbolista del año?",
+            "¿Tiene un Balón de Oro en su carrera?",
+        ]),
+        .init(key: "hasWonWorldCup", questionTemplates: [
+            "¿Tu personaje ganó una Copa del Mundo?",
+            "¿Fue campeón mundial con su selección?",
+            "¿Levantó la Copa del Mundo?",
+            "¿Ganó el Mundial de fútbol?",
+            "¿Tiene una medalla de campeón mundial?",
+        ]),
+        .init(key: "playsInEurope", questionTemplates: [
+            "¿Tu personaje juega o jugó en Europa?",
+            "¿Militó en un club europeo?",
+            "¿Hizo carrera en el fútbol europeo?",
+            "¿Jugó en ligas europeas?",
+            "¿Su carrera principal fue en Europa?",
+        ]),
+        .init(key: "isPlaymaker", questionTemplates: [
+            "¿Tu personaje es un creador de juego?",
+            "¿Es conocido por dar asistencias?",
+            "¿Organiza el juego de su equipo?",
+            "¿Es un mediapunta o enganche?",
+            "¿Destaca por su visión de juego?",
+        ]),
+
+        // ── PERSONAL LIFE ──
+        .init(key: "isMarried", questionTemplates: [
+            "¿Tu personaje está casado?",
+            "¿Tiene esposa o esposo?",
+            "¿Contrajo matrimonio?",
+            "¿Está en una relación matrimonial?",
+            "¿Tiene cónyuge?",
+        ]),
+        .init(key: "hasChildren", questionTemplates: [
+            "¿Tu personaje tiene hijos?",
+            "¿Es padre o madre?",
+            "¿Tiene descendencia?",
+            "¿Tiene niños?",
+            "¿Es progenitor?",
+        ]),
+
         // ── ADDITIONAL COUNTRIES ──
         .init(key: "isFromNorway", questionTemplates: [
             "¿Tu personaje es noruego?",

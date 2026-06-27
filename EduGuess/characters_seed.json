@@ -203,7 +203,13 @@
       "isAthlete": true,
       "isFootballer": true,
       "isFromPortugal": true,
-      "isStriker": true
+      "isStriker": true,
+      "hasWonBallonDor": true,
+      "hasWonWorldCup": false,
+      "playsInEurope": true,
+      "isPlaymaker": false,
+      "isMarried": false,
+      "hasChildren": true
     }
   },
   {
@@ -286,7 +292,13 @@
       "isFootballer": true,
       "isLeftFooted": true,
       "isFromArgentina": true,
-      "isVeteran": true
+      "isVeteran": true,
+      "hasWonBallonDor": false,
+      "hasWonWorldCup": true,
+      "playsInEurope": true,
+      "isPlaymaker": true,
+      "isMarried": true,
+      "hasChildren": true
     }
   },
   {
@@ -672,7 +684,13 @@
       "isFootballer": true,
       "isLeftFooted": true,
       "isFromArgentina": true,
-      "isStriker": true
+      "isStriker": true,
+      "hasWonBallonDor": true,
+      "hasWonWorldCup": true,
+      "playsInEurope": true,
+      "isPlaymaker": true,
+      "isMarried": true,
+      "hasChildren": true
     }
   },
   {
@@ -850,7 +868,13 @@
       "hasHair": true,
       "isStrong": true,
       "isAthlete": true,
-      "isFromBrazil": true
+      "isFromBrazil": true,
+      "hasWonBallonDor": false,
+      "hasWonWorldCup": true,
+      "playsInEurope": false,
+      "isPlaymaker": true,
+      "isMarried": true,
+      "hasChildren": true
     }
   },
   {
@@ -3494,7 +3518,13 @@
       "isFootballer": true,
       "isFromBrazil": true,
       "isWinger": true,
-      "isVeteran": true
+      "isVeteran": true,
+      "hasWonBallonDor": true,
+      "hasWonWorldCup": true,
+      "playsInEurope": true,
+      "isPlaymaker": true,
+      "isMarried": false,
+      "hasChildren": true
     }
   },
   {
@@ -3531,7 +3561,13 @@
       "isFootballer": true,
       "isBald": true,
       "isFromFrance": true,
-      "isVeteran": true
+      "isVeteran": true,
+      "hasWonBallonDor": true,
+      "hasWonWorldCup": true,
+      "playsInEurope": true,
+      "isPlaymaker": true,
+      "isMarried": true,
+      "hasChildren": true
     }
   },
   {
@@ -5758,7 +5794,13 @@
       "hasHair": true,
       "isForward": true,
       "isFromArgentina": true,
-      "isStriker": true
+      "isStriker": true,
+      "hasWonBallonDor": false,
+      "hasWonWorldCup": false,
+      "playsInEurope": true,
+      "isPlaymaker": false,
+      "isMarried": true,
+      "hasChildren": true
     }
   },
   {
