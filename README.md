@@ -45,6 +45,16 @@ EduGuess es una aplicación educativa interactiva desarrollada en SwiftUI para i
 - **Firebase Remote Config**: API keys seguras sin hardcoding
 - **App Tracking Transparency**: cumplimiento de políticas de privacidad
 
+## Stack Tecnológico
+
+- **Lenguaje:** Swift 5.9+
+- **UI:** SwiftUI (iOS 17+)
+- **Persistencia local:** SwiftData
+- **Backend en la nube:** Firebase (Auth, Firestore, Remote Config)
+- **Autenticación social:** Google Sign-In, Facebook Login, Sign in with Apple
+- **IA:** Google Gemini 2.0 Flash (generación dinámica de preguntas)
+- **APIs externas:** Wikipedia REST API
+
 ## Requerimientos
 
 - iOS 17.0 o superior
