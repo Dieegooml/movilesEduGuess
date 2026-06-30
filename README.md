@@ -168,50 +168,17 @@ EduGuess/
 
 ## Capturas de Pantalla
 
-> Para completar esta sección, ejecuta la app en el simulador y toma capturas de las siguientes pantallas.
-> Luego reemplaza `ruta/a/la/imagen.png` con las rutas reales dentro de `Assets/` o URLs externas.
-
-### Onboarding y Autenticación
-
-| Splash Screen | Login | Home |
+| Home | Juego | Personaje Encontrado |
 |---|---|---|
-| `![Splash](ruta/a/splash.png)` | `![Login](ruta/a/login.png)` | `![Home](ruta/a/home.png)` |
+| ![Home](screenshots/home.png) | ![Juego](screenshots/playing_game.png) | ![Acierto](screenshots/character_found.png) |
 
-### Juego
-
-| Categorías | Pregunta | Adivinanza correcta | Adivinanza fallida |
-|---|---|---|---|
-| `![Categorías](ruta/a/categorias.png)` | `![Pregunta](ruta/a/pregunta.png)` | `![Acierto](ruta/a/acierto.png)` | `![Fallo](ruta/a/fallo.png)` |
-
-### Catálogo y Detalle
-
-| Lista de personajes | Detalle con Wikipedia |
-|---|---|
-| `![Catálogo](ruta/a/catalogo.png)` | `![Detalle](ruta/a/detalle.png)` |
-
-### Historial
-
-| Historial de partidas | Detalle de sesión |
-|---|---|
-| `![Historial](ruta/a/historial.png)` | `![Sesión](ruta/a/sesion.png)` |
-
-### Administración
-
-| Admin list | Formulario de edición |
-|---|---|
-| `![Admin](ruta/a/admin.png)` | `![Formulario](ruta/a/formulario.png)` |
-
-### Perfil y Ranking
-
-| Perfil | Ranking all-time | Ranking semanal |
+| Perfil | Perfil Público | Colección de Personajes |
 |---|---|---|
-| `![Perfil](ruta/a/perfil.png)` | `![Ranking](ruta/a/ranking.png)` | `![Semanal](ruta/a/semanal.png)` |
+| ![Perfil](screenshots/profile_stats.png) | ![Perfil Público](screenshots/user_profile.png) | ![Colección](screenshots/user_profile_collection_characters.png) |
 
-### Otras pantallas
-
-| Tutorial (paso 1) | Ajustes |
-|---|---|
-| `![Tutorial](ruta/a/tutorial.png)` | `![Ajustes](ruta/a/ajustes.png)` |
+| Leaderboard | Tutorial | Desbloquear por Puntos |
+|---|---|---|
+| ![Leaderboard](screenshots/leaderboard.png) | ![Tutorial](screenshots/tutorial.png) | ![Desbloquear](screenshots/unlock_character_by_points.png) |
 
 ### Video Demo
 
