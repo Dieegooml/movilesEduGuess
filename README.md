@@ -253,6 +253,7 @@ EduGuess/
 **Descripción:** EduGuess es una aplicación educativa interactiva en SwiftUI para iOS 17+ que implementa un juego estilo "Akinator". El usuario piensa en un personaje y la IA realiza preguntas de sí/no para intentar adivinarlo usando un algoritmo avanzado de entropía con scoring difuso de 5 niveles. Incluye autenticación social, persistencia en la nube con Firestore y generación dinámica de preguntas mediante Google Gemini.
 
 **Apellido, Nombre:** Salazar Quina, Daniela Nicol
+**Apellido, Nombre:** Medina Lopez, Diego Alejandro
 
 **Equipo:** EduGuess
 
