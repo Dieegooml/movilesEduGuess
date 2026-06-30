@@ -138,7 +138,7 @@ EduGuess/
 
 ## Dependencias (Swift Package Manager)
 
-- **FirebaseAuth** v12.15.0 — autenticación Email/Password, Google, Facebook, Apple
+- **FirebaseAuth** v12.15.0 — autenticación Email/Password, Google, Facebook, Apple (Sign in with Apple usa `AuthenticationServices` nativo de iOS)
 - **FirebaseFirestore** v12.15.0 — base de datos en la nube
 - **FirebaseRemoteConfig** v12.15.0 — configuración remota para API keys
 - **GoogleSignIn-iOS** v7.1.0 — Google Sign-In nativo
@@ -161,9 +161,11 @@ EduGuess/
 
 ## Flujo de Autenticación
 
-- La app usa `@UIApplicationDelegateAdaptor(AppDelegate.self)` para inicializar Firebase, Facebook SDK y GIDSignIn
+- La app usa `@UIApplicationDelegateAdaptor(AppDelegate.self)` para inicializar Firebase, Facebook SDK, GIDSignIn y Sign in with Apple
 - `AuthViewModel` observa el estado de autenticación; la pantalla de login se oculta hasta que el estado se resuelve (`isReady` guard)
-- Soporta tres métodos: Email/Password, Google Sign-In (GIDSignIn), Facebook Login (LoginManager + FacebookAuthProvider)
+- Soporta cuatro métodos: Email/Password, Google Sign-In (GIDSignIn), Facebook Login (LoginManager + FacebookAuthProvider) y Sign in with Apple (ASAuthorizationAppleIDProvider con nonce SHA-256)
+- Sign in with Apple usa `ASAuthorizationAppleIDProvider` con generación de nonce y hash SHA-256, verificando credenciales a través de `Auth.auth().signIn(with: AppleAuthProvider)` con Firebase
+- El entitlement `com.apple.developer.applesignin` está configurado en el proyecto
 - Las sesiones se cachean en UserDefaults para persistencia entre lanzamientos
 
 ## Capturas de Pantalla
