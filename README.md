@@ -1,8 +1,11 @@
 # EduGuess - La IA que Adivina Personajes
 
 **Apellido, Nombre:** Salazar Quina, Daniela Nicol
+
 **Apellido, Nombre:** Medina Lopez, Diego Alejandro
+
 **Equipo:** EduGuess
+
 **Repositorio:** github.com/Dieegooml/movilesEduGuess
 
 ---
