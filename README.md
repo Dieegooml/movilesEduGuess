@@ -1,8 +1,17 @@
 # EduGuess - La IA que Adivina Personajes
 
+**Apellido, Nombre:** Salazar Quina, Daniela Nicol
+**Apellido, Nombre:** Medina Lopez, Diego Alejandro
+**Equipo:** EduGuess
+**Repositorio:** github.com/Dieegooml/movilesEduGuess
+
+---
+
 ## Descripción
 
-EduGuess es una aplicación educativa interactiva desarrollada en SwiftUI para iOS 17+ que implementa un juego estilo "Akinator". El usuario piensa en un personaje y la IA realiza preguntas de sí/no para intentar adivinarlo usando un algoritmo avanzado de entropía con scoring difuso de 5 niveles.
+EduGuess es una aplicación educativa interactiva desarrollada en SwiftUI para iOS 17+ que implementa un juego estilo "Akinator". El usuario piensa en un personaje (real o ficticio) y la IA realiza preguntas de sí/no para intentar adivinarlo usando un algoritmo avanzado de entropía con scoring difuso de 5 niveles: Sí, Probablemente Sí, No sé, Probablemente No y No. Cuenta con una base de datos de 437 personajes y 112 atributos booleanos organizados temáticamente, permitiendo partidas variadas y un aprendizaje continuo del sistema.
+
+La aplicación incluye autenticación social completa (Email, Google, Facebook y Sign in with Apple), persistencia en la nube con Firestore para sincronizar partidas, estadísticas y logros, y generación dinámica de preguntas mediante Google Gemini 2.0 Flash. Además, ofrece un sistema de gamificación con leaderboard, desafíos diarios, colección de personajes desbloqueables, rachas y 10 logros. Todo envuelto en una interfaz temática espacial oscura con una mascota robot animada que reacciona contextualmente durante el juego.
 
 ## Características Principales
 
@@ -246,13 +255,4 @@ EduGuess/
 - **20 vistas** principales
 - **17 servicios** de backend y lógica
 
-## Contacto
 
-**Descripción:** EduGuess es una aplicación educativa interactiva en SwiftUI para iOS 17+ que implementa un juego estilo "Akinator". El usuario piensa en un personaje y la IA realiza preguntas de sí/no para intentar adivinarlo usando un algoritmo avanzado de entropía con scoring difuso de 5 niveles. Incluye autenticación social, persistencia en la nube con Firestore y generación dinámica de preguntas mediante Google Gemini.
-
-**Apellido, Nombre:** Salazar Quina, Daniela Nicol
-**Apellido, Nombre:** Medina Lopez, Diego Alejandro
-
-**Equipo:** EduGuess
-
-Repositorio: github.com/Dieegooml/movilesEduGuess
