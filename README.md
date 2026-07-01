@@ -194,9 +194,7 @@ EduGuess/
 
 ### Video Demo
 
-[![Video Demo](https://img.youtube.com/vi/ID_DEL_VIDEO/maxresdefault.jpg)](https://youtu.be/ID_DEL_VIDEO)
-
-> Reemplaza `ID_DEL_VIDEO` con el ID de YouTube una vez subido el video de 3–5 minutos.
+[![Video Demo](https://img.youtube.com/vi/hi_CgSXXgfo/maxresdefault.jpg)](https://youtu.be/hi_CgSXXgfo)
 
 ## Seed de Personajes
 
